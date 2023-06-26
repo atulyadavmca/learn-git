@@ -1,0 +1,71 @@
+h3 { 
+    text-align:center; 
+    line-height:33px;
+}
+
+div.box {
+    height:100px;
+    width:200px;
+    background-color:#eee;
+    border:1px solid #aaa;
+    position:relative;              
+    top:50px;
+    left:50px;
+    border-radius:7px;
+}
+
+.box:before {
+    position:absolute;              
+    right:-20px; 
+    top:5px;
+    content:'';                     
+    height:0;
+    width:0;
+    border:10px solid transparent;
+    z-index:1;                      
+}
+
+.box:after{
+    position:absolute;          
+    right:-17px;    
+    top:25px;
+    content:'';                         
+    height:0;
+    width:0;
+    border-top: 8px solid transparent;
+    border-left: 8px solid #aaa;
+    border-right: 8px solid transparent;        
+    border-bottom: 8px solid transparent;
+    z-index:1;                  
+}
+
+.stwise-ekyc-radio {
+    float: left;
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+.stwise-ekyc-radio label {
+    margin-left: 5px;
+}
+
+.cghs-dashboard-wrap.pmjay-claims-wrap {
+    background: #edeeef;
+}
+
+.nav-link.pmjay-claims-wrap.active {
+    background: #edeeef !important;
+}
+
+.claims-wrap {
+    display: flex;
+}
+
+.claims-left-wrap {
+    flex: 1;
+}
+
+.claims-right-wrap {
+    flex: 4;
+    margin-left: 1rem;
+}

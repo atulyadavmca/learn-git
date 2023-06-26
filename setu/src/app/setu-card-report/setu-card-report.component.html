@@ -1,0 +1,697 @@
+<app-headerinsights></app-headerinsights>
+
+<div class="content-wrapper bis-card-report-wrap">
+    <section class="content-header">
+        <div class="container">
+            <div class="head-content-wrap">
+                <div class="left-content-wrap">
+                    <div class="custom-title">BIS eKYC Request Status Report </div>
+                </div>
+                <div class="text-right subtitle mb-0 text-white">Last Updated : {{uploadDate}}</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="custom-tabs-wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-3 col-md-4 col-lg-3">
+                    <div id="vert-tabs-tab" role="tablist" aria-orientation="vertical" class="nav flex-column nav-tabs h-100 left-tabs">
+                        <a id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="true" class="nav-link active" (click)="getReport('ARR')">eKYC Received Report - Agency Wise</a>
+                        <a id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false" class="nav-link" (click)="getReport('CAP')">Agency Wise Operator Performance</a>
+                        <a id="vert-tabs-messages-tab" data-toggle="pill" href="#vert-tabs-messages" role="tab" aria-controls="vert-tabs-messages" aria-selected="false" class="nav-link" (click)="getReport('ARS')">eKYC Received Report - State Wise</a>
+                        <!--<a id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings" role="tab" aria-controls="vert-tabs-settings" aria-selected="false" class="nav-link" (click)="getReport('PDS')">Delivery Status</a>-->
+
+                        <a id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-operator" role="tab" aria-controls="vert-tabs-operator" aria-selected="false" class="nav-link"(click)="getReport_CL('C');" >eKYC Requests - With Date Range</a>
+                        <a id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-live-operator" role="tab" aria-controls="vert-tabs-live-operator" aria-selected="false" class="nav-link" (click)="getReport_CL('LH');">eKYC Active Operators - With Name</a>
+
+                        <a id="vert-tabs-sdbv-tab" data-toggle="pill" href="#vert-tabs-sdbv" role="tab" aria-controls="vert-tabs-sdbv" aria-selected="false" class="nav-link" (click)="getReport_CL('SDBV');" id="tab_Andhra">eKYC Andhra Pradesh - With Secretariat</a>
+
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-9 col-md-8 col-lg-9">
+                    <div class="tab-content">
+                        <div id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab" class="tab-pane text-left fade active show">
+                            <div class="container-fluid px-0">
+                                <div class="accordion-body-wrap">
+                                    <div class="d-flex justify-content-end">
+                                        <div class="right-content-wrap mr-2">
+                                            <div class="form-group mb-1">
+                                                <select class="form-control" style="width: 100%;" id="ddlstatename" [disabled]="Disabledddlstate_ARR" [(ngModel)]="selectedState_ARR"  (change)="onStateChange('ARR')">
+                                                  <option value="" selected="selected">Select State</option>
+                                                  <option *ngFor="let st of stateList"  value={{st.value}}>
+                                                  {{st.text}}
+                                                  </option>
+                                              </select>                                  
+                                            </div>
+                                        </div>
+                                        <div class="right-content-wrap">
+                                            <div class="form-group mb-1">                                    
+                                              <div class="treatment-select"><input type="date" id="txtfromdate_create" class="form-control" style="width: 100%;" placeholder="From Date" [(ngModel)]="fromDate_ARR" (change)="onFromDateChange('ARR')"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card mb-0 treatment-table my-3 p-2">
+                                        <div class="card-body p-0">
+                                            <div class="table-responsive">
+                                              
+
+                                                <table id="tblARR" class="row-border hover">
+                                                    <thead>
+                                                        <tr style="text-align: center;">
+                                                            <th style="text-align: center;">S.No.</th>
+                                                            <th style="text-align: left;width: 150px;">Agency Name</th>
+                                                            <th>Total Request Received</th>
+                                                            <th>Approved</th>
+                                                            <th>Rejected</th>
+                                                            <th>Pending</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody >
+                                                        <tr *ngFor="let rec of pageData.authRequestReceived;let i =index">
+                                                            <td style="text-align: center;">
+                                                                {{i+1}} 
+                                                            </td>
+                                                            <td>{{rec.text}}</td>
+                                                            <td style="text-align: right;">{{this.getCommaValue(rec.total_count)}}</td>
+                                                            <td style="text-align: right;">{{this.getCommaValue(rec.total_approved)}}</td>
+                                                            <td style="text-align: right;">{{this.getCommaValue(rec.delivery_count)}}</td>
+                                                            <td style="text-align: right;">{{this.getCommaValue(rec.pending_count)}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tr *ngFor="let rec of totalData.authRequestReceived;let i =index" style="font-weight: bold;">
+                                                        
+                                                        <td colspan="2" style="text-align: center;">{{rec.text}}</td>
+                                                        <td style="text-align: right;">{{this.getCommaValue(rec.total_count)}}</td>
+                                                        <td style="text-align: right;">{{this.getCommaValue(rec.total_approved)}}</td>
+                                                        <td style="text-align: right;">{{this.getCommaValue(rec.delivery_count)}}</td>
+                                                        <td style="text-align: right;">{{this.getCommaValue(rec.pending_count)}}</td>
+                                                    </tr>
+                                                    
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab" class="tab-pane fade">
+                            <div class="container-fluid px-0">
+                                <div class="accordion-body-wrap">
+                                    <div class="d-flex justify-content-end">
+                                        <div class="right-content-wrap mr-2">
+                                            <div class="form-group mb-1">
+                                              <select class="form-control" style="width: 100%;" id="ddlstatename" [disabled]="Disabledddlstate_CAP"  [(ngModel)]="selectedState_CAP"  (change)="onStateChange('CAP')">
+                                                <option value="" selected="selected">Select State</option>
+                                                <option *ngFor="let st of stateList"  value={{st.value}}>
+                                                {{st.text}}
+                                                </option>
+                                            </select>
+                                            
+                                            </div>
+                                        </div>
+                                        <div class="right-content-wrap mr-2">
+                                            <div class="form-group mb-1">
+                                              
+                                            <div class="treatment-select"><input type="date" id="txtfromdate_create" class="form-control" disabled style="width: 100%;" placeholder="From Date" [(ngModel)]="fromDate_CAP" (change)="onFromDateChange('CAP')"></div>
+                                            </div>
+                                        </div>
+                                       
+                                    </div>
+                                    <div class="card mb-0 treatment-table my-3 p-2">
+                                        <div class="card-body p-0">
+                                            <div class="table-responsive">
+                                                
+                                                <table id="tblCAP" class="row-border hover">
+                                                    <thead>
+                                                        <tr style="text-align: center;">
+                                                            <th style="text-align: center;">S.No.</th>
+                                                            <th style="text-align: left;width: 150px;">Agency Name</th>
+                                                            <th>All Operators</th>
+                                                            <th>Active Operators</th>
+                                                           
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody >
+                                                        <tr *ngFor="let rec of pageData.creatingAgencyPerformance;let i =index">
+                                                            <td style="text-align: center;">
+                                                                {{i+1}} 
+                                                            </td>
+                                                            <td>{{rec.text}}</td>
+                                                            <td style="text-align: right;">{{this.getCommaValue(rec.total_count)}}</td>
+                                                            <td style="text-align: right;">{{this.getCommaValue(rec.total_approved)}}</td>
+                                                           
+                                                        </tr>
+                                                    </tbody>
+                                                    <tr *ngFor="let rec of totalData.creatingAgencyPerformance;let i =index" style="font-weight: bold;">
+                                                        
+                                                        <td colspan="2" style="text-align: center;">{{rec.text}}</td>
+                                                        <td style="text-align: right;">{{this.getCommaValue(rec.total_count)}}</td>
+                                                        <td style="text-align: right;">{{this.getCommaValue(rec.total_approved)}}</td>
+                                                       
+                                                    </tr>
+                                                    
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+            
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="vert-tabs-messages" role="tabpanel" aria-labelledby="vert-tabs-messages-tab" class="tab-pane fade">
+                            <div class="container-fluid px-0">
+                                <div class="accordion-body-wrap">
+                                    <div class="d-flex justify-content-end">
+                                        <div class="right-content-wrap mr-2">
+                                            <div class="form-group mb-1">
+                                              <select class="form-control" style="width: 100%;" id="ddlstatename" [disabled]="Disabledddlstate_ARSS" [(ngModel)]="selectedState_ARSS"  (change)="onStateChange('ARSS')">
+                                                <option value="" selected="selected">Select State</option>
+                                                <option *ngFor="let st of stateList"  value={{st.value}}>
+                                                {{st.text}}
+                                                </option>
+                                            </select>
+                                            
+                                            </div>
+                                        </div>
+            
+                                        <div class="right-content-wrap">
+                                            <div class="form-group mb-1">
+                                              
+                                            <div class="treatment-select"><input type="date" id="txtfromdate_create" class="form-control" style="width: 100%;" placeholder="From Date" [(ngModel)]="fromDate_ARSS" (change)="onFromDateChange('ARSS')"></div>
+                                            </div>
+                                        </div>
+            
+                                    </div>
+                                    <div class="card mb-0 treatment-table my-3 p-2">
+                                        <div class="card-body p-0">
+                                            <div class="table-responsive">
+                                                <table id="tblARSS" class="row-border hover">
+                                                    <thead>
+                                                        <tr style="text-align: center;">
+                                                            <th style="text-align: center;">S.No.</th>
+                                                            <th style="text-align: left;width: 300px;">{{ARSS_State}}</th>
+                                                            <th>Total Request Received</th>
+                                                            <th>Approved</th>
+                                                            <th>Rejected</th>
+                                                            <th>Pending</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody >
+                                                        <tr *ngFor="let rec of pageData.authenticationRequestStatus;let i =index">
+                                                            <td style="text-align: center;">
+                                                                {{i+1}} 
+                                                            </td>
+                                                            <td>{{rec.text}}</td>
+                                                            <td style="text-align: right;">{{this.getCommaValue(rec.total_count)}}</td>
+                                                            <td style="text-align: right;">{{this.getCommaValue(rec.approved_count)}}</td>
+                                                            <td style="text-align: right;">{{this.getCommaValue(rec.reject_count)}}</td>
+                                                            <td style="text-align: right;">{{this.getCommaValue(rec.pending_count)}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tr *ngFor="let rec of totalData.authenticationRequestStatus;let i =index" style="font-weight: bold;">
+                                                        
+                                                        <td colspan="2" style="text-align: center;">{{rec.text}}</td>
+                                                        <td style="text-align: right;">{{this.getCommaValue(rec.total_count)}}</td>
+                                                        <td style="text-align: right;">{{this.getCommaValue(rec.approved_count)}}</td>
+                                                        <td style="text-align: right;">{{this.getCommaValue(rec.reject_count)}}</td>
+                                                        <td style="text-align: right;">{{this.getCommaValue(rec.pending_count)}}</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+            
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="vert-tabs-settings" role="tabpanel" aria-labelledby="vert-tabs-settings-tab" class="tab-pane fade">
+                            <div class="container-fluid px-0">
+                                <div class="accordion-body-wrap">
+                                    <div class="d-flex justify-content-end">
+                                        <div class="right-content-wrap mr-2">
+                                            <div class="form-group mb-1">
+                                              <select class="form-control" style="width: 100%;" id="ddlstatename" [disabled]="Disabledddlstate_PDS" [(ngModel)]="selectedState_PDS"  (change)="onStateChange('PDS')">
+                                                <option value="" selected="selected">Select State</option>
+                                                <option *ngFor="let st of stateList"  value={{st.value}}>
+                                                {{st.text}}
+                                                </option>
+                                            </select>
+                                            </div>
+                                        </div>
+                                        <div class="right-content-wrap">
+                                            <div class="form-group mb-1">
+                                                <div class="treatment-select"><input type="date" id="txtfromdate_create" class="form-control" style="width: 100%;" placeholder="From Date" [(ngModel)]="fromDate_PDS" (change)="onFromDateChange('PDS')"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card mb-0 treatment-table my-3 p-2">
+                                        <div class="card-body p-0">
+                                            <div class="table-responsive">
+                                                <table id="tblPDS" class="row-border hover">
+                                                    <thead>
+                                                        <tr style="text-align: center;">
+                                                            <th style="text-align: center;">S.No.</th>
+                                                            <th style="text-align: left;width: 150px;">{{PDS_State}}</th>
+                                                            <th>CSC</th>
+                                                            <th>UTI-ITISL</th>
+                                                            <th>Coloplast</th>
+                                                            <th>Med-Save</th>
+                                                            <th>SMART IT</th>
+                                                            <th>Zephyr</th>
+                                                            <th>Self-User</th>
+                                                            <th>PMAM</th>
+                                                            <th>Total</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                      <tr *ngFor="let rec of pageData.printingAndDeliveryStatus;let i =index">
+                                                        <td style="text-align: center;">
+                                                            {{i+1}} 
+                                                        </td>
+                                                          <td>{{rec.text}}</td>
+                                                          <td style="text-align: right;">{{this.getCommaValue(rec.csc_count)}}</td>
+                                                          <td style="text-align: right;">{{this.getCommaValue(rec.UTI_ITISL_count)}}</td>
+                                                          <td style="text-align: right;">{{this.getCommaValue(rec.coloplast_count)}}</td>
+                                                          <td style="text-align: right;">{{this.getCommaValue(rec.med_Save_count)}}</td>
+                                                          <td style="text-align: right;">{{this.getCommaValue(rec.SMART_IT_count)}}</td>
+                                                          <td style="text-align: right;">{{this.getCommaValue(rec.zephyr_count)}}</td>
+                                                          <td style="text-align: right;">{{this.getCommaValue(rec.self_User_count)}}</td>
+                                                          <td style="text-align: right;">{{this.getCommaValue(rec.pmam_count)}}</td>
+                                                          <td style="text-align: right;">{{this.getCommaValue(rec.total_count)}}</td>
+                                                      </tr>
+            
+                                                      
+            
+            
+                                                  </tbody>
+                                                  <tr *ngFor="let rec of totalData.printingAndDeliveryStatus" style="font-weight: bold;">
+                                                    <td colspan="2" style="text-align: center;"><b>Total</b></td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(rec.csc_count)}}</td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(rec.UTI_ITISL_count)}}</td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(rec.coloplast_count)}}</td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(rec.med_Save_count)}}</td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(rec.SMART_IT_count)}}</td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(rec.zephyr_count)}}</td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(rec.self_User_count)}}</td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(rec.pmam_count)}}</td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(rec.total_count)}}</td>
+                                                </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                   </div>
+                            </div>
+                        </div>
+
+                        <div id="vert-tabs-operator" role="tabpanel" aria-labelledby="vert-tabs-operator-tab" class="tab-pane fade">
+                            <div class="container-fluid px-0">
+                                <div class="accordion-body-wrap">
+                                    <div class="beneficiaries-avail-wrap">
+                                        <div class="beneficiaries-avail-left-wrap">
+                                            <div class="treatment-select">
+                                                <select id="ddlstate_create"  [disabled]="Disabledddlstate_create"  class="form-control select2" style="width: 100%;" (change)="bindDistrict($event,'C')">
+                                                    <option value="" selected="selected">Select State</option>  
+                                                    <option *ngFor="let st of stateList"  value={{st.value}} [selected]="st.value===ddlstate">
+                                                        {{st.text}}
+                                                        </option>                                  
+                                                </select> 
+                                            </div>
+                                            <div class="treatment-select">
+                                                <select id="ddldistrict_create" [disabled]="Disabledddldistrict_create" class="form-control" style="width: 100%;">
+                                                    <option value="" selected="selected">Select District</option>     
+                                                    <option *ngFor="let st of DistrictList_Create"  value={{st.value}} [selected]="st.value===ddldistrict">
+                                                        {{st.text}}
+                                                        </option>                               
+                                                </select> 
+                                            </div>
+                                            <div class="treatment-select">
+                                                <select id="ddlagency_create" [disabled]="Disabledddlagency_create" class="form-control" style="width: 100%;">
+                                                    <option value="" selected="selected">Select Agency Name</option>
+                                                    <option *ngFor="let st of agencyList"  value={{st.value}} [selected]="st.value===ddlagency">
+                                                        {{st.text}}
+                                                        </option>                                         
+                                                </select>                                 
+                                            </div>
+                                            <div class="treatment-select" style="display:none ;">
+                                                <select id="ddlscheme_create" class="form-control" style="width: 100%;">
+                                                    <option value="" selected="selected">Select Scheme Name</option>   
+                                                    <option value="1">PMJAY</option>                                 
+                                                    <option value="2">Non-PMJAY</option>                                 
+                                                </select>                                 
+                                            </div>
+    
+                                            <div class="treatment-select"><input type="date" id="txtfromdate_create1" [(ngModel)]="txtfromdate_create1" class="form-control" style="width: 100%;" placeholder="From Date"></div>
+                                            <div class="treatment-select"><input type="date" id="txttodate_create1" class="form-control" style="width: 100%;" placeholder="To Date"></div>
+                                        </div> 
+                                        <div class="beneficiaries-avail-right-wrap">
+                                            <button class="btn btn-primary" (click)="bindReport('C')">Search</button>  
+                                            <button class="btn btn-primary dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false" (click)="exportexcel('CSR','Card_Status_Report')"><img src="assets/dist/img/download-white.png" alt=""> <span>Download</span></button>
+                                           <!-- <button class="btn btn-primary dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/dist/img/download-white.png" alt=""> <span>Download</span></button>
+                                            <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                                <a class="dropdown-item" href="javascript:void(0);" >Excel</a>
+                                                <a class="dropdown-item" href="javascript:void(0);" >PDF</a>
+                                            </div>  -->                       
+                                        </div>                       
+                                    </div>
+                                    <div class="card mb-0 treatment-table my-3 p-2">
+                                        <div class="card-body p-0">  
+                                   
+                                            <div style="text-align: center;">
+                                              <input type="checkbox" id="chkagency" name="agency" value="1" style="position: relative; top: 2px;"  (change)="checkCheckBoxvalue($event)">
+                                              <span id="agencytext" style="font-size: .8rem; margin-left: 4px;">Agency Wise</span>
+                                          </div>
+                                            <div class="table-responsive">
+                                              
+                                             
+                                                <table id="datatablecreated1"  class="row-border hover">
+                                                    <thead>
+                                                        <tr>
+                                                          <th style="text-align: center;" >S.No.</th>
+                                                          <th style="text-align: left;width: 150px;"   id="rowstate">State Name</th> 
+                                                          <th style="text-align: left;"   id="rowstate">District Name</th>                                                  
+                                                          <th  style="text-align: left;"  id="rowagency">Agency</th>                                                 
+                                                         <!-- <th  style="text-align: center;"  id="rowcreateddate">Created Date</th>-->
+                                                          <th  style="text-align: center;"  id="rowtotal">Total</th>
+                                                          <th  style="text-align: center;"  id="rowtotalaaproved">Total Approved</th>
+                                                          <th  style="text-align: center;"  id="rowtotalreject">Total Reject</th>
+                                                          <th  style="text-align: center;"  id="rowtotalreject">Total Delivered</th>
+                                                        </tr>
+                                                      </thead>
+        
+                                                      <tbody> 
+                                                        <tr *ngFor="let group of datatablecreated;let i =index">
+                                                            <td style="text-align: center;" >
+                                                                {{i+1}} 
+                                                            </td>
+                                                            <td  style="text-align: left;"  id="rowstate">{{group.state_name}}</td>                                                   
+                                                            <td  style="text-align: left;"  id="rowstate">{{group.district_name}}</td>                                                   
+                                                            <td style="text-align: left;"  id="rowagency">{{group.agency_name}}</td>                                                   
+                                                            <!--<td  id="rowcreateddate">{{group.date}}</td>-->
+                                                            <td  style="text-align: right;"  id="rowtotal">{{group.total}}</td>
+                                                            <td  style="text-align: right;"  id="rowtotalaaproved">{{group.total_aaproved}}</td>
+                                                            <td  style="text-align: right;"  id="rowtotalreject">{{group.total_reject}}</td>
+                                                            <td  style="text-align: right;"  id="rowtotalreject">{{group.delivery_count}}</td>
+                                                        </tr>
+                                                       
+                                                  </tbody>
+                                                  <tr id="trNotAgency" style="font-weight: bold;font-size: 15px;background-color: #89aeb0;"><td [attr.colspan]="colspan" id="tdColspan" style="text-align: center;">Total</td><td style="text-align: right;">{{total}}</td><td style="text-align: right;">{{total_approved}}</td><td style="text-align: right;">{{total_reject}}</td><td style="text-align: right;">{{delivery_count}}</td></tr>
+                                                  
+                                                </table>
+        
+                                                <table id="datatablecreated2"  class="row-border hover ">
+                                                    <thead>
+                                                        <tr>
+                                                          <th style="text-align: left;" >S.No.</th>
+                                                         
+                                                          <th style="text-align: left;width: 150px;"  id="rowdistrict">District Name</th>
+                                                          <th  id="rowagency" style="text-align: left;">Agency</th>
+                                                         
+                                                          <!-- <th  style="text-align: center;"  id="rowcreateddate">Created Date</th>-->
+                                                          <th style="text-align: center;"  id="rowtotal">Total</th>
+                                                          <th style="text-align: center;"  id="rowtotalaaproved">Total Approved</th>
+                                                          <th style="text-align: center;"  id="rowtotalreject">Total Reject</th>
+                                                          <th style="text-align: center;"  id="rowtotalreject">Total Delivered</th>
+                                                        </tr>
+                                                      </thead>
+        
+                                                      <tbody> 
+                                                        <tr *ngFor="let group of datatablecreated;let i =index">
+                                                            <td style="text-align: center;" >
+                                                                {{i+1}} 
+                                                            </td>
+                                                            
+                                                            <td style="text-align: left;"  id="rowdistrict">{{group.district_name}}</td>
+                                                            <td style="text-align: left;"  id="rowagency">{{group.agency_name}}</td>
+                                                           
+                                                            <!--<td style="text-align: center;"  id="rowcreateddate">{{group.date}}</td>-->
+                                                            <td  style="text-align: right;"  id="rowtotal">{{group.total}}</td>
+                                                            <td  style="text-align: right;"  id="rowtotalaaproved">{{group.total_aaproved}}</td>
+                                                            <td  style="text-align: right;"  id="rowtotalreject">{{group.total_reject}}</td>
+                                                            <td  style="text-align: right;"  id="rowtotalreject">{{group.delivery_count}}</td>
+                                                        </tr>
+                                                  </tbody>
+                                                  <tr style="font-weight: bold;font-size: 15px;background-color: #89aeb0;"><td [attr.colspan]="colspan" id="tdColspan" style="text-align: center;">Total</td><td style="text-align: right;">{{total}}</td><td style="text-align: right;">{{total_approved}}</td><td style="text-align: right;">{{total_reject}}</td><td style="text-align: right;">{{delivery_count}}</td></tr>
+                                                </table>
+        
+                                                <table id="datatablecreated3"  class="row-border hover">
+                                                    <thead>
+                                                        <tr>
+                                                          <th style="text-align: left;" >S.No.</th>                                                 
+                                                          <th style="text-align: left;"  id="rowagency">Agency</th>                                                 
+                                                         <!-- <th  style="text-align: center;"  id="rowcreateddate">Created Date</th>-->
+                                                          <th style="text-align: center;"  id="rowtotal">Total</th>
+                                                          <th style="text-align: center;"  id="rowtotalaaproved">Total Approved</th>
+                                                          <th style="text-align: center;"  id="rowtotalreject">Total Reject</th>
+                                                          <th style="text-align: center;"  id="rowtotalreject">Total Delivered</th>
+                                                        </tr>
+                                                      </thead>
+        
+                                                      <tbody> 
+                                                        <tr *ngFor="let group of datatablecreated;let i =index">
+                                                            <td style="text-align: center;"  >
+                                                                {{i+1}} 
+                                                            </td>                                                    
+                                                            <td style="text-align: left;"  id="rowagency">{{group.agency_name}}</td>                                                   
+                                                            <!--<td style="text-align: center;"  id="rowcreateddate">{{group.date}}</td>-->
+                                                            <td style="text-align: right;"  id="rowtotal">{{group.total}}</td>
+                                                            <td  style="text-align: right;"  id="rowtotalaaproved">{{group.total_aaproved}}</td>
+                                                            <td  style="text-align: right;"  id="rowtotalreject">{{group.total_reject}}</td>
+                                                            <td  style="text-align: right;"  id="rowtotalreject">{{group.delivery_count}}</td>
+                                                        </tr>
+                                                  </tbody>
+                                                  <tr id="trNotAgency" style="font-weight: bold;font-size: 15px;background-color: #89aeb0;"><td [attr.colspan]="colspan" id="tdColspan" style="text-align: center;">Total</td><td style="text-align: right;">{{total}}</td><td style="text-align: right;">{{total_approved}}</td><td style="text-align: right;">{{total_reject}}</td><td style="text-align: right;">{{delivery_count}}</td></tr>
+                                                </table>
+        
+                                                <table id="datatablecreated4"  class="row-border hover">
+                                                    <thead>
+                                                        <tr>
+                                                          <th style="text-align: left;" >S.No.</th>
+                                                          <th style="text-align: left;width: 150px;"  id="rowstate">State Name</th>
+                                                          <th style="text-align: left;"  id="rowcreatedby">Created By</th>
+                                                          <th style="text-align: left;"  id="rowname">Name</th>
+                                                          <!-- <th  style="text-align: center;"  id="rowcreateddate">Created Date</th>-->
+                                                          <th style="text-align: center;"  id="rowtotal">Total</th>
+                                                          <th style="text-align: center;"  id="rowtotalaaproved">Total Approved</th>
+                                                          <th style="text-align: center;"  id="rowtotalreject">Total Reject</th>
+                                                          <th style="text-align: center;"  id="rowtotalreject">Total Delivered</th>
+                                                        </tr>
+                                                      </thead>
+        
+                                                      <tbody> 
+                                                        <tr *ngFor="let group of datatablecreated;let i =index">
+                                                            <td style="text-align: center;" >
+                                                                {{i+1}} 
+                                                            </td>
+                                                            <td style="text-align: left;"  id="rowstate">{{group.state_name}}</td>
+                                                            <td style="text-align: left;"  id="rowcreatedby">{{group.created_by}}</td>
+                                                            <td style="text-align: left;"  id="rowname">{{group.name}}</td>
+                                                            <!--<td style="text-align: center;"  id="rowcreateddate">{{group.date}}</td>-->
+                                                            <td style="text-align: center;"  style="text-align: right;"  id="rowtotal">{{group.total}}</td>
+                                                            <td style="text-align: center;"  style="text-align: right;"  id="rowtotalaaproved">{{group.total_aaproved}}</td>
+                                                            <td style="text-align: center;"  style="text-align: right;"  id="rowtotalreject">{{group.total_reject}}</td>
+                                                            <td style="text-align: center;"  style="text-align: right;"  id="rowtotalreject">{{group.delivery_count}}</td>
+                                                        </tr>
+                                                  </tbody>
+                                                  <tr id="trNotAgency" style="font-weight: bold;font-size: 15px;background-color: #89aeb0;"><td [attr.colspan]="colspan" id="tdColspan" style="text-align: center;">Total</td><td style="text-align: right;">{{total}}</td><td style="text-align: right;">{{total_approved}}</td><td style="text-align: right;">{{total_reject}}</td><td style="text-align: right;">{{delivery_count}}</td></tr>
+                                                </table>
+        
+                                            </div>                        
+                                          </div>
+                                    </div>
+                                   </div>
+                            </div>
+                        </div>
+
+                        <div id="vert-tabs-live-operator" role="tabpanel" aria-labelledby="vert-tabs-operator-tab" class="tab-pane fade">
+                            <div class="container-fluid px-0">
+                                <div class="accordion-body-wrap">
+                                    <div class="beneficiaries-avail-wrap">
+                                        <div class="beneficiaries-avail-left-wrap">
+                                            <div class="treatment-select">
+                                                <select id="ddlstate_login" [disabled]="Disabledddlstate_create" class="form-control select2" style="width: 100%;" (change)="bindDistrict($event,'Download')">
+                                                    <option value="" selected="selected">Select State</option>  
+                                                    <option *ngFor="let st of stateList"  value={{st.value}} [selected]="st.value===ddlstatelogin">
+                                                        {{st.text}}
+                                                        </option>                                  
+                                                </select> 
+                                            </div>
+                                         
+                                            <div class="treatment-select">
+                                                <select id="ddlagency_login" class="form-control" [disabled]="Disabledddlagency_create" [(ngModel)]="ddllagency_LH" style="width: 100%;">
+                                                    <option value="" selected="selected">Select Agency Name</option>
+                                                    <option *ngFor="let st of agencyList_L"  value={{st.value}} >
+                                                        {{st.text}}
+                                                        </option>                                         
+                                                </select>                                 
+                                            </div>
+                                         
+                                        </div> 
+                                        <div class="beneficiaries-avail-right-wrap">
+                                            <button class="btn btn-primary" (click)="bindReport('LH')">Search</button>
+                                            <button class="btn btn-primary dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false" (click)="exportexcel('LH','Login_History')"><img src="assets/dist/img/download-white.png" alt=""> <span>Download</span></button>
+                                                                                           
+                                        </div>                       
+                                    </div>
+                                    <div class="card mb-0 treatment-table my-3 p-2">
+                                        <div class="card-body p-0">                    
+                                            <div class="table-responsive">
+                                            <table id="loginhistory" class="row-border hover">
+                                                <thead>
+                                                    <tr>
+                                                      <th style="text-align: center;">S.No.</th>
+                                                      <th style="text-align: center;">State Name</th>
+                                                      
+                                                      <th style="text-align: center;">Agency Name</th>
+                                                      <th style="text-align: center;">User ID</th>
+                                                      <th style="text-align: center;">Name</th>
+                                                      <th style="text-align: center;">Login Date </th>
+                                                      
+                                                    </tr>
+                                                  </thead>
+                                                  <tbody> 
+                                                    <tr *ngFor="let group of loginhistory;let i =index">
+                                                        <td style="text-align: center;">
+                                                            {{i+1}} 
+                                                        </td>
+                                                        <td style="text-align: center;">{{group.state_name}}</td>
+                                                        
+                                                        <td style="text-align: center;">{{group.agency_name}}</td>
+                                                      <td style="text-align: center;">{{group.userid}}</td>
+                                                      <td style="text-align: center;">{{group.name}}</td>
+                                                      <td style="text-align: center;">{{group.logindate}}</td>
+                                                     
+                                                    </tr>
+                                              </tbody>
+                                            </table>
+                                        </div>                        
+                                      </div>
+                                    </div>
+                                   </div>
+                            </div>
+                        </div>
+
+
+                        <div id="vert-tabs-sdbv" role="tabpanel" aria-labelledby="vert-tabs-operator-tab" class="tab-pane fade">
+                            <div class="container-fluid px-0">
+                                <div class="accordion-body-wrap">
+
+                                    <div class="d-flex justify-content-end">
+                                        <div class="right-content-wrap mr-2">
+                                            <div class="form-group mb-1">
+                                            <select id="ddldistrict_sdbv" class="form-control select2" style="min-width: 150px; max-width: 150px;"  [(ngModel)]="ddldistrict_sdbv" name="ddldistrict_sdbv" (change)="getReport_SDBV('D');">
+                                                <option value="" selected="selected">Select District</option>  
+                                                <option *ngFor="let st of BIS_District_List"  value={{st.value}}>
+                                                    {{st.text}}
+                                                    </option>                                  
+                                            </select> 
+                                        </div></div>
+                                        <div class="right-content-wrap mr-2">
+                                            
+                                            <div class="form-group mb-1">
+                                                <select id="ddlblock_sdbv" class="form-control select2" style="min-width: 150px;max-width: 150px;"  [(ngModel)]="ddlblock_sdbv" name="ddlblock_sdbv" (change)="getReport_SDBV('B');">
+                                                    <option value="" selected="selected">Select Block</option>  
+                                                    <option *ngFor="let st of BIS_Block_List"  value={{st.value}}>
+                                                        {{st.text}}
+                                                        </option>                                  
+                                                </select> 
+                                            </div>
+                                        </div>
+                                        <div class="right-content-wrap mr-2">
+                                            
+                                            <div class="form-group mb-1">
+                                                <select id="ddlsecretariat_sdbv" class="form-control select2" style="min-width: 150px;max-width: 150px;"  [(ngModel)]="ddlecretariat_sdbv" name="ddlecretariat_sdbv" (change)="getReport_SDBV('V');">
+                                                    <option value="" selected="selected">Select Secretariat</option>  
+                                                    <option *ngFor="let st of BIS_Secretariat_List"  value={{st.value}}>
+                                                        {{st.text}}
+                                                        </option>                                  
+                                                </select> 
+                                            </div>
+                                        </div>
+                                        <div class="right-content-wrap">
+                                            <div class="form-group mb-1">
+                                                <div class="treatment-select"><input type="date" id="txtfromdate_SDBV" class="form-control" style="width: 100%;" placeholder="From Date" [(ngModel)]="fromDate_SDBV" (change)="getReport_SDBV('T')"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="card mb-0 treatment-table my-3 p-2">
+                                        <div class="card-body p-0">                    
+                                            <div class="table-responsive">
+                                            <table id="loginhistory" class="row-border hover">
+                                                <thead>
+                                                    <tr>
+                                                      <th style="text-align: center;">S.No.</th>
+                                                      <th style="text-align: left;">{{sdbv_text}}</th>
+                                                      
+                                                      <th style="text-align: center;"  id="rowtotal">Total</th>
+                                                      <th style="text-align: center;"  id="rowtotalaaproved">Total Approved</th>
+                                                      <th style="text-align: center;"  id="rowtotalreject">Total Reject</th>
+                                                      
+                                                    </tr>
+                                                  </thead>
+                                                  <tbody> 
+                                                    <tr *ngFor="let group of pageData.bis_SDBV_List;let i =index">
+                                                        <td style="text-align: center;">
+                                                            {{i+1}} 
+                                                        </td>
+                                                        <td style="text-align: left;">{{group.text}}</td>
+                                                        
+                                                        <td style="text-align: right;">{{this.getCommaValue(group.total_count)}}</td>
+                                                      <td style="text-align: right;">{{this.getCommaValue(group.total_approved)}}</td>
+                                                      <td style="text-align: right;">{{this.getCommaValue(group.total_rejected)}}</td>
+                                                    
+                                                     
+                                                    </tr>
+                                              </tbody>
+                                              <tr *ngFor="let rec of totalData.bis_SDBV_List" style="font-weight: bold;">
+                                                <td colspan="2" style="text-align: center;"><b>Total</b></td>
+                                                <td style="text-align: right;">{{this.getCommaValue(rec.total_count)}}</td>
+                                                <td style="text-align: right;">{{this.getCommaValue(rec.total_approved)}}</td>
+                                                <td style="text-align: right;">{{this.getCommaValue(rec.total_rejected)}}</td>
+                                                
+                                            </tr>
+                                            </table>
+                                        </div>                        
+                                      </div>
+                                    </div>
+                                   </div>
+                            </div>
+                        </div>
+
+                        <div id="vert-tabs-settings" role="tabpanel" aria-labelledby="vert-tabs-settings-tab" class="tab-pane fade">
+                            <div class="container-fluid px-0"></div>
+                        </div>
+
+                        <div id="vert-tabs-settings" role="tabpanel" aria-labelledby="vert-tabs-settings-tab" class="tab-pane fade">
+                            <div class="container-fluid px-0">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+
+
+
+
+
+
+
+<div id="overlay_search" class="overlay_full">
+    <div class="fancy-spinner">
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="dot"></div>
+        <span>Searching...</span>
+    </div>
+</div>

@@ -1,0 +1,904 @@
+
+
+<!--<div style="background:#0e9199;">
+    <nav class="main-header navbar navbar-expand container mx-auto">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="#" class="nav-link py-0">
+                    <img style="max-width: 100px;" class="img-fluid"
+                        src="assets/dist/img/national-health-authority-logo.png" alt="">
+                </a>
+            </li>
+        </ul>
+        <div class="collapse navbar-collapse order-3 justify-content-end">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a href="#Skip-Main-Content" class="nav-link">Skip To Main Content</a></li>
+                <li style="position: relative;top: 7px;margin: 0 5px; color:#fff;"> | </li>
+                <li><div class="dropdown">
+                    <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                      Dropdown link
+                    </a>
+                  
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      <li><a class="dropdown-item" href="#">Action</a></li>
+                      <li><a class="dropdown-item" href="#">Another action</a></li>
+                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                  </div></li>
+                <li style="position: relative;top: 7px;margin: 0 5px; color:#fff;"> | </li>
+                <li class="nav-item">
+                    <a class="nav-link" role="button" (click)="OpenLogin();">
+                    <i class="fas fa-user-circle"></i> Login
+                    </a>        
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>-->
+
+<div class="content-wrapper" id="Skip-Main-Content" style="min-height: 404px;">
+    <section class="content-header">
+        <div class="container">
+            <div class="head-content-wrap">
+                <div class="left-content-wrap">
+                    <div class="custom-title">Ayushman Bharat Pradhan Mantri - Jan Arogya Yojana  </div>
+                </div>
+                <div class="right-content-wrap">
+                    <div class="form-group mb-1">
+                        <select class="form-control" style="width: 100%;" id="ddlstatename"  (change)="bindChart($event)">
+                            <option value="" selected="selected">Select State</option>
+                            <option *ngFor="let st of stateList"  value={{st.value}}>
+                            {{st.text}}
+                            </option>
+                        </select>                         
+                    </div>
+                    <div class="text-center subtitle mb-0">Last Updated : {{uploadDate}}</div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">                
+                    <div class="subtitle-i"><b>NOTE: </b>
+                        <p><!--<a href="#" (click)="getSA();" style="text-decoration: none;color:  #000;">*</a>-->*Figures displayed in this dashboard are not updated on a real-time basis and are subject to reconciliation.&nbsp;&nbsp;|&nbsp;</p>
+                        <p>*Figures may includes state's  schemes data for few states.</p>
+                    </div> 
+                </div>                
+            </div> 
+
+            <!--<div class="row">         
+                <div class="col-12 col-md-12">
+                    <div class="text-right subtitle">Last Updated : {{uploadDate}}</div>                   
+                </div>
+            </div>-->
+
+            
+
+
+            <div class="row">
+                
+                <div class="clearfix hidden-md-up"></div>
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="info-box info-box-one">
+                        <div class="info-box-content p-0">
+                            <div class="info-box-head">
+                                <img src="assets/dist/img/ayushman-card-icon.png" alt="">
+                                <span class="info-box-text font-weight-bold">Ayushman Cards Created</span>
+                            </div>
+
+                            <div class="info-box-number-wrap">
+                                <div class="info-box-number">Overall
+                                    <b>{{IOverall}}</b>
+                                </div>                                
+                                <div class="info-box-number">Last 30 Days
+                                    <b>{{ITLast30Days}}</b> 
+                                </div>
+                                <div class="info-box-number">Yesterday
+                                    <b>{{IToday}}</b> 
+                                </div>                                
+                            </div>
+                        </div>
+                        <!--
+                        <div class="leftchart"><img class="img-fluid" src="assets/dist/img/livegraph.gif" alt=""></div>-->
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="info-box info-box-two">
+                        <div class="info-box-content p-0">
+                            
+                            <div class="info-box-head">
+                                <img src="assets/dist/img/hospital-card-icon.png" alt="">
+                                <span class="info-box-text font-weight-bold">Authorised Hospital Admissions</span>
+                                
+                            </div>
+                            <div class="authorizehsop-togg">
+                                <button type="button" id="hospauthamount" data-toggle="button" aria-pressed="false" autocomplete="off" class="btn btn-lg btn-toggle my-0" (click)="onToggle('hospauthamount')"><div class="handle"></div></button>
+                            </div>
+                            <div class="info-box-number-wrap">
+                                <div class="info-box-number">Overall
+                                    <b>{{HOverall}}</b>
+                                </div>                                
+                                <div class="info-box-number">Last 30 Days
+                                    <b>{{HOLast30Days}}</b> 
+                                </div>
+                                <div class="info-box-number">Yesterday
+                                    <b>{{HOoday}}</b> 
+                                </div>                                
+                            </div>
+                        </div>
+                        <!--
+                        <div class="leftchart"><img class="img-fluid" src="assets/dist/img/livegraph.gif" alt=""></div>-->
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-4">
+                    <div class="info-box info-box-three">
+                        <div class="info-box-content p-0">
+                            <div class="info-box-head">
+                                <img src="assets/dist/img/hospital-empanel.png" alt="">
+                                <span class="info-box-text font-weight-bold">Hospitals Empanelled</span>
+                            </div>
+
+                            <div class="info-box-number-wrap">
+                                <div class="info-box-number">Public
+                                    <b>{{HTPublic}}</b>
+                                </div>                                
+                                <div class="info-box-number">Private
+                                    <b>{{HTPrivate}}</b> 
+                                </div>
+                                <div class="info-box-number">Overall
+                                    <b>{{HTOverall}}</b> 
+                                </div>                                
+                            </div>
+                        </div>
+                        <!--
+                        <div class="leftchart"><img class="img-fluid" src="assets/dist/img/livegraph.gif" alt=""></div>-->
+                    </div>
+                </div>
+                
+               
+            </div>
+        </div>
+    </section>
+
+  
+    <section class="content">
+        <div class="container">
+            <div class="row">              
+                
+                    <div class="col-12">
+                        <div class="info-box-text font-weight-bold mb-2">{{stateDist}} - wise</div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="state-card card mb-2" style="background-color: #fff4e5;">
+                          <div class="card-header" style="background: #fff4e5 !important;">
+                            <h3 class="card-title">Ayushman Cards Created <span style="font-size: 12px;"> (in Lakhs)</span></h3>
+                            <div class="card-tools" >
+                              <!--
+                              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                              </button>-->
+                              <div class="dropdown">
+                                <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="assets/dist/img/download.png" alt=""> <span>Download</span>                                        
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                  <a class="dropdown-item" href="javascript:void(0);" (click)="exportexcel('ACGS','AyushmancardStatewise')">Excel</a>
+                                  <a class="dropdown-item" href="javascript:void(0);" (click)="exportPDF('ACGS','AyushmancardStatewise.pdf')">PDF</a>
+                                </div>
+                            </div>                             
+                              
+                              
+                            </div>
+                          </div>
+                         <!-- <div>
+                            <div class="card-body pt-0" >
+                            <canvas #hprafChart1 style="max-height: 45px; max-width: 100%;"></canvas>
+                        </div>-->
+                            <div class="card-body pt-0" style="overflow-y:scroll;height: 315px;margin-right: 7px;">
+                                <div class="chart">
+                                    <canvas #hprafChart style="min-height: 100px; max-width: 100%;"></canvas>         
+             
+                                </div>
+                              </div>
+                         <!-- </div>-->
+                          
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="state-card card mb-2" style="background-color: #f0f7fd;">
+                            <div class="card-header" style="background: #f0f7fd !important;">
+                            <h3 class="card-title">Authorised Hospital Admissions <span style="font-size: 12px;"> (in Lakhs)</span></h3>
+                            <div class="card-tools">
+
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img src="assets/dist/img/download.png" alt=""> <span>Download</span>                                                                               
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                      <a class="dropdown-item" href="javascript:void(0);" (click)="exportexcel('HAS','HospitalAdmissionStateWise')">Excel</a>
+                                      <a class="dropdown-item" href="javascript:void(0);" (click)="exportPDF('HAS','HospitalAdmissionStateWise.pdf')">PDF</a>
+                                    </div>
+                                </div>
+
+
+
+
+
+                              <!--
+                              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                              </button>--> <!--<button _ngcontent-cir-c138="" type="button" class="btn btn-tool" title="Export As Excel"><i class="fas fa-download" (click)="exportexcel('HAS','HospitalAdmissionStateWise')"></i></button>-->
+                              
+                              
+                            </div>
+                          </div>
+                          <div class="card-body pt-0" style="overflow-y:scroll;height: 315px;margin-right: 7px;">
+                            <div class="chart">
+                                <canvas #HAS style="min-height: 100px; max-width: 100%;"></canvas> 
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                   
+                      <div class="col-md-4">
+                        <div class="state-card card mb-2" style="background-color: #f4fdf2;">
+                            <div class="card-header" style="background: #f4fdf2 !important;">
+                            <h3 class="card-title">Hospital Empanelled<span style="font-size: 10px;"> &nbsp;</span></h3>
+                            <div class="card-tools">
+                              <!--
+                              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                              </button>-->
+                              <div class="dropdown">
+                                <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="assets/dist/img/download.png" alt=""> <span>Download</span>                                                                          
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                  <a class="dropdown-item" href="javascript:void(0);" (click)="exportexcel('HES','HospitalEmpanelmentStateWise')">Excel</a>
+                                  <a class="dropdown-item" href="javascript:void(0);" (click)="exportPDF('HES','HospitalEmpanelmentStateWise.pdf')">PDF</a>
+                                </div>
+                            </div>
+                             
+                              
+                            </div>
+                          </div>
+                          <div class="card-body pt-0" style="overflow-y:scroll;height: 315px;margin-right: 7px;">
+                            <div class="chart">
+                                <canvas #HES style="min-height: 100px; max-width: 100%;"></canvas> 
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+                    <div class="col-12 mb-2">                
+                        <div class="subtitle-i pl-0">                            
+                            <p>*Another 3 Cr cards have been issued using states own IT systems.</p>
+                        </div> 
+                    </div>                
+
+
+                      <div class="col-12 col-sm-4">
+                        <div class="info-box-text font-weight-bold mb-2">Ayushman Cards Created</div>
+                        <div class="state-card card">
+                            <div class="card-header p-0 pt-1">
+                                <ul class="nav nav-tabs nav-tabs-custom" id="custom-tabs-one-tab" role="tablist">
+                                    <li>
+                                        <a class="active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Gender Distribution&nbsp;
+                                            <!--<button _ngcontent-cir-c138="" type="button" class="btn btn-tool" title="Export As Excel"><i class="fas fa-download" (click)="exportexcel('ACGG','AyushmancardGenderWise')"></i></button>-->
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Age Groups&nbsp;
+                                            <!--<button _ngcontent-cir-c138="" type="button" class="btn btn-tool" title="Export As Excel"><i class="fas fa-download" (click)="exportexcel('ACGA','AyushmancardAgeWise')"></i></button>-->
+                                        </a>
+                                    </li>                        
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content" id="custom-tabs-one-tabContent">
+                                    <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+                                        <div class="chart">
+                                            <canvas #barACGGender style="min-height: 140px; height: 150px; max-height: 150px; max-width: 100%;"></canvas>
+                                        </div>
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img src="assets/dist/img/download.png" alt=""> <span>Download</span> 
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                              <a class="dropdown-item" href="javascript:void(0);" (click)="exportexcel('ACGG','AyushmancardGenderWise')">Excel</a>
+                                              <a class="dropdown-item" href="javascript:void(0);" (click)="exportPDF('ACGG','AyushmancardGenderWise.pdf')">PDF</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                                        <div class="chart">
+                                            <canvas #barACGAge  style="min-height: 150px; height: 150px; max-height: 150px; max-width: 100%;"></canvas>
+                                        </div>
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img src="assets/dist/img/download.png" alt=""> <span>Download</span>                                         
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                              <a class="dropdown-item" href="javascript:void(0);" (click)="exportexcel('ACGA','AyushmancardAgeWise')">Excel</a>
+                                              <a class="dropdown-item" href="javascript:void(0);" (click)="exportPDF('ACGA','AyushmancardAgeWise.pdf')">PDF</a>
+                                            </div>
+                                        </div>
+                                    </div>                        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-sm-4">
+                        <div class="info-box-text font-weight-bold mb-2">Authorised Hospital Admissions</div>
+                        <div class="state-card card">
+                            <div class="card-header p-0 pt-1">
+                                <ul class="nav nav-tabs nav-tabs-custom" id="custom-tabs-one-tabs" role="tablist">
+                                    <li>
+                                        <a class="active" id="custom-tabs-one-homes-tab" data-toggle="pill" href="#custom-tabs-one-homes" role="tab" aria-controls="custom-tabs-one-homes" aria-selected="true">Gender Distribution&nbsp;
+                                            <!--<button _ngcontent-cir-c138="" type="button" class="btn btn-tool" title="Export As Excel"><i class="fas fa-download" (click)="exportexcel('ACGG','AyushmancardGenderWise')"></i></button>-->
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="" id="custom-tabs-one-profiles-tab" data-toggle="pill" href="#custom-tabs-one-profiles" role="tab" aria-controls="custom-tabs-one-profiles" aria-selected="false">Age Groups&nbsp;
+                                            <!--<button _ngcontent-cir-c138="" type="button" class="btn btn-tool" title="Export As Excel"><i class="fas fa-download" (click)="exportexcel('ACGA','AyushmancardAgeWise')"></i></button>-->
+                                        </a>
+                                    </li>                        
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content" id="custom-tabs-one-tabsContent">
+                                    <div class="tab-pane fade show active" id="custom-tabs-one-homes" role="tabpanel" aria-labelledby="custom-tabs-one-homes-tab">
+                                        <div class="chart">
+                                            <canvas #barHAGender style="min-height: 150px; height: 150px; max-height: 150px; max-width: 100%;"></canvas>
+                                        </div>
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img src="assets/dist/img/download.png" alt=""> <span>Download</span> 
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                                <a class="dropdown-item" href="javascript:void(0);" (click)="exportexcel('HAG','HospitalAdmissionGenderWise')">Excel</a>
+                                                <a class="dropdown-item" href="javascript:void(0);" (click)="exportPDF('HAG','HospitalAdmissionGenderWise.pdf')">PDF</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="custom-tabs-one-profiles" role="tabpanel" aria-labelledby="custom-tabs-one-profiles-tab">
+                                        <div class="chart">
+                                            <canvas #barHAAge  style="min-height: 150px; height: 150px; max-height: 150px; max-width: 100%;"></canvas>
+                                        </div>
+                                        <div class="dropdown">
+                                            <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img src="assets/dist/img/download.png" alt=""> <span>Download</span>                                         
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                                <a class="dropdown-item" href="javascript:void(0);" (click)="exportexcel('HAA','HospitalAdmissionAgeWise')">Excel</a>
+                                                <a class="dropdown-item" href="javascript:void(0);" (click)="exportPDF('HAA','HospitalAdmissionAgeWise.pdf')">PDF</a>
+                                            </div>
+                                        </div>
+                                    </div>                        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="col-12 col-sm-4">
+                        <div class="header-section">Authorised Hospital Admissions</div>
+                        <div class="card card-primary card-tabs">
+                            <div class="card-header p-0 pt-1">
+                                <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="custom-tabs-one-gender-tab" data-toggle="pill" href="#custom-tabs-one-gender" role="tab" aria-controls="custom-tabs-one-gender" aria-selected="true">Gender Distribution&nbsp;
+                                           
+                                           <div class="dropdown">
+                                            <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fas fa-download"></i>                                        
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                              <a class="dropdown-item" href="javascript:void(0);" (click)="exportexcel('HAG','HospitalAdmissionGenderWise')">Excel</a>
+                                              <a class="dropdown-item" href="javascript:void(0);" (click)="exportPDF('HAG','HospitalAdmissionGenderWise.pdf')">PDF</a>
+                                            </div>
+                                        </div>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="custom-tabs-one-age-tab" data-toggle="pill" href="#custom-tabs-one-age" role="tab" aria-controls="custom-tabs-one-age" aria-selected="false">Age Groups&nbsp;
+                                           
+                                            <div class="dropdown">
+                                                <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fas fa-download"></i>                                        
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                                  <a class="dropdown-item" href="javascript:void(0);" (click)="exportexcel('HAA','HospitalAdmissionAgeWise')">Excel</a>
+                                                  <a class="dropdown-item" href="javascript:void(0);" (click)="exportPDF('HAA','HospitalAdmissionAgeWise.pdf')">PDF</a>
+                                                </div>
+                                            </div>
+                                        </a>                                            
+                                    </li>                        
+                                </ul>
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content" id="custom-tabs-one-tabContent">
+                                    <div class="tab-pane fade show active" id="custom-tabs-one-gender" role="tabpanel" aria-labelledby="custom-tabs-one-gender-tab">
+                                        <div class="chart">
+                                            <canvas #barHAGender style="min-height: 200px; height: 200px; max-height: 200px; max-width: 100%;"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="custom-tabs-one-age" role="tabpanel" aria-labelledby="custom-tabs-one-age-tab">
+                                        <div class="chart">
+                                            <canvas #barHAAge  style="min-height: 200px; height: 200px; max-height: 200px; max-width: 100%;"></canvas>
+                                        </div>
+                                    </div>                        
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+                    
+                    <div class="col-12 col-sm-4">
+                        <div class="info-box-text font-weight-bold mb-2">Hospitals Empanelled</div>
+                        <div class="state-card card">
+                            <div class="card-header p-0 pt-1">
+                                <div class="bedstrength-wrap">
+                                    <h5>Bed Strength</h5>
+                                    <div class="dropdown">
+                                        <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <img src="assets/dist/img/download.png" alt=""> <span>Download</span> 
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="javascript:void(0);" (click)="exportexcel('HEB','HospitalAdmissionBedStrength')">Excel</a>
+                                            <a class="dropdown-item" href="javascript:void(0);" (click)="exportPDF('HEB','HospitalAdmissionBedStrength.pdf')">PDF</a>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                            <div class="card-body">
+                                <div class="chart">
+                                    <canvas #HEBChart style="min-height: 175px; height: 175px; max-width: 100%;"></canvas> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                
+                <div class="col-12">
+                    <div class="info-box-text font-weight-bold mb-2">Ayushman Card Created - Trends</div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="state-card card mb-4">                     
+                      <div class="card-body">
+                        <div class="text-right right-tabs">
+                            <div class="time-wrap" style="display: inline-block;">
+                                <a href="javascript:void(0);" id="ACGTDW" (click)="ACGTDclickme('W')" >Week</a> |
+                                <a href="javascript:void(0);" id="ACGTDT" class="active" (click)="ACGTDclickme('T')">Last 30 Days</a> |
+                                <a href="javascript:void(0);" id="ACGTDA" (click)="ACGTDclickme('A')" >All</a>
+                            </div>
+                            <div class="dropdown" style="display: inline-block;
+                            margin: 0;">
+                                <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="assets/dist/img/download.png" alt=""> <span>Download</span>                                                                          
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                  <a class="dropdown-item m-0" href="javascript:void(0);" (click)="exportexcel('ACGTD','AyushmanCardGenerationTrend')">Excel</a>
+                                  <a class="dropdown-item m-0" href="javascript:void(0);" (click)="exportPDF('ACGTD','AyushmanCardGenerationTrend.pdf')">PDF</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart">
+                          <canvas #ACGTDChart style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="info-box-text font-weight-bold mb-2">Authorised Hospital Admission - Trends</div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="state-card card mb-4">                     
+                      <div class="card-body">
+                        <div class="text-right right-tabs">
+                            <div class="time-wrap" style="display: inline-block;">                                
+                                <a href="javascript:void(0);" id="HATDW" (click)="HATDclickme('W')" >Week</a> |
+                                <a href="javascript:void(0);" id="HATDT" class="active" (click)="HATDclickme('T')">Last 30 Days</a> |
+                                <a href="javascript:void(0);" id="HATDA" (click)="HATDclickme('A')">All</a>
+                            </div>
+                            <div class="dropdown" style="display: inline-block;
+                            margin: 0;">
+                                <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="assets/dist/img/download.png" alt=""> <span>Download</span>                                                                          
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                  <a class="dropdown-item m-0" href="javascript:void(0);" (click)="exportexcel('HATD','HospitalAdmissionTrend')">Excel</a>
+                                  <a class="dropdown-item m-0" href="javascript:void(0);" (click)="exportPDF('HATD','HospitalAdmissionTrend.pdf')">PDF</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart">
+                          <canvas #HATDChart style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                
+
+                  <div class="col-12">
+                    <div class="info-box-text font-weight-bold mb-2">Hospital Empanelment - Trends</div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="state-card card mb-4">                     
+                      <div class="card-body">
+                        <div class="text-right right-tabs">
+                            <div class="time-wrap" style="display: inline-block;">                                
+                                <a href="javascript:void(0);" id="HETDW" (click)="HETDclickme('W')" >Week</a> |
+                                <a href="javascript:void(0);" id="HETDT" class="active" (click)="HETDclickme('T')">Last 30 Days</a> |
+                                 <a href="javascript:void(0);" id="HETDA" (click)="HETDclickme('A')">All</a>
+                          
+                            </div>
+                            <div class="dropdown" style="display: inline-block;
+                            margin: 0;">
+                                <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="assets/dist/img/download.png" alt=""> <span>Download</span>                                                                          
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                  <a class="dropdown-item m-0" href="javascript:void(0);" (click)="exportexcel('HETD','HospitalEmpanelmentTrend')">Excel</a>
+                                  <a class="dropdown-item m-0" href="javascript:void(0);" (click)="exportPDF('HETD','HospitalEmpanelmentTrend.pdf')">PDF</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart">
+                          <canvas #HETDChart style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <!--<div class="col-12">
+                    <div class="info-box-text font-weight-bold mb-2">eKYC/Card Delivery Status- Trends</div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="state-card card mb-4">                     
+                      <div class="card-body">
+                        <div class="text-right right-tabs">
+                            <div class="time-wrap" style="display: inline-block;">                                
+                                <a href="javascript:void(0);" id="BISCTDW" (click)="BISCTDclickme('W')" >Week</a> |
+                                <a href="javascript:void(0);" id="BISCTDT" class="active" (click)="BISCTDclickme('T')">Last 30 Days</a> |
+                                 <a href="javascript:void(0);" id="BISCTDA" (click)="BISCTDclickme('A')">All</a>
+                          
+                            </div>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="assets/dist/img/download.png" alt=""> <span>Download</span>                                                                          
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                  <a class="dropdown-item m-0" href="javascript:void(0);" (click)="exportexcel('BISCTD','BISCardTrend')">Excel</a>
+                                  <a class="dropdown-item m-0" href="javascript:void(0);" (click)="exportPDF('BISCTD','BISCardTrend.pdf')">PDF</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart">
+                          <canvas #BISCTDChart style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>-->
+
+                  <div class="col-12 col-md-6">
+                    <div class="state-card card mb-4">
+                      <div class="card-header pb-0">
+                        <div class="leftSpeciality">
+                            <h3 class="card-title">Top Speciality</h3> <span>(in Lakhs)</span><br>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="assets/dist/img/download.png" alt=""> <span>Download</span>                                                                          
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                  <a class="dropdown-item" href="javascript:void(0);" (click)="exportexcel('TMSSPEC','Speciality')">Excel</a>
+                                  <a class="dropdown-item" href="javascript:void(0);" (click)="exportPDF('TMSSPEC','Speciality')">PDF</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="rightSpeciality">
+                            <button type="button" id="speciality" class="btn btn-lg btn-toggle my-0" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="onToggle('speciality')">                        
+                                <div class="handle"></div>
+                            </button>
+                        </div>
+                      </div>
+
+                      <div class="card-body pt-0">                        
+                        <div class="chart">
+                          <canvas #SPECChart style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
+                      </div>
+                    </div>                    
+                  </div>
+
+                  <div class="col-12 col-md-6">
+                    <div class="state-card card mb-4">
+                      <div class="card-header pb-0">
+                        <div class="leftSpeciality">
+                            <h3 class="card-title">Top Procedure</h3> <span>(in Lakhs)</span><br>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="assets/dist/img/download.png" alt=""> <span>Download</span>                                                                          
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="javascript:void(0);" (click)="exportexcel('TMSPROC','Procedure')">Excel</a>
+                                    <a class="dropdown-item" href="javascript:void(0);" (click)="exportPDF('TMSPROC','Procedure')">PDF</a>
+                                  </div>
+                            </div>
+                        </div>
+
+                        <div class="rightSpeciality">
+                            <button type="button" id="procedure" class="btn btn-lg btn-toggle my-0" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="onToggle('procedure')">                        
+                                <div class="handle"></div>
+                            </button>
+                        </div>
+                      </div>
+
+                      <div class="card-body pt-0">                        
+                        <div class="chart">
+                            <canvas #PROCChart style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                        </div>
+                      </div>
+                    </div>                    
+                  </div>
+
+
+                 <!-- <div class="col-12 col-md-4">
+                    <div class="state-card card mb-4">
+                      <div class="card-header pb-0">
+                        <div class="leftSpeciality">
+                            <h3 class="card-title">Tagging Data</h3><br>
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="assets/dist/img/download.png" alt=""> <span>Download</span>                                                                          
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="javascript:void(0);" (click)="exportexcel('TMSPROC','Procedure')">Excel</a>
+                                    <a class="dropdown-item" href="javascript:void(0);" (click)="exportPDF('TMSPROC','Procedure')">PDF</a>
+                                  </div>
+                            </div>
+                        </div>
+                        
+                      </div>
+
+                      <div class="card-body pt-0" style="overflow-y: scroll;height: 267px;">                        
+                        <div class="chart">
+                            <canvas #TAGChart style="min-height: 267px;  max-width: 100%;"></canvas>
+                        </div>
+                      </div>
+                    </div>                    
+                  </div>-->
+
+
+              <!--  <div class="col-12">
+                    <div class="info-box-text font-weight-bold mb-2">Tagging Data</div>
+                </div>
+                <div class="col-md-12">
+                    <div class="state-card card mb-4">                     
+                    <div class="card-body">
+                        <div class="text-right right-tabs">
+                        
+                            <div class="dropdown">
+                                <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="assets/dist/img/download.png" alt=""> <span>Download</span>                                                                          
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item m-0" href="javascript:void(0);" (click)="exportexcel('TAGD','Tagged_Data')">Excel</a>
+                                <a class="dropdown-item m-0" href="javascript:void(0);" (click)="exportPDF('TAGD','Tagged_Data.pdf')">PDF</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart" style="overflow-y: scroll;height: 300px;">
+                        <canvas #TAGChart style="min-height: 250px;  max-width: 100%;"></canvas>
+                        </div>
+                    </div>
+                    </div>
+                </div>-->
+
+                <div class="col-12">
+                    <div class="info-box-text font-weight-bold mb-2">EHCP Performance</div>
+                </div>             
+
+
+                  <div class="col-md-12 mx-auto">
+                    <div class="card mb-4 treatment-table" id="divEHCP">                      
+                      <div class="card-body p-0">                    
+                        <div class="table-responsive EHCP-table">
+                            <table  id="tblEHCP" class="row-border hover">
+                                <thead>
+                                    
+                                    <tr>
+                                      <th style="text-align: center; width: 30px;">S.No.</th>
+                                     
+                                      <th style="text-align: center;width: 140px;">State Name</th>
+                                      <th style="text-align: center; width: 180px;">Total Empanelled Hospitals</th>
+                                      <th style="text-align: center; width: 180px;">Inactive since Empanelment</th>
+                                      <th style="text-align: center; width: 180px;">Inactive in Last 6 Months</th>
+                                      <th style="text-align: center; width: 140px;">Active in Last 6 Months</th>
+                                     
+                                    </tr>
+                                  </thead>
+                                  <tbody> 
+                                        <tr *ngFor="let group of pageData.ehcpList;let i =index">
+                                            <td style="text-align: center;">
+                                                {{i+1}} 
+                                            </td>
+                                          
+                                          <td style="text-align: left;"><a href="javascript:void(0);" style="text-decoration: none;" (click)="getDrill(group.state_code,group.district_code,group.hosp_type);">{{group.text}}</a></td>
+                                          <td style="text-align: right;">{{group.total}}</td>
+                                          <td style="text-align: right;color: red;font-weight: 800;"><a href="javascript:void(0);" style="text-decoration: none;color: red;" id="ainactive_since" (click)="getHospDetails(group.state_code,group.district_code,group.hosp_type,'0');">{{group.inactive_since_s}}</a> </td>
+                                          <td style="text-align: right;color: orange;font-weight: 800;"><a href="javascript:void(0);" style="text-decoration: none;color: orange;" id="ainactive_last" (click)="getHospDetails(group.state_code,group.district_code,group.hosp_type,'180');">{{group.inactive_last_six_month}}</a></td>
+                                          <td style="text-align: right;color: green;font-weight: 800;"><a href="javascript:void(0);" style="text-decoration: none;color: green;" id="aactive_last" (click)="getHospDetails(group.state_code,group.district_code,group.hosp_type,'181');">{{group.active_last_six_month}}</a></td>
+                                         
+                                        </tr>
+                                  </tbody>
+                                  <tr *ngFor="let group of totalData.ehcpList;let i =index" style="font-weight: bold;">
+                                    <td style="text-align: center;" colspan="2">
+                                       Total
+                                    </td>
+                                  
+                                  
+                                  <td style="text-align: right;">{{group.total}}</td>
+                                  <td style="text-align: right;color: red;font-weight: 800;">{{group.inactive_since_s}}</td>
+                                  <td style="text-align: right;color: orange;font-weight: 800;">{{group.inactive_last_six_month}}</td>
+                                  <td style="text-align: right;color: green;font-weight: 800;">{{group.active_last_six_month}}</td>
+                                 
+                                </tr>
+                            </table>
+                           
+                           
+                        </div>
+                        
+                      </div>
+                    </div>
+                    
+                  </div>
+
+                <div class="col-12">
+                    <div class="info-box-text font-weight-bold mb-2">Beneficiaries Availing Treatment</div>
+                </div>
+
+                <div class="col-12">
+                    <div class="beneficiaries-avail-wrap">
+                        <div class="beneficiaries-avail-left-wrap">
+                            <div class="treatment-select">
+                                <select id="ddlState" class="form-control select2" style="width: 100%;"  (change)="bindDistrict($event)">
+                                    <option value="" selected="selected">Select State</option>
+                                    <option *ngFor="let st of stateList_HOSP"  value={{st.value}}>
+                                    {{st.text}}
+                                    </option>
+                                </select> 
+                                <div class="error">{{StateError}}</div>
+                            </div>
+                            <div class="treatment-select">
+                                <select id="ddlDistrict" class="form-control" style="width: 100%;"  (change)="bindHosp($event)">
+                                    <option value="" selected="selected">Select District</option>
+                                    <option *ngFor="let st of DistrictList_HOSP"  value={{st.value}}>
+                                    {{st.text}}
+                                    </option>
+                                </select> 
+                                <div class="error">{{DistrictError}}</div>
+                            </div>
+                            <div class="treatment-select">
+                                <select id="ddlHosp" class="form-control" style="width: 100%;" (change)="bindHosp1($event)">
+                                    <option value="" selected="selected">Select Hospital</option>
+                                    <option *ngFor="let st of HospList"  value={{st.value}}>
+                                    {{st.text}}
+                                    </option>
+                                </select> 
+                                <div class="error">{{HospError}}</div> 
+                            </div>
+                        </div>
+                        <div class="beneficiaries-avail-right-wrap">
+                            <button class="btn btn-primary" (click)="BindPatientDetails()">Submit</button>
+                            <button class="btn btn-primary dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/dist/img/download-white.png" alt=""> <span>Download</span></button>
+                            <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="javascript:void(0);" (click)="exportexcel('HBAT','BeneficiariesAvailingTreatment')">Excel</a>
+                                <a class="dropdown-item" href="javascript:void(0);" (click)="exportPDF('HBAT','BeneficiariesAvailingTreatment.pdf')">PDF</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                  <div class="col-md-8 mx-auto">
+                    <div class="card mb-4 treatment-table" id="divbenavailtreatment">                      
+                      <div class="card-body p-0">                    
+                        <div class="table-responsive mt-2">
+                            <table  id="datatableexample" class="row-border hover">
+                                <thead>
+                                    <tr style="text-align: left;font-weight: bold;"><td colspan="4">{{tblHeaderTreated}}</td></tr>
+                                    <tr>
+                                      <th style="text-align: center; width: 70px;">S.No.</th>
+                                     
+                                      <th style="text-align: center;">Name</th>
+                                      <th style="text-align: center; width: 120px;">Amount</th>
+                                      <th style="text-align: center; width: 180px;">Discharge Date</th>
+                                     
+                                    </tr>
+                                  </thead>
+                                  <tbody> 
+                                        <tr *ngFor="let group of tpdata;let i =index">
+                                            <td style="text-align: center;">
+                                                {{i+1}} 
+                                            </td>
+                                          
+                                          <td style="text-align: left;">{{group.patientname}}</td>
+                                          <td style="text-align: right;">{{this.getCommaValue(group.amount)}}</td>
+                                          <td style="text-align: center;">{{group.treatmentdate}}</td>
+                                         
+                                        </tr>
+                                  </tbody>
+                            </table>
+                           
+                           
+                        </div>
+                        
+                      </div>
+                    </div>
+                    
+                  </div>
+
+            </div>
+             
+        </div>
+    </section>
+</div>
+
+<div class="modal" style="/* display: block; */ background: rgba(0,0,0,.5);" id="divHosp_Details">
+    <div class="modal-dialog modal-login-drive modal-md  modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: absolute; z-index: 2; right: 5px; top: 0px;" (click)="closeUserModel()">
+                <span aria-hidden="true">×</span>
+            </button>
+            <div class="active-user-wrap">
+                <div class="table-responsive">
+                <table id="tblHospDeatils" class="row-border hover">
+                    <thead>
+                        
+                        <tr style="text-align: center;">
+                            <th style="text-align: center; width:40px;">S.No.</th>
+                            
+                            <th style="text-align: left;width: 100px;">Hosp ID</th>
+                            <th style="text-align: left;width: 180px;">Hosp Name</th>
+                           </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let rec of pageData.ehcpHospList;let i =index">
+                            <td style="text-align: center;">
+                                {{i+1}} 
+                            </td>
+                            
+                            <!--<td style="text-align: right;">{{rec.state_name}}</td>
+                            <td style="text-align: right;">{{rec.district_name}}</td>-->
+                            <td style="text-align: left;">{{rec.hosp_id}}</td>
+                            <td style="text-align: left;">{{rec.hosp_name}}</td>
+                          
+                        </tr>                      
+                       
+
+
+                    </tbody>
+                   
+                    
+                </table>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+    </div>    
+</div>
+
+

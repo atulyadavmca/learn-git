@@ -1,0 +1,438 @@
+<app-headerinsights></app-headerinsights>
+<div class="container mx-auto multi-dashbaord-wrap">
+    <div class="capf-dashboard-wrap">
+
+    
+
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container">
+            <div class="head-content-wrap">
+                <div class="left-content-wrap">
+                    <div class="custom-title">Ayushman CAPF Scheme  </div>
+                </div>
+                <div class="right-content-wrap right-content-capf-wrap">
+                    <div class="form-group">
+                        <select class="form-control" (change)="getCAPFReport($event)">
+                            <option value="">Application Type</option>
+                            <option value="CAPF">CAPF PMJAY</option>
+                            <option value="CGHS_CAPF">CAPF CGHS</option>
+                            <option value="REIM">CAPF Reimbursement</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" (change)="getCAPFReport_Force($event)">
+                            <option value="">Force Type</option>
+                            <option value="BS">Border Security Force</option>
+                            <option value="NS">National Security Gaurd</option>
+                            <option value="CI">Central Industrial Security Force</option>
+                            <option value="AR">Assam Rifles</option>
+                            <option value="SS">Sashastra Seema Bal</option>
+                            <option value="IT">Indo-Tibetan Border Police</option>
+                            <option value="CR">Cenral Reserve Police Force</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<div class="cghs-wrapper pb-3">
+  <div class="container">
+      
+      <form action="">
+          <div class="cghs-form-wrap">
+              <div class="cghs-form">
+                  <label for="">State</label>
+                  <select id="ddlState_CAPF" (change)="bindDistrict($event)" class="form-control">
+                      <option value="">All</option>
+                      <option *ngFor="let st of stateList"  value={{st.value}}>
+                          {{st.text}}
+                          </option>
+                  </select>
+              </div>
+              <div class="cghs-form">
+                  <label for="">District</label>
+                  <select id="ddlDistrict_CAPF" (change)="bindHosp($event)" class="form-control">
+                      <option value="">All</option>
+                      <option *ngFor="let st of districtlist"  value={{st.value}} >
+                          {{st.text}}
+                          </option>
+                  </select>
+              </div>
+              <div class="cghs-form">
+                  <label for="">Hospital Name</label>
+                  <select id="ddlHosp_CAPF" class="form-control" (change)="selectHosp($event)">
+                      <option value="">All</option>
+                      <option *ngFor="let st of hosplist"  value={{st.value}} >
+                          {{st.text}}  ({{st.value}})
+                          </option>
+                  </select>
+              </div>
+              <div class="cghs-form-btn">
+
+                  <button class="btn btn-primary" (click)="getReport();">Search</button>
+              </div>
+          </div>
+          <div class="text-right subtitle mb-0">Last Updated : {{uploadDate}}</div>
+          <!--<div class="text-right"><a href="#"></a></div>-->
+      </form>
+  </div>
+
+  <div class="container">
+      <div class="cghs-dashboard-wrap" style="background: none;">
+          <!--<div class="cghs-dashboard cghs-dashboard-one">
+              <label>Preauths Submitted </label>
+              <div class="cghs-dashboard-in">
+                  <span>Count</span>
+                  <strong>{{preauth_sub_count}}</strong>
+              </div>
+              <div class="cghs-dashboard-in">
+                  <span>Amount</span>
+                  <strong>{{preauth_sub_amount}}</strong>
+              </div>
+          </div>-->
+
+
+
+          <div class="cghs-dashboard cghs-dashboard-three">
+              <label>Claims Received <span class="fa fa-info-circle tool"  ></span></label><!--<a href="#" data-toggle="popover" title="Popover Header" data-content="Some content inside the popover">Toggle popover</a>-->
+              <div class="cghs-dashboard-in">
+                  <span>Count</span>
+                  <strong>{{submitted_count}}</strong>
+              </div>
+              <div class="cghs-dashboard-in">
+                  <span>Amount</span>
+                  <strong>{{this.getToCR(submitted_amount)}}</strong>
+              </div>
+          </div>
+          
+          <div class="cghs-dashboard cghs-dashboard-four">
+              <label>Claim Processed By CPD </label>
+              <div class="cghs-dashboard-in">
+                  <span>Count</span>
+                  <strong>{{cpd_processed_count}}</strong>
+              </div>
+              <div class="cghs-dashboard-in">
+                  <span>Amount</span>
+                  <strong>{{this.getToCR(cpd_processed_amount)}}</strong>
+              </div>
+          </div>
+          <div class="cghs-dashboard cghs-dashboard-two">
+            <label>Claim Processed By ACO</label>
+            <div class="cghs-dashboard-in">
+                <span>Count</span>
+                <strong>{{aco_processed_count}}</strong>
+            </div>
+           <div class="cghs-dashboard-in">
+                <span>Amount</span>
+                <strong>{{this.getToCR(aco_processed_amount)}}</strong>
+            </div>
+        </div>
+          <div class="cghs-dashboard cghs-dashboard-five">
+              <label>Claim Processed By SA & DDO</label>
+              <div class="cghs-dashboard-in">
+                  <span>Count</span>
+                  <strong>{{ddo_processed_count}}</strong>
+              </div>
+              <div class="cghs-dashboard-in">
+                  <span>Amount</span>
+                  <strong>{{this.getToCR(ddo_processed_amount)}}</strong>
+              </div>
+          </div>
+
+          
+      </div>
+  </div>
+
+  
+  <div class="container mt-3 mb-0">
+    <div class="trend-wrap" style="background:none;padding: 0;">
+        <div class="trend-box-head">
+            <div class="d-flex align-items-center">
+                <div class="leftSpeciality">
+                    <h3 class="card-title">CAPF DM & SHA Activity</h3>
+                </div>
+
+                <div class="right-content-wrap right-content-capf-wrap">
+                    <div class="right-content-wrap mr-2">
+                        <div class="form-group mb-1">
+                          
+                        <div class="treatment-select"><input type="date" id="txtfromdate_create" class="form-control" style="width: 100%;" placeholder="From Date" [(ngModel)]="fromDate" (change)="getDMSHAReport();"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" style="max-width:150px;" id="ddlforcetype" [(ngModel)]="ddlforcetype" (click)="getDMSHAReport();">
+                            <option value="">Application Type</option>
+                            <option value="CAPF">CAPF</option>
+                            <option value="CGHS_CAPF">CGHS_CAPF</option>
+                            <option value="CAPF_REM">CAPF_REM</option>
+                            
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" style="max-width:150px;" id="ddlunittype" [(ngModel)]="ddlusertype" (click)="getDMSHAReport();">
+                            <option value="" selected="selected">User Type</option>
+                            <option value="GPMD">DM</option>
+                            <option value="GPSHA">SHA</option>
+                        </select>
+                    </div>
+                    <div class="text-right right-tabs">
+                        <div class="time-wrap" style="display: inline-block;">
+                            <!--<a href="javascript:void(0);" id="HETDW">Week</a> | <a href="javascript:void(0);" id="HETDT" class="active">Last 30 Days</a> | <a href="javascript:void(0);" id="HETDA">All</a>-->
+                        </div>
+                        <div class="rightSpeciality">
+                            <button type="button" id="CAPF_toggbisamount" data-toggle="button" aria-pressed="false" autocomplete="off" class="btn btn-lg btn-toggle my-0" (click)="onToggle('CAPF_toggbisamount')"><div class="handle"></div></button>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+            <div class="card mb-0 treatment-table my-3" id="capfbisdata">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                <table id="capfdmshaactivity" class="row-border hover">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left;width: 30px;">S.No.</th>
+                            <th style="text-align: left;width: 300px;">Name</th>
+                              <th style="text-align: right;width: 100px;">Approved</th>
+    
+                              <th style="text-align: right;width: 100px;">Queries Updated</th>
+                              <th style="text-align: right;width: 100px;">Queried</th>
+                              <th style="text-align: right;width: 100px;">Rejected</th>
+                        
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let group of pageData.dmshaactivitylist;let i =index">
+                            <td style="text-align: center;">
+                                {{i+1}} 
+                            </td>
+                            <td style="text-align: left;">{{group.user_name}}</td>
+
+                            <td style="text-align: right;">{{this.getCommaValue(group.approved_count)}}</td>
+                          <td style="text-align: right;">{{this.getCommaValue(group.pending_count)}}</td>
+                          <td style="text-align: right;">{{this.getCommaValue(group.queried_count)}}</td>
+                          <td style="text-align: right;">{{this.getCommaValue(group.rejected_count)}}</td>
+                        
+                          
+                        </tr>
+                  </tbody>
+                  <tr *ngFor="let group of totalData.dmshaactivitylist;let i =index" style="font-weight: bold ;">
+                    <td style="text-align: center;" colspan="2">
+                        Total
+                    </td>
+                 
+
+                    <td style="text-align: right;">{{this.getCommaValue(group.approved_count)}}</td>
+                  <td style="text-align: right;">{{this.getCommaValue(group.pending_count)}}</td>
+                  <td style="text-align: right;">{{this.getCommaValue(group.queried_count)}}</td>
+                  <td style="text-align: right;">{{this.getCommaValue(group.rejected_count)}}</td>
+                
+                  
+                </tr>
+                </table>
+            </div>
+          </div>
+            </div>
+            <div class="card mb-0 treatment-table my-3" id="capfbisdataamount">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                    <table id="capfdmshaactivityamount" class="row-border hover">
+                        <thead>
+                            <tr>
+                                <th style="text-align: left;width: 30px;">S.No.</th>
+                              <th style="text-align: left;width: 300px;">Name</th>
+                              <th style="text-align: right;width: 100px;">Approved</th>
+    
+                              <th style="text-align: right;width: 100px;">Queries Updated</th>
+                              <th style="text-align: right;width: 100px;">Queried</th>
+                              <th style="text-align: right;width: 100px;">Rejected</th>
+                            
+    
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let group of pageData.dmshaactivitylist;let i =index">
+                                <td style="text-align: center;">
+                                    {{i+1}} 
+                                </td>
+                                <td style="text-align: left;">{{group.user_name}}</td>
+    
+                                <td style="text-align: right;">{{this.getCommaValue(group.approved_amount)}}</td>
+                              <td style="text-align: right;">{{this.getCommaValue(group.pending_amount)}}</td>
+                              <td style="text-align: right;">{{this.getCommaValue(group.queried_amount)}}</td>
+                              <td style="text-align: right;">{{this.getCommaValue(group.rejected_amount)}}</td>
+                            
+                              
+                            </tr>
+                      </tbody>
+                      <tr *ngFor="let group of totalData.dmshaactivitylist;let i =index" style="font-weight: bold ;">
+                        <td style="text-align: center;" colspan="2">
+                            Total
+                        </td>
+                     
+    
+                        <td style="text-align: right;">{{this.getCommaValue(group.approved_amount)}}</td>
+                      <td style="text-align: right;">{{this.getCommaValue(group.pending_amount)}}</td>
+                      <td style="text-align: right;">{{this.getCommaValue(group.queried_amount)}}</td>
+                      <td style="text-align: right;">{{this.getCommaValue(group.rejected_amount)}}</td>
+                    
+                      
+                    </tr>
+                    </table>
+                </div>
+              </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-3 mb-0">
+    <div class="trend-wrap" style="background:none;padding: 0;">
+        <div class="trend-box-head">
+            <div class="d-flex align-items-center">
+                <div class="leftSpeciality">
+                    <h3 class="card-title">CAPF Cases Pending at DM</h3>
+                </div>
+
+               
+            </div>
+            <div class="card mb-0 treatment-table my-3" id="capfbisdata">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                <table id="capfdmpending" class="row-border hover">
+                    <thead>
+                        <tr>
+                            <th style="text-align: left;">S.No.</th>
+                          <th style="text-align: center;">Case no</th>
+                          <th style="text-align: center;">Force Type</th>
+                          <th style="text-align: center;">App Type</th>
+                          <th style="text-align: center;">Submitted Amount</th>
+                         
+                        
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let group of pageData.dmpendinglist;let i =index">
+                            <td style="text-align: center;">
+                                {{i+1}} 
+                            </td>
+                            <td style="text-align: center;">{{group.case_no}}</td>
+
+                            <td style="text-align: center;">{{this.getForceTypeName(group.force_type)}}</td>
+                          <td style="text-align: center;">{{group.app_type}}</td>
+                          <td style="text-align: right;">{{this.getCommaValue(group.claim_sub_amt)}}</td>
+                          
+                        
+                          
+                        </tr>
+                  </tbody>
+                  <tr *ngFor="let group of totalData.dmpendinglist" style="font-weight: bold ;">
+                    <td style="text-align: center;" colspan="4">
+                       Total
+                    </td>
+                   
+                  <td style="text-align: right;">{{this.getCommaValue(group.claim_sub_amt)}}</td> 
+                </tr>
+                </table>
+            </div>
+          </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<div class="container mt-3 mb-0">
+    <div class="trend-wrap" style="background:none;padding: 0;">
+        <div class="trend-box-head">
+            <div class="d-flex align-items-center">
+                <div class="leftSpeciality">
+                    <h3 class="card-title">CAPF BIS Dashboard</h3>
+                </div>
+
+                <div class="right-content-wrap right-content-capf-wrap">
+                    <div class="form-group">
+                        <select class="form-control" style="max-width:150px;" id="ddlforcetype_bis" [(ngModel)]="ddlforcetype_bis" (change)="onForceChange_bis()">
+                            <option value="">Force Type</option>
+                            <option value="BS">Border Security Force</option>
+                            <option value="NS">National Security Gaurd</option>
+                            <option value="CI">Central Industrial Security Force</option>
+                            <option value="AR">Assam Rifles</option>
+                            <option value="SS">Sashastra Seema Bal</option>
+                            <option value="IT">Indo-Tibetan Border Police</option>
+                            <option value="CR">Cenral Reserve Police Force</option>
+                            <option value="OT">Others</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" style="max-width:150px;" id="ddlunittype_bis" [(ngModel)]="ddlunittype_bis" (change)="onStateChange_bis()">
+                            <option value="" >Unit Type</option>
+                            <option *ngFor="let st of unittypeList"  value={{st.value}}>
+                            {{st.text}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" style="max-width:150px;" id="ddlmembertype_bis" [(ngModel)]="ddlmembertype_bis" (change)="onStateChange_bis()">
+                            <option value="" selected="selected">Member Type</option>
+                            <option *ngFor="let st of membertypeList"  value={{st.value}}>
+                            {{st.text}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-0 treatment-table my-3" id="capfbisdata_bis">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                <table id="capfbisdata" class="row-border hover">
+                    <thead>
+                        <tr>
+                          <th style="text-align: left;">Force Type</th>
+                          <th style="text-align: right;">Beneficiaries with eligibility flag ‘Yes’</th>
+
+                          <th style="text-align: right;">Number of PMJAY ID's assigned</th>
+                          <th style="text-align: right;">Number of Approved Card</th>
+                          <th style="text-align: right;">Number of Non eKYC</th>
+                          <th style="text-align: right;">Pendency at L1 Level</th>
+                          <th style="text-align: right;">Pendency at L2 Level</th>
+                          <!--<th style="text-align: center;">Returned Pending</th>-->
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let group of capfbisdata;let i =index" style="color: #5F3C30;">
+
+                            <td style="text-align: left;">{{this.getForceTypeName(group.force_type)}}</td>
+
+                            <!--<td style="text-align: right;"><a href="#" (click)="GetCAPFBISBenData('T_Ben',group.force_type);" style="text-decoration: none;color: #5F3C30;">{{this.getCommaValue(group.total_ben)}}</a></td>-->
+                            <td style="text-align: right;">{{this.getCommaValue(group.total_ben)}}</td>
+                            <td style="text-align: right;"><a href="#" (click)="GetCAPFBISBenData('T_Pmj',group.force_type);" style="text-decoration: none;color: #5F3C30;">{{this.getCommaValue(group.total_pmj_Id)}}</a></td>
+                            <td style="text-align: right;"><a href="#" (click)="GetCAPFBISBenData('T_App_Card',group.force_type);" style="text-decoration: none;color: #5F3C30;">{{this.getCommaValue(group.total_approved_card)}}</a></td>
+                            <td style="text-align: right;"><a href="#" (click)="GetCAPFBISBenData('T_Rej_Card',group.force_type);" style="text-decoration: none;color: #5F3C30;">{{this.getCommaValue(group.total_rejected_card)}}</a></td>
+                            <td style="text-align: right;"><a href="#" (click)="GetCAPFBISBenData('T_Pen_L1',group.force_type);" style="text-decoration: none;color: #5F3C30;">{{this.getCommaValue(group.total_pending_L1)}}</a></td>
+                            <td style="text-align: right;"><a href="#" (click)="GetCAPFBISBenData('T_Pen_L2',group.force_type);" style="text-decoration: none;color: #5F3C30;">{{this.getCommaValue(group.total_pending_L2)}}</a></td>
+                          
+                          <!--<td style="text-align: right;">{{this.getCommaValue(group.returned_pending_count)}}</td>-->
+                        </tr>
+                  </tbody>
+                </table>
+            </div>
+          </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+</div>
+
+</div>
+</div>
+</div>

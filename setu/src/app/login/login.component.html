@@ -1,0 +1,76 @@
+<div style="background:#0e9199;">
+<nav class="main-header navbar navbar-expand ">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a href="#" class="nav-link py-0">
+                <img style="max-width: 100px;" class="img-fluid"
+                    src="assets/dist/img/national-health-authority-logo.png" alt="">
+            </a>
+        </li>
+    </ul>
+    <div class="collapse navbar-collapse order-3 justify-content-end">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a href="login/#Skip-Main-Content" class="nav-link">Skip To Main Content</a></li>
+            &nbsp;&nbsp;<li class="nav-item">
+                <a class="nav-link" routerLink="" role="button">
+                  <i class="fas fa-user-circle"></i> Home
+                </a>        
+              </li>
+        </ul>
+    </div>
+
+    
+</nav>
+</div>
+<div class="content-wrapper" id="Skip-Main-Content" style="min-height: 404px;">
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 col-sm-8 col-md-6 col-lg-4 mx-auto mt-4">
+                    <div class="my-4">
+                        <div class="login-wrap">                           
+                            <img class="img-fluid" src="assets/dist/img/pmjay.png" alt="">
+                            <div id="divinvalidpwd">{{invalidpwd}}</div>
+                            
+                            <div class="form-group" style="display: flex; justify-content: center; align-items: center;">
+                                <div class="form-radio">
+                                    <input type="radio" id="password" name="fav_language" value="Password" [disabled]="Disabled_rdopwd" [checked]="ispassword"  (click)="getOption('P')">
+                                    <label for="password">Password</label>
+                                </div>
+                                <div class="form-radio">
+                                    <input type="radio" id="otp" name="fav_language" value="OTP" [disabled]="Disabled_rdootp" [checked]="isotp"  (click)="getOption('O')">
+                                    <label for="otp">OTP</label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label id="lbluserid">User Id</label>
+                                <i class="fas fa-mobile-alt"></i>
+                                <input type="text" class="form-input" id="userid" #userid [(ngModel)]="inpuserid" [disabled]="Disabled_userid"  name="userid" (change)="keyPress($event,'U');">
+                                <div class="error">{{userRequired}}</div>
+                            </div>
+                            <div class="form-group">
+                                <label id="lblpwd">Password</label>
+                                <label id="lblotp">OTP</label>
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="password" class="form-input"  [disabled]="Disabled_Password" #password name="password" [(ngModel)]="inppassword" (change)="keyPress($event,'P');">
+                                <div class="error">{{pwdRequired}}</div>
+                            </div>
+
+
+                            <div class="form-group custom-btn-group text-center mt-1 d-flex">                                
+                                <button class="btn w-50 custom-btn-outline mr-1" (click)="Reset();">Reset</button>
+                                <button class="btn text-white w-50 custom-btn-dark ml-1" (click)="validate(userid.value,password.value);" id="btnsubmit"></button>
+                            
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,1246 @@
+<app-headerinsights></app-headerinsights>
+<!--<div style="background:#0e9199;">
+  <nav class="main-header navbar navbar-expand container mx-auto">
+      <ul class="navbar-nav">
+          <li class="nav-item">
+              <a href="#" class="nav-link py-0">
+                  <img style="max-width: 100px;" class="img-fluid"
+                      src="assets/dist/img/national-health-authority-logo.png" alt="">
+              </a>
+          </li>
+      </ul>
+      <div class="collapse navbar-collapse order-3 justify-content-end">
+          <ul class="navbar-nav">
+              <li class="nav-item skip-content"><a href="#pmjay" class="nav-link">Skip To Main Content</a></li>
+
+              <li class="nav-item">
+                <a class="nav-link" routerLink="" role="button" (click)="cardReport();">
+                  <i></i> Card Report
+                </a>
+
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link" routerLink="" role="button" (click)="bisReport();">
+                  <i></i> BIS Report
+                </a>
+
+              </li>
+              
+              <li class="nav-item">
+                <a class="nav-link" routerLink="" role="button" (click)="newcardReport();">
+                  <i></i> New Card Report
+                </a>
+
+              </li>
+              <li class="nav-item">
+
+                <a class="nav-link" routerLink="" role="button">
+                  <i class="fas fa-user-circle"></i> Logout
+                </a>
+              </li>
+          </ul>
+      </div>
+  </nav>
+</div>-->
+
+<div class="content-wrapper" id="pmjay" style="min-height: 20px !important;">
+  <section class="content-header">
+    <div class="container">
+      <div class="head-content-wrap">
+        <div class="left-content-wrap">
+            <div class="custom-title">AB - PMJAY Dashboard</div>
+        </div>
+        <div class="right-content-wrap">
+            <div class="form-group mb-1">
+                <select class="form-control" style="width: 100%;" id="ddlstatename"  (change)="bindChart($event)" [disabled]="ddlstatename_disable">
+                    <option value="" selected="selected">Select State</option>
+                    <option *ngFor="let st of stateList"  value={{st.value}}>
+                    {{st.text}}
+                    </option>
+                </select>
+            </div>
+            <div class="text-center subtitle mb-0">Last Updated : {{uploadDate}}</div>
+        </div>
+    </div>
+    </div>
+  </section>
+  <section class="custom-tabs-wrap">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-sm-3 col-md-4 col-lg-3">
+          <div class="nav flex-column nav-tabs h-100 left-tabs" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
+            <!--<a class="nav-link active" id="vert-tabs-tmsclaims-tab" data-toggle="pill" href="#vert-tabs-tmsclaims" role="tab" aria-controls="vert-tabs-tmsclaims" aria-selected="true" (click)="Enable_State('D');">TMS Claims</a>-->
+            <a class="nav-link active" id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="true" (click)="Enable_State('E');">BIS Metrics - Ayushman Cards</a>
+            <a class="nav-link" id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false" (click)="Enable_State('E');">TMS Metrics - Preauths</a>
+            <a class="nav-link" id="vert-tabs-messages-tab" data-toggle="pill" href="#vert-tabs-messages" role="tab" aria-controls="vert-tabs-messages" aria-selected="false" (click)="Enable_State('E');">TMS Metrics - Claims</a>
+            <a class="nav-link" id="vert-tabs-settings-tab" data-toggle="pill" href="#vert-tabs-settings" role="tab" aria-controls="vert-tabs-settings" aria-selected="false" (click)="Enable_State('E');">HEM Metrics - Hospitals</a>
+            <a class="nav-link" id="vert-tabs-metrics-tab" data-toggle="pill" href="#vert-tabs-metrics" role="tab" aria-controls="vert-tabs-metrics" aria-selected="false" (click)="Enable_State('E');">State-Wise Performance Metrics</a>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-9 col-md-8 col-lg-9">
+          <div class="tab-content" id="vert-tabs-tabContent">
+            <div class="tab-pane text-left fade " id="vert-tabs-tmsclaims" role="tabpanel" aria-labelledby="vert-tabs-tmsclaims-tab">
+              <div class="container-fluid px-0">
+                <div class="row vert-right-tabs">
+                  <div class="col-12">
+                    <h2>TMS Claims</h2>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="tmsform bg-1 vert-tabs-content p-2">
+                        <div class="tmsform-input">
+                            <label>State</label>
+                            <select class="form-control" [(ngModel)]="ddlTMSstatename"  id="ddlTMSstatename" (change)="getTMSDist();">
+                              <option value="" selected="selected">All</option>
+                            <option *ngFor="let st of TMSstateList"  value={{st.value}}>
+                            {{st.text}}
+                            </option>
+                          </select>
+                        </div>
+                
+                        <div class="tmsform-input">
+                            <label>District</label>
+                            <select class="form-control" [(ngModel)]="ddlTMSdistrictname"  id="ddlTMSdistrictname" (change)="getTMSHosp();">
+                              <option value="" selected="selected">All</option>
+                              <option *ngFor="let st of TMSdistrictList"  value={{st.value}}>
+                              {{st.text}}
+                              </option></select>
+                        </div>
+                
+                        <div class="tmsform-input">
+                            <label>Hospital Name</label>
+                            <select class="form-control" [(ngModel)]="ddlTMShospname"  id="ddlTMShospname">
+                              <option value="" selected="selected">All</option>
+                              <option *ngFor="let st of TMShospList"  value={{st.value}}>
+                              {{st.text}}
+                              </option>
+                            </select>
+                        </div>
+                
+                        <div class="tmsform-input tmsform-input-btn">                             
+                            <button class="btn btn-primary" (click)="getTMSCLAIM();">Search</button>
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="cghs-dashboard-wrap" style="background: none;">
+                      
+                      <div class="cghs-dashboard cghs-dashboard-three">
+                        <label>Claims Pending at Hospitals</label>
+                        <div class="cghs-dashboard-in">
+                          <span>Count</span>
+                          <strong>{{pending_hosp_c}}</strong>
+                        </div>
+                        <div class="cghs-dashboard-in">
+                          <span>Amount</span>
+                          <strong>&#8377; {{pending_hosp_a}}</strong>
+                        </div>
+                      </div>
+
+                      <div class="cghs-dashboard cghs-dashboard-four">
+                        <label>Claims Pending at CEX/CPD</label>
+                        <div class="cghs-dashboard-in">
+                          <span>Count</span>
+                          <strong>{{pending_cex_cpd_c}}</strong>
+                        </div>
+                        <div class="cghs-dashboard-in">
+                          <span>Amount</span>
+                          <strong>&#8377; {{pending_cex_cpd_a}}</strong>
+                        </div>
+                      </div>
+
+                      <div class="cghs-dashboard cghs-dashboard-two">
+                        <label>Claims Pending at ACO</label>
+                        <div class="cghs-dashboard-in">
+                          <span>Count</span>
+                          <strong>{{pending_aco_c}}</strong>
+                        </div>
+                        <div class="cghs-dashboard-in">
+                          <span>Amount</span>
+                          <strong>&#8377; {{pending_aco_a}}</strong>
+                        </div>
+                      </div>
+
+                      <div class="cghs-dashboard cghs-dashboard-five">
+                        <label>Claims Pending at SHA</label>
+                        <div class="cghs-dashboard-in">
+                          <span>Count</span>
+                          <strong>{{pending_sha_c}}</strong>
+                        </div>
+                        <div class="cghs-dashboard-in">
+                          <span>Amount</span>
+                          <strong>&#8377; {{pending_sha_a}}</strong>
+                        </div>
+                      </div>
+
+                      <div class="cghs-dashboard cghs-dashboard-three">
+                        <label>Claims Pending at Bank</label>
+                        <div class="cghs-dashboard-in">
+                          <span>Count</span>
+                          <strong>{{pending_bank_c}}</strong>
+                        </div>
+                        <div class="cghs-dashboard-in">
+                          <span>Amount</span>
+                          <strong>&#8377; {{pending_bank_a}}</strong>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="vert-tabs-content bg-4 mb-4">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h3 class="mb-0">{{statedatehospwise}} Wise Trends - Claims<span style="font-size: 12px;" id="STTMSLac"> (in Lac)</span></h3>
+                        
+                        <div class="text-right right-tabs">                        
+                          <div class="rightSpeciality">
+                              <button type="button" id="statewise" data-toggle="button" aria-pressed="false" autocomplete="off" class="btn btn-lg btn-toggle my-0" (click)="onToggle1('statewise')"><div class="handle"></div></button>
+                          </div>
+                      </div>
+                    </div>
+                    <div class="card-body pt-0" id="chartstatewise" style="background:#fff;margin-top:10px">
+                      <div >
+                        <canvas #TMSCLAIMSChart
+                        style="min-height: 350px; height: 350px; max-height: 350px; width: 100%;"></canvas>
+                      </div>
+                    </div>
+
+
+                    <div class="card mb-0 treatment-table my-2" id="divTMSstatewisecount">   
+                      <div class="card-body p-0">                    
+                          <div class="table-responsive">
+                          <table id="tblTMSstatewisecount" class="row-border hover">
+                              <thead>
+                                  <tr>
+                                    <th style="text-align: center;">S.No.</th>
+                                    <th style="text-align: center;">Hospital Name</th>
+                                    <th style="text-align: right;">Pending at Hospital</th>                                   
+                                    <th style="text-align: right;">Pending at CEX/CPD</th>
+                                    <th style="text-align: right;">Pending at ACO</th>
+                                    <th style="text-align: right;">Pending at SHA</th>
+                                    <th style="text-align: right;">Pending at Bank</th>
+                                    
+                                    
+                                    
+                                  </tr>
+                                </thead>
+                                <tbody> 
+                                  <tr *ngFor="let group of arr_TMS_Claim_S_D_H_List;let i =index">
+                                      <td style="text-align: center;">
+                                          {{i+1}} 
+                                      </td>
+                                      <td style="text-align: left;">{{group.text}}</td>
+                                      <td style="text-align: right;">{{this.getCommaValue(group.pending_hospital)}}</td>
+                                      <td style="text-align: right;">{{this.getCommaValue(group.pending_cex_cpd)}}</td>
+                                   
+                                      <td style="text-align: right;">{{this.getCommaValue(group.pending_aco)}}</td>
+                                      <td style="text-align: right;">{{this.getCommaValue(group.pending_sha)}}</td>
+                                      <td style="text-align: right;">{{this.getCommaValue(group.pending_bank)}}</td>
+                                                              
+                                                                
+                                  </tr>
+                            </tbody>
+                          </table>
+                      </div>                        
+                    </div>
+                      </div>
+                      <div class="card mb-0 treatment-table my-2" id="divTMSstatewiseamount">   
+                          <div class="card-body p-0">                    
+                              <div class="table-responsive">
+                              <table id="tblTMSstatewiseamount" class="row-border hover">
+                                  <thead>
+                                      <tr>
+                                        <th style="text-align: center;">S.No.</th>
+                                        <th style="text-align: center;">Hospital Name</th>
+                                        <th style="text-align: right;">Pending at Hospital</th>                                   
+                                        <th style="text-align: right;">Pending at CEX/CPD</th>
+                                        <th style="text-align: right;">Pending at ACO</th>
+                                        <th style="text-align: right;">Pending at SHA</th>
+                                        <th style="text-align: right;">Pending at Bank</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody> 
+                                      <tr *ngFor="let group of arr_TMS_Claim_S_D_H_List;let i =index">
+                                          <td style="text-align: center;">
+                                              {{i+1}} 
+                                          </td>
+                                          <td style="text-align: left;">{{group.text}}</td>
+                                          <td style="text-align: right;">{{this.getToLac(group.pending_hospital_a)}}</td>
+                                          <td style="text-align: right;">{{this.getToLac(group.pending_cex_cpd_a)}}</td>
+                                      
+                                          <td style="text-align: right;">{{this.getToLac(group.pending_aco_a)}}</td>
+                                          <td style="text-align: right;">{{this.getToLac(group.pending_sha_a)}}</td>
+                                          <td style="text-align: right;">{{this.getToLac(group.pending_bank_a)}}</td>
+                                                                      
+                                        
+                                      </tr>
+                                </tbody>
+                              </table>
+                          </div>                        
+                        </div>
+                          </div>
+
+                  </div>
+                  
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+            <div class="tab-pane fade active show" id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab">
+              <div class="container-fluid px-0">
+                <div class="row vert-right-tabs">
+                  <div class="col-12">
+                    <h2>BIS Metrics - Ayushman Cards</h2>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <div class="vert-tabs-content text-center bg-1">
+                      <h3>Benificiaries Verified</h3>
+                      <label>Overall</label>
+                      <strong class="text-orange">{{ACIOverall}}</strong>
+                      <label>Yesterday</label>
+                      <strong class="text-blue mb-0">{{ACIToday}}</strong>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <div class="vert-tabs-content d-flex justify-content-between align-items-center bg-2 py-3 verified-wrap">
+                      <h3 class="mb-0">Families Verified</h3>
+                      <strong class="text-green mb-0">{{ACIFVOverall}}</strong>
+                    </div>
+                    <div class="vert-tabs-content d-flex justify-content-between align-items-center bg-2 py-3">
+                      <div>
+                        <h3 class="mb-0" style="width: 70px;">Benificiaries Verified per minute</h3>
+                        <label>*Calculated for last month</label>
+                      </div>
+                      <div>
+                        <strong class="text-green mb-0"> {{ACGPM}} </strong>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <div class="vert-tabs-content text-center bg-3">
+                      <h3>Approval Pending</h3>
+                      <label>At ISA</label>
+                      <strong class="text-orange">{{at_ISA}}</strong>
+                      <label>At SHA</label>
+                      <strong class="text-blue mb-0">{{at_SHA}}</strong>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-12">
+                    <div class="vert-tabs-content vert-card-tabs-content bg-4-gradient d-flex cards-wrap justify-content-between align-items-center">
+                      <div>
+                        <h3>Cards</h3>
+                        <div class="cards-wrap d-flex justify-content-between align-items-center">
+                          <div class="cards-wrap-in">
+                            <div class="cards-wrap-in-left" style="background: #4B7BE8;"></div>
+                            <div class="cards-wrap-in-right">
+                              <label>Rejected</label>
+                              <strong>{{Rejected}} </strong>
+                            </div>
+                          </div>
+
+                          <div class="cards-wrap-in">
+                            <div class="cards-wrap-in-left"></div>
+                            <div class="cards-wrap-in-right">
+                              <label>Disabled</label>
+                              <strong>{{Disabled}}</strong>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="d-flex align-items-center">
+                        <div class="mr-2"><canvas #hprafChart
+                          style="min-height: 60px; height: 75px; max-height: 75px;  max-width: 100%;"></canvas></div>
+                        <div>
+                          <h3>Verification Method Used</h3>
+                          <div class="cards-wrap d-flex justify-content-between align-items-center">
+                            <div class="cards-wrap-in">
+                              <div class="cards-wrap-in-left" style="background: #31A366;"></div>
+                              <div class="cards-wrap-in-right">
+                                <label>Aadhaar</label>
+                                <strong>{{VMUAadhaar}}%</strong>
+                              </div>
+                            </div>
+
+                            <div class="cards-wrap-in">
+                              <div class="cards-wrap-in-left" style="background: #9CD4B9;"></div>
+                              <div class="cards-wrap-in-right">
+                                <label>Non Aadhaar</label>
+                                <strong>{{VMUNonAadhaar}}%</strong>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-12">
+                    <div class="vert-tabs-content bg-4 mb-4">
+                        <div class="d-flex justify-content-between align-items-center chart-main-wrap">
+                          <h3>Trend </h3>
+                          <div class="text-right right-tabs">
+                            <div class="time-wrap" style="display: inline-block;">
+                                <a href="javascript:void(0);" id="ACGTDW"
+                                (click)="clickme('W','ACGTD')">Week</a> |
+                                <a href="javascript:void(0);"  class="active" id="ACGTDT" (click)="clickme('T','ACGTD')">Last 30 Days</a> |
+                                <a href="javascript:void(0);" id="ACGTDA"
+                                (click)="clickme('A','ACGTD')">All</a>
+                            </div>
+                            <div class="dropdown m-0 d-inline-block">
+
+                                <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img src="assets/dist/img/download.png" alt=""> <span>Download</span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                  <a class="dropdown-item m-0" href="javascript:void(0);" >Excel</a>
+                                  <a class="dropdown-item m-0" href="javascript:void(0);">PDF</a>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="p-0">
+
+                          <div class="chart">
+                            <canvas #ACGTDChart
+                                  style="min-height: 200px; height: 200px; max-height: 200px; max-width: 100%;"></canvas>
+                          </div>
+                        </div>
+
+                        <!--<div class="graph01-wrap">
+                          <ul class="nav nav-tabs statewise-tabs custom-statewise-tabs" id="custom-tabs-one-tab"
+                            role="tablist">
+                            <li class="nav-item">
+                              <a class="nav-link" id="one-tab" data-toggle="pill" href="#one" role="tab"
+                                aria-controls="one" aria-selected="true" id="ACGTDW"
+                                (click)="clickme('W','ACGTD')">Week</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link active" id="two-tab" data-toggle="pill" href="#one" role="tab"
+                                aria-controls="one" aria-selected="false" id="ACGTDT" (click)="clickme('T','ACGTD')">Last
+                                30 Days</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" id="three-tab" data-toggle="pill" href="#one" role="tab"
+                                aria-controls="one" aria-selected="false" id="ACGTDA"
+                                (click)="clickme('A','ACGTD')">All</a>
+                            </li>
+                          </ul>
+
+                          <div class="card-body p-0">
+                            <div class="tab-content" id="custom-tabs-one-tabContent">
+                              <div class="tab-pane fade active show" id="one" role="tabpanel" aria-labelledby="one-tab">
+                                <canvas #ACGTDChart
+                                  style="min-height: 200px; height: 200px; max-height: 200px; max-width: 100%;"></canvas>
+                              </div>
+                              <div class="tab-pane fade" id="two" role="tabpanel" aria-labelledby="two-tab">2222222222
+                              </div>
+                              <div class="tab-pane fade" id="three" role="tabpanel" aria-labelledby="three-tab">3333333333
+                              </div>
+                            </div>
+                          </div>
+                        </div>-->
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+            <div class="tab-pane fade" id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab">
+              <div class="container-fluid px-0">
+                <div class="row vert-right-tabs">
+                  <div class="col-12">
+                    <h2>TMS Metrics - Preauths</h2>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <div class="vert-tabs-content vert-right-tabs-profile text-center bg-1">
+                      <h3>Preauths Requested Count </h3>
+                      <label>Overall</label>
+                      <strong class="text-orange">{{PAOverall}}</strong>
+                      <label>Yesterday</label>
+                      <strong class="text-blue mb-0">{{PAToday}}</strong>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                    <div class="vert-tabs-content vert-right-tabs-profile text-center bg-3">
+                      <h3>Preauths Requested Amount </h3>
+                      <label>Overall</label>
+                      <strong class="text-orange">{{PAAOverall}}</strong>
+                      <label>Yesterday</label>
+                      <strong class="text-blue mb-0">{{PAAToday}}</strong>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                    <div class="vert-tabs-content bg-2 portability-wrap py-3 px-2">
+                      <h3 class="mb-2">Portability Cases</h3>
+                      <div class="vert-tabs-content-in-wrap d-flex justify-content-between align-items-center">
+                        <div class="vert-tabs-content-in">
+                          <label>Count</label>
+                          <strong class="text-green mb-0">{{TMSPCC}}</strong>
+                        </div>
+                        <div class="vert-tabs-content-in">
+                          <label>Amount</label>
+                          <strong class="text-green mb-0">{{TMSPCA}}</strong>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="vert-tabs-content d-flex justify-content-between align-items-center bg-2 py-3">
+                      <div>
+                        <h3 class="mb-0">Preauths Requested Per Minute</h3>
+                        <label>*Calculated for last month</label>
+                      </div>
+                      <div>
+                        <strong class="text-green mb-0">{{PAPM}}</strong>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <h2 class="mt-3">Preauths Type (by count) </h2>
+                  </div>
+
+                  <div class="col-12 col-md-7">
+                    <div class="vert-tabs-content vert-card-tabs-content1 bg-4-gradient d-flex justify-content-between align-items-center">
+                      <div class=" card-data mr-2">
+                        <canvas #PreAuthTypeChart
+                        style="min-height: 60px;  min-width: 75px; height: 75px; max-height: 75px;  max-width: 100%;"></canvas>
+                      </div>
+                      <div class="d-flex align-items-center">
+
+                        <div class="cards-wrap d-flex justify-content-between align-items-center">
+                          <div class="cards-wrap-in">
+                            <div class="cards-wrap-in-left" style="background: #f46a57;"></div>
+                            <div class="cards-wrap-in-right">
+                              <label>Public</label>
+                              <strong>{{PAPublic}}%</strong>
+                            </div>
+                          </div>
+                          <div class="cards-wrap-in">
+                            <div class="cards-wrap-in-left" style="background: #e8a850;"></div>
+                            <div class="cards-wrap-in-right">
+                              <label>Private</label>
+                              <strong>{{PAPrivate}}%</strong>
+                            </div>
+                          </div>
+                          <div class="cards-wrap-in">
+                            <div class="cards-wrap-in-left" style="background: #3e9a2d;"></div>
+                            <div class="cards-wrap-in-right">
+                              <label>Unknown</label>
+                              <strong>{{PAOther}}%</strong>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-5">
+                    <div class="vert-tabs-content bg-4 py-0">
+                      <div class="timer-wrap" id="custom-tabs-one-tab" role="tablist">
+                        <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                          <li class="nav-item">
+                            <a class="nav-link active" id="custom-tabs-one-Month-tab" data-toggle="pill"
+                              href="#custom-tabs-one-Month" role="tab" aria-controls="custom-tabs-one-Month"
+                              aria-selected="true">Last 30 Days</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-one-Year-tab" data-toggle="pill"
+                              href="#custom-tabs-one-Year" role="tab" aria-controls="custom-tabs-one-Year"
+                              aria-selected="false">This Year</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-one-OverAll-tab" data-toggle="pill"
+                              href="#custom-tabs-one-OverAll" role="tab" aria-controls="custom-tabs-one-OverAll"
+                              aria-selected="false">OverAll</a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="timer-wrap-chart tab-content" id="custom-tabs-one-tabContent">
+                        <div class="tab-pane fade show active" id="custom-tabs-one-Month" role="tabpanel"
+                          aria-labelledby="custom-tabs-one-Month-tab" >
+                          <canvas #PAVMMonthChart
+                          style="min-height: 80px; height: 80px; max-height: 80px;  max-width: 100%;"></canvas>
+                        </div>
+                        <div class="tab-pane fade" id="custom-tabs-one-Year" role="tabpanel"
+                          aria-labelledby="custom-tabs-one-Year-tab" >
+                          <canvas #PAVMYearChart
+                          style="min-height: 80px; height: 80px; max-height: 80px;  max-width: 100%;"></canvas>
+                        </div>
+
+                        <div class="tab-pane fade" id="custom-tabs-one-OverAll" role="tabpanel"
+                        aria-labelledby="custom-tabs-one-OverAll-tab" >
+                        <canvas #PAVMChart
+                          style="min-height: 80px; height: 80px; max-height: 80px;  max-width: 100%;"></canvas>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-12">
+                    <div class="vert-tabs-content bg-4 my-4">
+
+                      <div class="p-0">
+                        <div class="chart">
+                          <div class="">
+                            <div class="p-0 pt-1  timer-wrap">
+                              <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                                <li class="nav-item">
+                                  <a class="active" id="custom-tabs-one-home-tab" data-toggle="pill"
+                                    href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home"
+                                    aria-selected="true" >Trend</a>
+                                </li> |
+                                <li class="nav-item">
+                                  <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill"
+                                    href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile"
+                                    aria-selected="false" >Aadhaar Auth Trend</a>
+                                </li> |
+                                <li class="nav-item">
+                                  <a class="nav-link" id="custom-tabs-one-profile-tab1" data-toggle="pill"
+                                    href="#custom-tabs-one-profile1" role="tab" aria-controls="custom-tabs-one-profile1"
+                                    aria-selected="false" >Aadhaar Auth Type Trend</a>
+                                </li>
+                              </ul>
+                            </div>
+                            <div class="card-body">
+                              <div class="tab-content" id="custom-tabs-one-tabContent">
+                                <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel"
+                                  aria-labelledby="custom-tabs-one-home-tab" >
+                                  <div class="graph01-wrap timer-wrap" style="margin-top: 0;">
+                                    <ul class="nav nav-tabs tms-date-wise-graph-tabs" id="custom-tabs-two-tab"
+                                      role="tablist">
+                                      <li class="nav-item">
+                                        <a class="nav-link" id="onee-tab" data-toggle="pill" href="#onee" role="tab"
+                                          aria-controls="onee" aria-selected="true" (click)="clickme('W','TMSPA')" >Daily</a>
+                                      </li>
+                                      <li class="nav-item">
+                                        <a class="nav-link active" id="twoo-tab" data-toggle="pill" href="#onee" role="tab"
+                                          aria-controls="twoo" aria-selected="false" (click)="clickme('T','TMSPA')">Last 30 Days</a>
+                                      </li>
+                                      <li class="nav-item">
+                                        <a class="nav-link" id="threee-tab" data-toggle="pill" href="#onee" role="tab"
+                                          aria-controls="threee" aria-selected="false" (click)="clickme('A','TMSPA')">All</a>
+                                      </li>
+                                    </ul>
+
+                                    <div class="card-body p-0">
+                                      <div class="tab-content" id="custom-tabs-two-tabContent">
+                                        <div class="tab-pane fade active show" id="onee" role="tabpanel" aria-labelledby="onee-tab">
+                                          <canvas #TMSPAChart
+                                            style="min-height: 210px; height: 210px; max-height: 210px; max-width: 100%;"></canvas>
+                                        </div>
+
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel"
+                                  aria-labelledby="custom-tabs-one-profile-tab" >
+                                  <div class="graph01-wrap timer-wrap" style="margin-top: 0;">
+                                    <ul class="nav nav-tabs tms-date-wise-graph-tabs" id="custom-tabs-two-tab"
+                                      role="tablist">
+                                      <li class="nav-item">
+                                        <a class="nav-link" id="onee-tab" data-toggle="pill" href="#onee" role="tab"
+                                          aria-controls="onee" aria-selected="true" (click)="clickme('W','TMSAVTD')" >Daily</a>
+                                      </li>
+                                      <li class="nav-item">
+                                        <a class="nav-link active" id="twoo-tab" data-toggle="pill" href="#onee" role="tab"
+                                          aria-controls="twoo" aria-selected="false" (click)="clickme('T','TMSAVTD')">Last 30 Days</a>
+                                      </li>
+                                      <li class="nav-item">
+                                        <a class="nav-link" id="threee-tab" data-toggle="pill" href="#onee" role="tab"
+                                          aria-controls="threee" aria-selected="false" (click)="clickme('A','TMSAVTD')">All</a>
+                                      </li>
+                                    </ul>
+
+                                    <div class="card-body p-0">
+                                      <div class="tab-content" id="custom-tabs-two-tabContent">
+                                        <div class="tab-pane fade active show" id="onee" role="tabpanel" aria-labelledby="onee-tab">
+                                          <canvas #TMSAVTDChart
+                                            style="min-height: 210px; height: 210px; max-height: 210px; max-width: 100%;"></canvas>
+                                        </div>
+
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="custom-tabs-one-profile1" role="tabpanel"
+                                  aria-labelledby="custom-tabs-one-profile-tab1" >
+                                  <div class="graph01-wrap timer-wrap" style="margin-top: 0;">
+                                    <ul class="nav nav-tabs tms-date-wise-graph-tabs" id="custom-tabs-two-tab"
+                                      role="tablist">
+                                      <li class="nav-item">
+                                        <a class="nav-link" id="onee-tab" data-toggle="pill" href="#onee" role="tab"
+                                          aria-controls="onee" aria-selected="true" (click)="clickme('W','TMSATVTD')" >Daily</a>
+                                      </li>
+                                      <li class="nav-item">
+                                        <a class="nav-link active" id="twoo-tab" data-toggle="pill" href="#onee" role="tab"
+                                          aria-controls="twoo" aria-selected="false" (click)="clickme('T','TMSATVTD')">Last 30 Days</a>
+                                      </li>
+                                      <li class="nav-item">
+                                        <a class="nav-link" id="threee-tab" data-toggle="pill" href="#onee" role="tab"
+                                          aria-controls="threee" aria-selected="false" (click)="clickme('A','TMSATVTD')">All</a>
+                                      </li>
+                                    </ul>
+
+                                    <div class="card-body p-0">
+                                      <div class="tab-content" id="custom-tabs-two-tabContent">
+                                        <div class="tab-pane fade active show" id="onee" role="tabpanel" aria-labelledby="onee-tab">
+                                          <canvas #TMSATVTDChart
+                                            style="min-height: 210px; height: 210px; max-height: 210px; max-width: 100%;"></canvas>
+                                        </div>
+
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+
+
+
+                </div>
+              </div>
+
+            </div>
+            <!-- Section: TMS Metrics - Claims -->
+            <div class="tab-pane fade" id="vert-tabs-messages" role="tabpanel" aria-labelledby="vert-tabs-messages-tab">
+
+              <div class="container-fluid px-0">
+                <div class="row vert-right-tabs">
+                  <div class="col-12">
+                    <h2>TMS Metrics - Claims</h2>
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <div class="vert-tabs-content vert-right-tabs-profile text-center bg-1">
+                      <h3>Claims Submitted </h3>
+                      <label>Count</label>
+                      <strong class="text-orange">{{TMSCSC}}</strong>
+                      <label>Amount</label>
+                      <strong class="text-darkgrey mb-0">{{TMSCSA}}</strong>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <div class="vert-tabs-content vert-right-tabs-profile text-center bg-3">
+                      <h3>Claims Paid </h3>
+                      <label>Count</label>
+                      <strong style="color: #578fd3;">{{TMSCPC}}</strong>
+                      <label>Amount</label>
+                      <strong class="text-darkgrey mb-0">{{TMSCPA}}</strong>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <div class="vert-tabs-content vert-right-tabs-profile text-center bg-5">
+                      <h3>Claims Pending </h3>
+                      <label>Count</label>
+                      <strong style="color: #c484d9;">{{TMSCPNC}}</strong>
+                      <label>Amount</label>
+                      <strong class="text-darkgrey mb-0">{{TMSCPNA}}</strong>
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-3">
+                    <div class="vert-tabs-content vert-right-tabs-profile text-center bg-6">
+                      <h3>Claims Overdue </h3>
+                      <label>Count</label>
+                      <strong style="color: #69c4b2;">{{TMSCOC}}</strong>
+                      <label>Amount</label>
+                      <strong class="text-darkgrey mb-0">{{TMSCOA}}</strong>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="vert-tabs-content vert-card-tabs-content1 bg-7 status-wrap">
+                      <div class="row">
+                        <div class="col-12 col-md-6">
+                          <h3 class="pl-4">Paid Status</h3>
+
+                          <div class="d-flex just-content-cener align-items-center">
+                            <div class="col-5 card-data mr-2">
+                              <canvas #CPSChart
+                                    style="min-height: 100px; height: 100px; max-height: 100px;  max-width: 100%;"></canvas>
+                            </div>
+
+                            <div class="col-7 cards-wrap d-flex justify-content-between align-items-center flex-wrap">
+                              <div class="cards-wrap-in cards-wrap-in-half" *ngFor="let legend of CPSTextArr; let index=index;">
+                                <div class="cards-wrap-in-left" [ngStyle]="{'background': CPScolor[index]}"></div>
+                                <div class="cards-wrap-in-right">
+                                  <label>{{legend}}</label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+                        <div class="col-12 col-md-6">
+                          <h3 class="pl-4">Overdue Status</h3>
+
+                          <div class="d-flex just-content-cener align-items-center">
+                            <div class="col-5 card-data mr-2">
+                              <canvas #OCSChart
+                                    style="min-height: 100px; height: 100px; max-height: 100px; max-width: 100%;"></canvas>
+                            </div>
+
+                            <div class="col-7 cards-wrap d-flex justify-content-between align-items-center flex-wrap">
+                              <div class="cards-wrap-in cards-wrap-in-half" *ngFor="let legend of OCSTextArr; let index=index;">
+                                <div class="cards-wrap-in-left" [ngStyle]="{'background': OCScolor[index]}"></div>
+                                <div class="cards-wrap-in-right">
+                                  <label>{{legend}}</label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="vert-tabs-content bg-4 mb-4">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h3>Trend</h3>
+                        <div class="text-right right-tabs timer-wrap">
+                          <ul class="nav nav-tabs" id="custom-tabs-three-tab"
+                          role="tablist">
+                          <li class="nav-item">
+                            <a class="nav-link " id="onet-tab" data-toggle="pill" href="#onet" role="tab"
+                              aria-controls="onet" aria-selected="true" (click)="clickme('W','TMSCS')">Week</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link active" id="twot-tab" data-toggle="pill" href="#onet" role="tab"
+                              aria-controls="twot" aria-selected="false" (click)="clickme('T','TMSCS')">Last 30 Days</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" id="threet-tab" data-toggle="pill" href="#onet" role="tab"
+                              aria-controls="threet" aria-selected="false" (click)="clickme('A','TMSCS')">All</a>
+                          </li>
+                        </ul>
+                        </div>
+                      </div>
+
+                      <div>
+                        <canvas #TMSCSChart
+                        style="min-height: 205px; height: 205px; max-height: 205px; max-width: 100%;"></canvas>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+
+
+            </div>
+            <div class="tab-pane fade" id="vert-tabs-settings" role="tabpanel" aria-labelledby="vert-tabs-settings-tab">
+              <div class="container-fluid px-0">
+                <div class="row vert-right-tabs">
+                  <div class="col-12">
+                    <h2>HEM Metrics - Hospitals</h2>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                    <div class="vert-tabs-content text-center bg-1">
+                      <h3 class="text-left">Hospitals Empanelled</h3>
+                      <div class="vert-tabs-content-in-wrap d-flex justify-content-between align-items-center">
+                        <div class="vert-tabs-content-in">
+                          <label>Overall</label>
+                          <strong class="text-darkgrey mb-0">{{TMSHEOverAll}}</strong>
+                        </div>
+                        <div class="vert-tabs-content-in">
+                          <label>Yesterday</label>
+                          <strong class="text-orange mb-0">{{TMSHECount}}</strong>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                    <div class="vert-tabs-content text-center bg-3">
+                      <h3  class="text-left">Hospitals Type</h3>
+                      <div class="vert-card-tabs-content1 d-flex justify-content-between align-items-center">
+                        <div class="card-data mr-2" style="width: 100px;">
+                          <canvas #HospitalTypeChart
+                          style="min-height: 50px; height: 50px; max-height: 50px; max-width: 100%;"></canvas>
+                        </div>
+                        <div class="d-flex align-items-center">
+                          <div class="cards-wrap d-flex justify-content-between align-items-center my-1">
+                            <div class="cards-wrap-in">
+                              <div class="cards-wrap-in-left" style="background: #2f86dd;"></div>
+                              <div class="cards-wrap-in-right">
+                                <label>Public</label>
+                                <strong>{{public_per}}%</strong>
+                              </div>
+                            </div>
+
+                            <div class="cards-wrap-in">
+                              <div class="cards-wrap-in-left" style="background: #a3c6e7;"></div>
+                              <div class="cards-wrap-in-right">
+                                <label>Private</label>
+                                <strong>{{private_per}}%</strong>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="col-12 col-md-4">
+                    <div class="vert-tabs-content text-center bg-5">
+                      <h3>Submitted / In-Process</h3>
+                      <div class="vert-tabs-content-in-wrap d-block justify-content-between align-items-center">
+                        <div class="vert-tabs-content-in">
+                          <label>Applications</label>
+                          <strong class="text-green mb-0">1765</strong>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <h2 class="mt-4">% Hospitals Active</h2>
+                  </div>
+
+
+                  <div class="col-12 col-md-8">
+                    <div class="vert-tabs-content text-center bg-5">
+                      <div class="vert-tabs-content-in-wrap d-flex justify-content-around align-items-center">
+                        <div class="vert-tabs-content-in">
+                          <h3 class="mb-1">5+ preauths</h3>
+                          <label>Since launch</label>
+                          <strong class="text-blue mb-0">{{emp_Greater5}}</strong>
+                        </div>
+                        <div class="vert-tabs-content-in">
+                          <h3 class="mb-1">1+ preauths</h3>
+                          <label>Last 6 months</label>
+                          <strong class="text-blue mb-0">{{emp_Greater1_6Month}}</strong>
+                        </div>
+                        <div class="vert-tabs-content-in">
+                          <h3 class="mb-1">1+ preauths</h3>
+                          <label>Last 30 Days</label>
+                          <strong class="text-blue mb-0">{{emp_Greater1_30Days}}</strong>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12 col-md-4">
+                    <div class="vert-tabs-content d-flex justify-content-between align-items-center bg-2 py-3 min-height-120">
+                      <div>
+                        <h3 class="mb-0" style="width: 140px;">Hospitals Empanelled Per Day</h3>
+                        <label>Calculated for last month</label>
+                      </div>
+                      <div>
+                        <strong class="text-green mb-0">{{EMPM}}</strong>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="vert-tabs-content bg-4 my-4">
+                      <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h3>Trend</h3>
+                        <div class="text-right right-tabs timer-wrap">
+                          <ul class="nav nav-tabs" id="custom-tabs-three-tab"
+                          role="tablist">
+                          <li class="nav-item">
+                            <a class="nav-link" id="onet-tab" data-toggle="pill" href="#onett" role="tab"
+                              aria-controls="onett" aria-selected="true" (click)="clickme('W','TMSHE')">Week</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link active" id="twot-tab" data-toggle="pill" href="#onett" role="tab"
+                              aria-controls="twott" aria-selected="false" (click)="clickme('T','TMSHE')">Last 30
+                              Days</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" id="threet-tab" data-toggle="pill" href="#onett" role="tab"
+                              aria-controls="threett" aria-selected="false" (click)="clickme('A','TMSHE')">All</a>
+                          </li>
+                        </ul>
+                        </div>
+                      </div>
+                      <div>
+                        <canvas #TMSHEChart
+                        style="min-height: 212px; height: 212px; max-height: 212px; max-width: 100%;"></canvas>
+                      </div>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+
+            </div>
+            <div class="tab-pane fade" id="vert-tabs-metrics" role="tabpanel" aria-labelledby="vert-tabs-metrics-tab">
+              <div class="container-fluid px-0">
+                <div class="row vert-right-tabs">
+                  <div class="col-12">
+                    <h2>State-Wise Performance Metrics -<span style="color: #28A745;"> {{TabName}}</span></h2>
+                  </div>
+                  <div class="col-12">
+                    <div class="vert-tabs-content bg-4 mb-4">
+                      <div class="row">
+                        <div class="col-12 col-md-8 col-lg-9">
+                          <div class="tab-content custom-tabs-statewise-tabContent" id="custom-tabs-statewise-tabContent"
+                            style="overflow-y:scroll;height: 430px;">
+                            <div class="tab-pane fade active show" id="eightteenstatewise" role="tabpanel"
+                              aria-labelledby="eightteenstatewise-tab"><canvas #AATStateChart
+                                style="min-height: 580px; height: 580px; max-height: 900px;  max-width: 100%;"></canvas> </div>
+                            <div class="tab-pane fade" id="onestatewise" role="tabpanel"
+                              aria-labelledby="onestatewise-tab"> <canvas #ACIStateChart
+                                style="min-height: 100px; height: 580px; max-height: 900px; max-width: 100%;"></canvas> </div>
+                            <div class="tab-pane fade" id="twostatewise" role="tabpanel" aria-labelledby="twostatewise-tab">
+                              <canvas #ACIFVStateChart
+                                style="min-height: 100px; height: 580px; max-height: 900px; max-width: 100%;"></canvas> </div>
+                            <div class="tab-pane fade" id="threestatewise" role="tabpanel" aria-labelledby="threestatewise-tab">
+                              <canvas #CPNStateChart
+                                style="min-height: 580px; height: 580px; max-height: 900px;  max-width: 100%;"></canvas> </div>
+                            <div class="tab-pane fade" id="fourstatewise" role="tabpanel" aria-labelledby="fourstatewise-tab">
+                              <button type="button" id="PreAuthRequested" class="btn btn-lg btn-toggle" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="onToggle('PreAuthRequested')">
+
+                                <div class="handle"></div>
+                              </button>
+                              <canvas #PAStateChart
+                                style="min-height: 580px; height: 580px; max-height: 900px;  max-width: 100%;"></canvas> </div>
+                            <!--<div class="tab-pane fade" id="fivestatewise" role="tabpanel" aria-labelledby="fivestatewise-tab">
+                              <canvas #PAAStateChart
+                                style="min-height: 580px; height: 580px; max-height: 900px;  max-width: 100%;"></canvas> </div>-->
+                            <div class="tab-pane fade" id="sixstatewise" role="tabpanel" aria-labelledby="sixstatewise-tab">
+                              <button type="button" id="ClaimSubmitted" class="btn btn-lg btn-toggle" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="onToggle('ClaimSubmitted')">
+
+                                <div class="handle"></div>
+                                </button>
+                              <canvas #CSCStateChart
+                                style="min-height: 580px; height: 580px; max-height: 900px;  max-width: 100%;"></canvas> </div>
+                            <!--<div class="tab-pane fade" id="sevenstatewise" role="tabpanel" aria-labelledby="sevenstatewise-tab">
+                              <canvas #CSAStateChart
+                                style="min-height: 580px; height: 580px; max-height: 900px;  max-width: 100%;"></canvas> </div>-->
+                            <div class="tab-pane fade" id="eightstatewise" role="tabpanel" aria-labelledby="eightstatewise-tab">
+                              <button type="button" id="ClaimPending" class="btn btn-lg btn-toggle" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="onToggle('ClaimPending')">
+
+                                <div class="handle"></div>
+                                </button>
+                              <canvas #CPNCStateChart
+                                style="min-height: 580px; height: 580px; max-height: 900px;  max-width: 100%;"></canvas> </div>
+                           <!-- <div class="tab-pane fade" id="ninestatewise" role="tabpanel" aria-labelledby="ninestatewise-tab">
+                              <canvas #CPNAStateChart
+                                style="min-height: 580px; height: 580px; max-height: 900px;  max-width: 100%;"></canvas> </div>-->
+                            <div class="tab-pane fade" id="tenstatewise" role="tabpanel" aria-labelledby="tenstatewise-tab">
+                              <button type="button" id="ClaimOverdue" class="btn btn-lg btn-toggle" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="onToggle('ClaimOverdue')">
+
+                                <div class="handle"></div>
+                                </button>
+                              <canvas #COCStateChart
+                                style="min-height: 580px; height: 580px; max-height: 900px;  max-width: 100%;"></canvas> </div>
+                           <!-- <div class="tab-pane fade" id="elevenstatewise" role="tabpanel"
+                              aria-labelledby="elevenstatewise-tab"><canvas #COAStateChart
+                                style="min-height: 580px; height: 580px; max-height: 900px;  max-width: 100%;"></canvas> </div>-->
+                            <div class="tab-pane fade" id="twelvestatewise" role="tabpanel"
+                              aria-labelledby="twelvestatewise-tab">
+                              <button type="button" id="ClaimPaid" class="btn btn-lg btn-toggle" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="onToggle('ClaimPaid')">
+
+                                <div class="handle"></div>
+                                </button>
+                              <canvas #CPCStateChart
+                                style="min-height: 580px; height: 580px; max-height: 900px;  max-width: 100%;"></canvas> </div>
+                            <!--<div class="tab-pane fade" id="thirteenstatewise" role="tabpanel"
+                              aria-labelledby="thirteenstatewise-tab"><canvas #CPAStateChart
+                                style="min-height: 580px; height: 580px; max-height: 900px;  max-width: 100%;"></canvas> </div>-->
+                            <div class="tab-pane fade" id="fourteenstatewise" role="tabpanel"
+                              aria-labelledby="fourteenstatewise-tab"><canvas #IPCStateChart
+                                style="min-height: 580px; height: 580px; max-height: 900px;  max-width: 100%;"></canvas> </div>
+                            <div class="tab-pane fade" id="fifteenstatewise" role="tabpanel"
+                              aria-labelledby="fifteenstatewise-tab"><canvas #OPCStateChart
+                                style="min-height: 580px; height: 580px; max-height: 900px;  max-width: 100%;"></canvas> </div>
+                            <div class="tab-pane fade" id="sixteenstatewise" role="tabpanel"
+                              aria-labelledby="sixteenstatewise-tab"><canvas #EHStateChart
+                                style="min-height: 580px; height: 580px; max-height: 900px;  max-width: 100%;"></canvas> </div>
+                            <div class="tab-pane fade" id="seventeenstatewise" role="tabpanel"
+                              aria-labelledby="seventeenstatewise-tab"><canvas #AHStateChart
+                                style="min-height: 580px; height: 580px; max-height: 900px;  max-width: 100%;"></canvas> </div>
+                                <div class="tab-pane fade" id="tagdata" role="tabpanel"
+                              aria-labelledby="tagdata-tab"><canvas #TAGChart
+                                style="min-height: 580px; height: 580px; max-height: 900px;  max-width: 100%;"></canvas> </div>
+
+                          </div>
+                        </div>
+                        <div class="col-12 col-md-4 col-lg-3 ">
+                          <ul class="nav nav-tabs statewise-tabs custom-tabs-statewise-tab" id="custom-tabs-statewise-tab"
+                            role="tablist">
+                            <li class="nav-item">
+                              <a class="nav-link active" id="eightteenstatewise-tab" data-toggle="pill" href="#eightteenstatewise"
+                                role="tab" aria-controls="eightteenstatewise" aria-selected="false"
+                                (click)="getTabName('Aadhaar Auth Type');">Aadhaar Auth</a>
+                            </li>
+
+                            <li class="nav-item">
+                              <a class="nav-link " id="onestatewise-tab" data-toggle="pill" href="#onestatewise"
+                                role="tab" aria-controls="onestatewise" aria-selected="true"
+                                (click)="getTabName('Benificiaries Verified');">Benificiaries Verified</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" id="twostatewise-tab" data-toggle="pill" href="#twostatewise" role="tab"
+                                aria-controls="twostatewise" aria-selected="false"
+                                (click)="getTabName('Families Verified');">Families Verified</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" id="threestatewise-tab" data-toggle="pill" href="#threestatewise" role="tab"
+                                aria-controls="threestatewise" aria-selected="false"
+                                (click)="getTabName('Cards Pending');">Cards Pending</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" id="fourstatewise-tab" data-toggle="pill" href="#fourstatewise" role="tab"
+                                aria-controls="fourstatewise" aria-selected="false"
+                                (click)="getTabName('Preauths Requested');">Preauths Requested</a>
+                            </li>
+                           <!-- <li class="nav-item">
+                              <a class="nav-link" id="fivestatewise-tab" data-toggle="pill" href="#fivestatewise" role="tab"
+                                aria-controls="fivestatewise" aria-selected="false"
+                                (click)="getTabName('Preauths Requested Amount');">Preauths Requested Amount</a>
+                            </li>-->
+                            <li class="nav-item">
+                              <a class="nav-link" id="sixstatewise-tab" data-toggle="pill" href="#sixstatewise" role="tab"
+                                aria-controls="sixstatewise" aria-selected="false"
+                                (click)="getTabName('Claims Submitted');">Claims Submitted</a>
+                            </li>
+                            <!--<li class="nav-item">
+                              <a class="nav-link" id="sevenstatewise-tab" data-toggle="pill" href="#sevenstatewise" role="tab"
+                                aria-controls="sevenstatewise" aria-selected="false"
+                                (click)="getTabName('Claims Submitted Amount');">Claims Submitted Amount</a>
+                            </li>-->
+                            <li class="nav-item">
+                              <a class="nav-link" id="eightstatewise-tab" data-toggle="pill" href="#eightstatewise" role="tab"
+                                aria-controls="eightstatewise" aria-selected="false"
+                                (click)="getTabName('Claims Pending');">Claims Pending</a>
+                            </li>
+
+                            <!--<li class="nav-item">
+                              <a class="nav-link" id="ninestatewise-tab" data-toggle="pill" href="#ninestatewise" role="tab"
+                                aria-controls="ninestatewise" aria-selected="false"
+                                (click)="getTabName('Claims Pending Amount');">Claims Pending Amount</a>
+                            </li>-->
+                            <li class="nav-item">
+                              <a class="nav-link" id="tenstatewise-tab" data-toggle="pill" href="#tenstatewise" role="tab"
+                                aria-controls="tenstatewise" aria-selected="false"
+                                (click)="getTabName('Claims Overdue');">Claims Overdue</a>
+                            </li>
+                           <!-- <li class="nav-item">
+                              <a class="nav-link" id="elevenstatewise-tab" data-toggle="pill" href="#elevenstatewise" role="tab"
+                                aria-controls="elevenstatewise" aria-selected="false"
+                                (click)="getTabName('Claims Overdue Amount');">Claims Overdue Amount</a>
+                            </li>-->
+                            <li class="nav-item">
+                              <a class="nav-link" id="twelvestatewise-tab" data-toggle="pill" href="#twelvestatewise" role="tab"
+                                aria-controls="twelvestatewise" aria-selected="false"
+                                (click)="getTabName('Claims Paid');">Claims Paid</a>
+                            </li>
+                           <!--  <li class="nav-item">
+                              <a class="nav-link" id="thirteenstatewise-tab" data-toggle="pill" href="#thirteenstatewise"
+                                role="tab" aria-controls="thirteenstatewise" aria-selected="false"
+                                (click)="getTabName('Claims Paid Amount');">Claims Paid Amount</a>
+                            </li>-->
+                            <li class="nav-item">
+                              <a class="nav-link" id="fourteenstatewise-tab" data-toggle="pill" href="#fourteenstatewise"
+                                role="tab" aria-controls="fourteenstatewise" aria-selected="false"
+                                (click)="getTabName('Outgoing Portability Cases');">Outgoing Portability Cases</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" id="fifteenstatewise-tab" data-toggle="pill" href="#fifteenstatewise"
+                                role="tab" aria-controls="fifteenstatewise" aria-selected="false"
+                                (click)="getTabName('Incoming Portability Cases');">Incoming Portability Cases</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" id="sixteenstatewise-tab" data-toggle="pill" href="#sixteenstatewise"
+                                role="tab" aria-controls="sixteenstatewise" aria-selected="false"
+                                (click)="getTabName('Empanelled Hospitals');">Empanelled Hospitals</a>
+                            </li>
+                            <li class="nav-item">
+                              <a class="nav-link" id="seventeenstatewise-tab" data-toggle="pill" href="#seventeenstatewise"
+                                role="tab" aria-controls="seventeenstatewise" aria-selected="false"
+                                (click)="getTabName('Active Hospitals');">Active Hospitals (5 preauths since launch)</a>
+                            </li>
+                            <!--<li class="nav-item">
+                              <a class="nav-link" id="tagdata-tab" data-toggle="pill" href="#tagdata"
+                                role="tab" aria-controls="tagdata" aria-selected="false"
+                                (click)="getTabName('Tagged Data');">Tagged Data</a>
+                            </li>-->
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  
+
+</div>
+
+<!--<div class="content-wrapper" id="pmjay">
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-3">
+        <div class="col-12 col-md-9">
+          <div class="custom-title">
+            AB - PMJAY Dashboard
+          </div>
+        </div>
+        <div class="col-12 col-md-3">
+          <div class="form-group">
+            <select class="form-control" style="width: 100%;" (change)="bindChart($event)">
+              <option value="" selected="selected">Select State</option>
+              <option *ngFor="let st of stateList" value={{st.value}}>
+                {{st.text}}
+              </option>
+            </select>
+          </div>
+          <div class="last-updated">
+            <div class="text-right subtitle">Last Updated : {{uploadDate}}</div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div [innerHTML]="test"></div>
+
+

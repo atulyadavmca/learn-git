@@ -1,0 +1,113 @@
+.case-wrap-in {
+    width: 100%;
+    margin-right: 1rem;
+}
+.case-no-wrap .beneficiaries-avail-wrap{
+    align-items: flex-start;
+}
+.case-no-wrap .beneficiaries-avail-wrap .beneficiaries-avail-left-wrap {
+    display: block;
+}
+
+.case-no-wrap .beneficiaries-avail-wrap .beneficiaries-avail-left-wrap input.form-control{
+    font-size: .85rem;
+}
+
+div.error-box {
+    padding: 0.5rem;
+    text-align: center;
+    background: #fbdede;
+}
+
+.manual-card{
+    background: #cff5d7 !important;
+}
+.stwise-ekyc-wrap{
+    display: flex;
+    justify-content: space-between;
+}
+.stwise-ekyc-option {
+    display: flex;
+}
+
+.stwise-ekyc-radio {
+    margin: 0 5px;
+    display: flex;
+    font-size: calc(11px + 2 * ((100vw - 320px) / 768)); align-items: center;
+    
+}
+
+.stwise-ekyc-radio label {
+    margin: 0 5px !important;
+    font-weight: 500 !important;
+    color: #267a9f;
+}
+
+.stwise-ekyc-wrap{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+
+
+
+
+
+
+
+  .authorizehsop-togg {
+    float: right;
+    padding-right: 60px;
+    padding-left: 135px;
+    max-height: 25px;
+    margin-top: -22px;
+    }
+    
+    .authorizehsop-togg .btn-toggle.btn-lg{
+    height: 20px;
+    width: 2.5rem;
+    background: #c6e2e3;
+    }
+    
+    .authorizehsop-togg .btn-toggle.btn-lg > .handle{
+    top: -1px;
+    left: 0;
+    width: 22px;
+    height: 22px;
+    background: #149198;
+    }
+    
+    .authorizehsop-togg .btn-toggle.btn-lg.active > .handle {
+    left: 1.3rem;
+    transition: left 0.25s;
+    }
+    
+    .authorizehsop-togg .btn-toggle.btn-lg:before, .authorizehsop-togg .btn-toggle.btn-lg:after{
+    line-height: 1.50rem;
+    width: 3.55rem;
+    font-size: .75rem;
+    }
+    
+    .authorizehsop-togg .btn-toggle.btn-lg:before {
+    content: "Details";
+    left: -3.5rem;
+    }
+    
+    .authorizehsop-togg .btn-toggle:before, .authorizehsop-togg .btn-toggle:after {
+    color: #149198;
+    }
+    .authorizehsop-togg .btn-toggle:before, .authorizehsop-togg .btn-toggle:focus {
+      box-shadow: none;
+      }
+    
+    .authorizehsop-togg .btn-toggle.btn-lg.active:after {
+    opacity: 1;
+    }
+    
+    .authorizehsop-togg .btn-toggle.btn-lg:after {
+    content: "Summary";
+    right: -4rem;
+    opacity: 0.5;
+    }

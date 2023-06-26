@@ -1,0 +1,38 @@
+.tmsform {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.tmsform-input {
+    flex: 2;
+    margin: 0 5px;
+    background: #fff;
+    padding: 2px;
+    border-radius: 5px;
+}
+.tmsform-input.tmsform-input-btn {
+    flex: 1;
+    text-align: center; padding: 0;
+}
+.tmsform-input select {
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0;
+}
+
+.tmsform-input label {
+    color: #646464;
+    font-weight: 400 !important;
+    font-size: 12px;
+    padding: 0 4px;
+    margin-bottom: 0;
+}
+
+.tmsform-input button.btn {
+    background: #0e9199;
+    min-width: 134px;
+    min-height: 60px;
+    color: #fff;
+    font-size: 14px;
+}

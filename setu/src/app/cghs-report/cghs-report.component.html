@@ -1,0 +1,457 @@
+
+<div style="background:#0e9199;">
+    <nav class="main-header navbar navbar-expand container mx-auto">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="#" class="nav-link py-0">
+                    <img style="max-width: 100px;" class="img-fluid"
+                        src="assets/dist/img/national-health-authority-logo.png" alt="">
+                </a>
+            </li>
+        </ul>
+        <div class="collapse navbar-collapse order-3 justify-content-end">
+            <ul class="navbar-nav">
+               
+                <li class="nav-item">
+                    <a class="nav-link" role="button" (click)="OpenLogin();">
+                    <i class="fas fa-user-circle"></i> Login
+                    </a>        
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div class="cghs-wrapper">
+    <div class="container">
+        <div class="left-content-wrap">
+            <div class="custom-title">Central Government Health Scheme (CGHS) For Pensioners</div>
+        </div>
+
+        <form action="">
+            <div class="cghs-form-wrap">
+                <div class="cghs-form">
+                    <label for="">State</label>
+                    <select id="ddlState" (change)="bindDistrict($event)" class="form-control">
+                        <option value="">All</option>
+                        <option *ngFor="let st of stateList"  value={{st.value}}>
+                            {{st.text}}
+                            </option> 
+                    </select>
+                </div>
+                <div class="cghs-form">
+                    <label for="">District</label>
+                    <select id="ddlDistrict" (change)="bindHosp($event)" class="form-control">
+                        <option value="">All</option>
+                        <option *ngFor="let st of districtlist"  value={{st.value}} >
+                            {{st.text}}
+                            </option>  
+                    </select>
+                </div>
+                <div class="cghs-form">
+                    <label for="">Hospital Name</label>
+                    <select id="ddlHosp" class="form-control" (change)="selectHosp($event)">
+                        <option value="">All</option>
+                        <option *ngFor="let st of hosplist"  value={{st.value}} >
+                            {{st.text}}
+                            </option> 
+                    </select>
+                </div>
+                <div class="cghs-form-btn">
+                  
+                    <button class="btn btn-primary" (click)="getReport();">Search</button>
+                </div>
+            </div>
+            <div class="text-right subtitle mb-0">Last Updated : {{uploadDate}}</div>
+            <!--<div class="text-right"><a href="#"></a></div>-->
+        </form>
+    </div>
+
+    <div class="container">
+        <div class="cghs-dashboard-wrap">
+            <!--<div class="cghs-dashboard cghs-dashboard-one">
+                <label>Preauths Submitted </label>
+                <div class="cghs-dashboard-in">
+                    <span>Count</span>
+                    <strong>{{preauth_sub_count}}</strong>
+                </div>
+                <div class="cghs-dashboard-in">
+                    <span>Amount</span>
+                    <strong>{{preauth_sub_amount}}</strong>
+                </div>
+            </div>-->
+
+            
+
+            <div class="cghs-dashboard cghs-dashboard-three">
+                <label>Claims Received 
+                    <a href="#" class="fa fa-info-circle tool" style="color: #779e37;" (click)="tooltipOpen('divCR');" ></a>                    
+                    <div class="tooltip-wrapper" id="divCR">
+                        <a href="#" (click)="tooltipClose('divCR');"><i class="fa fa-times tooltip-close"></i></a>
+                        Received at CEX Level 
+                    </div>                    
+                </label>
+                <div class="cghs-dashboard-in">
+                    <span>Count</span>
+                    <strong>{{claim_sub_count}}</strong>
+                </div>
+                <div class="cghs-dashboard-in">
+                    <span>Amount</span>
+                    <strong>{{this.getToCR(claim_sub_amount)}}</strong>
+                </div>
+            </div>
+            <div class="cghs-dashboard cghs-dashboard-two">
+                <label>Pending at HCOs 
+                    <a href="#" class="fa fa-info-circle tool" style="color: #a16ad7;" (click)="tooltipOpen('divHCO');" ></a>                    
+                    <div class="tooltip-wrapper" id="divHCO">
+                        <a href="#" (click)="tooltipClose('divHCO');"><i class="fa fa-times tooltip-close"></i></a>
+                        These are the bills which have been submitted however returned back to HCO because of lack in various kinds of details and remain pending with HCO
+                    </div>               
+                </label>
+                <div class="cghs-dashboard-in">
+                    <span>Count</span>
+                    <strong>{{pending_hcos_count}}</strong>
+                </div>
+               <div class="cghs-dashboard-in">
+                    <span>Amount</span>
+                    <strong>{{this.getToCR(pending_hcos_amount)}}</strong>
+                </div>
+            </div>
+            <div class="cghs-dashboard cghs-dashboard-four">
+                <label>Pending at NHA  <a href="#" class="fa fa-info-circle tool" style="color: #7f7e9b;" (click)="tooltipOpen('divNHA');" ></a>                    
+                    <div class="tooltip-wrapper" id="divNHA">
+                        <a href="#" (click)="tooltipClose('divNHA');"><i class="fa fa-times tooltip-close"></i></a>
+                        These bills are pending for processing by Claim Executive and Claim Panel Doctor at NHA Platform
+                    </div>
+                </label>
+                <div class="cghs-dashboard-in">
+                    <span>Count</span>
+                    <strong>{{pending_nha_count}}</strong>
+                </div>
+                <div class="cghs-dashboard-in">
+                    <span>Amount</span>
+                    <strong>{{this.getToCR(pending_nha_amount)}}</strong>
+                </div>
+            </div>
+
+            <div class="cghs-dashboard cghs-dashboard-five">
+                <label>Pending at CGHS 
+                    <a href="#" class="fa fa-info-circle tool" style="color: #49b3c4;" (click)="tooltipOpen('divCGHS');" ></a>                    
+                    <div class="tooltip-wrapper" id="divCGHS">
+                        <a href="#" (click)="tooltipClose('divCGHS');"><i class="fa fa-times tooltip-close"></i></a>
+                        These are the bills pending for sanction by Sanctioning Authotities (CGHS Officers) at CGHS level
+                    </div>
+                </label>
+                <div class="cghs-dashboard-in">
+                    <span>Count</span>
+                    <strong>{{pending_cghs_count}}</strong>
+                </div>
+                <div class="cghs-dashboard-in">
+                    <span>Amount</span>
+                    <strong>{{this.getToCR(pending_cghs_amount)}}</strong>
+                </div>
+            </div>
+
+            <div class="cghs-dashboard cghs-dashboard-six">
+                <label>Pending at PFMS 
+                    <a href="#" class="fa fa-info-circle tool" style="color: #c9b476;" (click)="tooltipOpen('divPFMS');" ></a>                    
+                    <div class="tooltip-wrapper" id="divPFMS">
+                        <a href="#" (click)="tooltipClose('divPFMS');"><i class="fa fa-times tooltip-close"></i></a>
+                        These are the bills pending for disbursal of payment
+                    </div>
+                </label>
+                <div class="cghs-dashboard-in">
+                    <span>Count</span>
+                    <strong>{{pending_pfms_count}}</strong>
+                </div>
+                <div class="cghs-dashboard-in">
+                    <span>Amount</span>
+                    <strong>{{this.getToCR(pending_pfms_amount)}}</strong>
+                </div>
+            </div>
+
+            <div class="cghs-dashboard cghs-dashboard-seven">
+                <label>Claims Paid 
+                    <a href="#" class="fa fa-info-circle tool" style="color: #e17474;" (click)="tooltipOpen('divCP');" ></a>                    
+                    <div class="tooltip-wrapper" id="divCP">
+                        <a href="#" (click)="tooltipClose('divCP');"><i class="fa fa-times tooltip-close"></i></a>
+                        These are the bills which have been paid
+                    </div>
+                </label>
+                <div class="cghs-dashboard-in">
+                    <span>Count</span>
+                    <strong>{{claim_paid_count}}</strong>
+                </div>
+                <div class="cghs-dashboard-in">
+                    <span>Amount</span>
+                    <strong>{{this.getToCR(claim_paid_amount)}}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container my-3">
+        <div class="trend-wrap" style="background: #fff;">
+            <div class="trend-box-head">
+                <div class="leftSpeciality">
+                    <h3 class="card-title">{{statedatehospwise}} Wise Trends - Claims<span style="font-size: 12px;" id="STLac"> (in Lac)</span></h3>
+                </div>
+                <div class="text-right right-tabs">
+                    <div class="time-wrap" style="display: inline-block;">
+                        <!--<a href="javascript:void(0);" id="HETDW">Week</a> | <a href="javascript:void(0);" id="HETDT" class="active">Last 30 Days</a> | <a href="javascript:void(0);" id="HETDA">All</a>-->
+                    </div>
+                    <div class="rightSpeciality">
+                        <button type="button" id="statewise" data-toggle="button" aria-pressed="false" autocomplete="off" class="btn btn-lg btn-toggle my-0" (click)="onToggle('statewise')"><div class="handle"></div></button>
+                    </div>
+                </div>
+                <div class="card-body pt-0" id="chartstatewise">
+                    
+                <div class="chart" >
+                    <canvas #CGHSSTDChart style="min-height: 350px; height: 350px; max-height: 350px; min-width: 100%;"></canvas>
+                  </div>
+                </div>
+                <div class="card mb-0 treatment-table my-2" id="tblstatewisecount">   
+                <div class="card-body p-0">                    
+                    <div class="table-responsive">
+                    <table id="cghsstatewisecount" class="row-border hover">
+                        <thead>
+                            <tr>
+                              <th style="text-align: center;">S.No.</th>
+                              <th style="text-align: center;">Hospital Name</th>
+                              <th style="text-align: right;">Pending at HCOs</th>
+                              <!--<th style="text-align: center;">Preauth Submitted</th>-->
+                              <th style="text-align: right;">Claims Received</th>
+                              <th style="text-align: right;">Pending at NHA</th>
+                              <th style="text-align: right;">Pending at CGHS</th>
+                              <th style="text-align: right;">Pending at PFMS</th>
+                              <th style="text-align: right;">Claims Paid</th>
+                              
+                            </tr>
+                          </thead>
+                          <tbody> 
+                            <tr *ngFor="let group of cghsstatewise;let i =index">
+                                <td style="text-align: center;">
+                                    {{i+1}} 
+                                </td>
+                                <td style="text-align: left;">{{group.state_name}}</td>
+                                <td style="text-align: right;">{{this.getCommaValue(group.pending_hcos_count)}}</td>
+                                <!--<td style="text-align: right;">{{this.getCommaValue(group.preauth_sub_count)}}</td>-->
+                              <td style="text-align: right;">{{this.getCommaValue(group.claim_sub_count)}}</td>
+                              <td style="text-align: right;">{{this.getCommaValue(group.pending_nha_count)}}</td>
+                              <td style="text-align: right;">{{this.getCommaValue(group.pending_cghs_count)}}</td>
+                              <td style="text-align: right;">{{this.getCommaValue(group.pending_pfms_count)}}</td>
+                              <td style="text-align: right;">{{this.getCommaValue(group.claim_paid_count)}}</td>                             
+                            </tr>
+                      </tbody>
+                    </table>
+                </div>                        
+              </div>
+                </div>
+                <div class="card mb-0 treatment-table my-2" id="tblstatewiseamount">   
+                    <div class="card-body p-0">                    
+                        <div class="table-responsive">
+                        <table id="cghsstatewiseamount" class="row-border hover">
+                            <thead>
+                                <tr>
+                                  <th style="text-align: center;">S.No.</th>
+                                  <th style="text-align: center;">Hospital Name</th>
+                                  
+                                  <th style="text-align: right;">Pending at HCOs</th>
+                                  <th style="text-align: right;">Claims Received</th>
+                                  <th style="text-align: right;">Pending at NHA</th>
+                                  <th style="text-align: right;">Pending at CGHS</th>
+                                  <th style="text-align: right;">Pending at PFMS</th>
+                                  <th style="text-align: right;">Claims Paid</th>
+                                  
+                                </tr>
+                              </thead>
+                              <tbody> 
+                                <tr *ngFor="let group of cghsstatewise;let i =index">
+                                    <td style="text-align: center;">
+                                        {{i+1}} 
+                                    </td>
+                                    <td style="text-align: left;">{{group.state_name}}</td>
+                                    
+                                    <!--<td style="text-align: right;">{{this.getCommaValue(group.pending_hcos_amount)}}</td>
+                                  <td style="text-align: right;">{{this.getCommaValue(group.claim_sub_amount)}}</td>
+                                  <td style="text-align: right;">{{this.getCommaValue(group.pending_nha_amount)}}</td>
+                                  <td style="text-align: right;">{{this.getCommaValue(group.pending_cghs_amount)}}</td>
+                                  <td style="text-align: right;">{{this.getCommaValue(group.pending_pfms_amount)}}</td>
+                                  <td style="text-align: right;">{{this.getCommaValue(group.claim_paid_amount)}}</td>--> 
+                                  <td style="text-align: right;">{{this.getLac(group.pending_hcos_amount)}}</td>
+                                  <td style="text-align: right;">{{this.getLac(group.claim_sub_amount)}}</td>
+                                  <td style="text-align: right;">{{this.getLac(group.pending_nha_amount)}}</td>
+                                  <td style="text-align: right;">{{this.getLac(group.pending_cghs_amount)}}</td>
+                                  <td style="text-align: right;">{{this.getLac(group.pending_pfms_amount)}}</td>
+                                  <td style="text-align: right;">{{this.getLac(group.claim_paid_amount)}}</td>                            
+                                </tr>
+                          </tbody>
+                        </table>
+                    </div>                        
+                  </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="container my-3">
+        <div class="trend-wrap" style="background: #fff;">
+            <div class="trend-box-head">
+                <div class="leftSpeciality">
+                    <h3 class="card-title">Summary of Claims at Various Levels<span style="font-size: 12px;" id="CLSummaryCR"> (in Cr)</span></h3>
+                </div>
+                <div class="text-right right-tabs">
+                    <div class="time-wrap" style="display: inline-block;">
+                        <!--<a href="javascript:void(0);" id="HETDW">Week</a> | <a href="javascript:void(0);" id="HETDT" class="active">Last 30 Days</a> | <a href="javascript:void(0);" id="HETDA">All</a>-->
+                    </div>
+                    <div class="rightSpeciality">
+                        <button type="button" id="togguserdata" data-toggle="button" aria-pressed="false" autocomplete="off" class="btn btn-lg btn-toggle my-0" (click)="onToggle('togguserdata')"><div class="handle"></div></button>
+                    </div>
+                </div>
+               
+                <div class="card mb-0 treatment-table my-3" id="cghsuserdatacount">   
+                <div class="card-body p-0">                    
+                    <div class="table-responsive">
+                    <table id="cghsuserdata" class="row-border hover">
+                        <thead>
+                            <tr>
+                              <th style="text-align: center;">Level</th>
+                              <th style="text-align: right;">Received</th>
+                              
+                              <th style="text-align: right;">Approved</th>
+                              <th style="text-align: right;">Rejected</th>
+                              <th style="text-align: right;">Queried</th>
+                              <th style="text-align: right;">Pending</th>
+                              <!--<th style="text-align: center;">Returned Pending</th>-->                            
+                              
+                            </tr>
+                          </thead>
+                          <tbody> 
+                            <tr *ngFor="let group of cghsuserdata;let i =index">
+                                
+                                <td style="text-align: center;">{{group.user_name}}</td>
+                                
+                                <td style="text-align: right;">{{this.getCommaValue(group.received_count)}}</td>
+                              <td style="text-align: right;">{{this.getCommaValue(group.approved_count)}}</td>
+                              <td style="text-align: right;">{{this.getCommaValue(group.rejected_count)}}</td>
+                              <td style="text-align: right;">{{this.getCommaValue(group.queried_count)}}</td>
+                              <td style="text-align: right;">{{this.getCommaValue(group.pending_count)}}</td>
+                              <!--<td style="text-align: right;">{{this.getCommaValue(group.returned_pending_count)}}</td>-->                             
+                            </tr>
+                      </tbody>
+                    </table>
+                </div>                        
+              </div>
+                </div>
+                <div class="card mb-0 treatment-table my-3" id="cghsuserdataamount">   
+                    <div class="card-body p-0">                    
+                        <div class="table-responsive">
+                        <table id="cghsuserdata" class="row-border hover">
+                           <thead>
+                                <tr>
+                                  <th style="text-align: center;">Level</th>
+                                 
+                                  <th style="text-align: right;">Approved</th>
+                                  <th style="text-align: right;">Rejected</th>
+                                  <th style="text-align: right;">Queried</th>
+                                  <th style="text-align: right;">Pending</th>
+                                  
+                                  
+                                </tr>
+                              </thead>
+                              <tbody> 
+                                <tr *ngFor="let group of cghsuserdata;let i =index">
+                                    
+                                    <td style="text-align: center;">{{group.user_name}}</td>
+                                    
+                                  <td style="text-align: right;">{{this.getCR(group.approved_amount)}}</td>
+                                  <td style="text-align: right;">{{this.getCR(group.rejected_amount)}}</td>
+                                  <td style="text-align: right;">{{this.getCR(group.queried_amount)}}</td>
+                                  <td style="text-align: right;">{{this.getCR(group.pending_amount)}}</td>
+                                  
+                                </tr>
+                          </tbody>
+                        </table>
+                    </div>                        
+                  </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container my-3">
+        <div class="trend-wrap" style="background: #fff;">
+            <div class="trend-box-head">
+                <div class="leftSpeciality">
+                    <h3 class="card-title">Summary of Claims - State Wise</h3>
+                </div>
+                <div class="text-right right-tabs">
+                    <div class="time-wrap" style="display: inline-block;">
+                        <!--<a href="javascript:void(0);" id="HETDW">Week</a> | <a href="javascript:void(0);" id="HETDT" class="active">Last 30 Days</a> | <a href="javascript:void(0);" id="HETDA">All</a>-->
+                    </div>
+                    <div class="rightSpeciality">
+                        <button type="button" id="levelcalimsummary" data-toggle="button" aria-pressed="false" autocomplete="off" class="btn btn-lg btn-toggle my-0" (click)="onToggle('levelcalimsummary')"><div class="handle"></div></button>
+                    </div>
+                </div>
+                <div class="card-body pt-0" >
+                <div class="chart" >
+                    <canvas #CGHSCSSChart style="min-height: 350px; height: 350px; max-height: 350px; min-width: 100%;"></canvas>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--<div class="container my-3">
+        <div class="trend-wrap" style="background: #fff;">
+            <div class="trend-box-head">
+                <div class="leftSpeciality">
+                    <h3 class="card-title">Claims Date Wise Pending Trends</h3>
+                </div>
+                <div class="text-right right-tabs">
+                    <div class="time-wrap" style="display: inline-block;">
+                        <a href="javascript:void(0);" id="CGHSTDW" (click)="CGHSTDclickme('W')">Week</a> | <a href="javascript:void(0);" id="CGHSTDT" class="active" (click)="CGHSTDclickme('T')">Last 30 Days</a> | <a href="javascript:void(0);" id="CGHSTDA" (click)="CGHSTDclickme('A')">All</a>
+                    </div>
+                    <div class="rightSpeciality">
+                        <button type="button" id="datewise" data-toggle="button" aria-pressed="false" autocomplete="off" class="btn btn-lg btn-toggle my-0" (click)="onToggle('datewise')"><div class="handle"></div></button>
+                    </div>
+                </div>
+                <div class="card-body pt-0" >
+                <div class="chart" >
+                    <canvas #CGHSDTDChart style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+
+    <!--<div class="container my-3">
+        <div class="trend-wrap" style="background: #fff;">
+            <div class="trend-box-head">
+                <div class="leftSpeciality">
+                    <h3 class="card-title">Date Wise Level Trends 
+                        <select style="border: none; font-size: .875rem; color: #485ab8; outline: 0;" (change)="getLevel($event)">
+                            <option value="NHA">CEX/CPD</option>
+                            <option value="CGHS" selected="true">SA</option>
+                            <option value="PFMS">PMFS</option>
+                           
+                        </select>
+                    </h3>
+                </div>
+                <div class="text-right right-tabs">
+                    <div class="time-wrap" style="display: inline-block;">
+                        <a href="javascript:void(0);" id="CGHSLDTDW" (click)="CGHSLDTDclickme('W')">Week</a> | <a href="javascript:void(0);" id="CGHSLDTDT" class="active" (click)="CGHSLDTDclickme('T')">Last 30 Days</a> 
+                    </div>
+                    <div class="rightSpeciality">
+                        <button type="button" id="CGHSLDTD" data-toggle="button" aria-pressed="false" autocomplete="off" class="btn btn-lg btn-toggle my-0" (click)="onToggle('CGHSLDTD')"><div class="handle"></div></button>
+                    </div>
+                </div>
+                <div class="card-body pt-0" >
+                <div class="chart" >
+                    <canvas #CGHSLDTDChart style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->

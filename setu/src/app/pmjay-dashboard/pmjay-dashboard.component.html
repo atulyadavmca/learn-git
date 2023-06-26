@@ -1,0 +1,368 @@
+<nav class="main-header navbar navbar-expand navbar-dark custom-bgcolor1">
+  <ul class="navbar-nav">
+      <li class="nav-item">
+          <a href="#" class="nav-link py-0">
+              <img style="max-width: 100px;" class="img-fluid"
+                  src="assets/dist/img/national-health-authority-logo.png" alt="">
+          </a>
+      </li>
+  </ul>
+  <div class="collapse navbar-collapse order-3 justify-content-end">
+      <ul class="navbar-nav">
+          <li class="nav-item"><a href="pmjay#Skip-Main-Content" class="nav-link">Skip To Main Content</a></li>
+          &nbsp;&nbsp;<li class="nav-item">
+              <a class="nav-link" routerLink="" role="button">
+                <i class="fas fa-user-circle"></i> Logout
+              </a>        
+            </li>
+      </ul>
+  </div>
+
+  
+</nav>
+<div class="content-wrapper" id="Skip-Main-Content">
+    <section class="content-header">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="custom-col-3 yellow">
+              <div class="row cardbox-one">
+                <div class="col-12 card-data">
+                  <span class="info-box-text font-weight-bold">Ayushman Cards Issued </span>
+                </div>
+                <div class="col-12 card-data">
+                  <span>Today <b>{{ACIToday}}</b> </span>
+                  <div class="right"><strong>{{ACIOverall}}</strong></div>
+                </div>
+              </div>
+              <div class="row cardbox-one black">
+                <div class="col-12 card-data">
+                  <span class="info-box-text font-weight-bold">Verification Method Used </span>
+                </div>
+                <div class="col-12 card-data">
+                 
+                  <canvas #hprafChart style="min-height: 10px; height: 10px; max-height: 40px;  max-width: 100%;"></canvas> 
+                  
+                 <!-- <img class="img-fluid" src="../../assets/dist/img/bar01.jpg" alt="">-->
+                </div>
+                
+              </div>
+              <div class="row cardbox-one">
+                <div class="col-12 card-data">
+                  <span class="info-box-text font-weight-bold">Approval Pending </span>
+                </div>
+                <div class="col-12 card-data">
+                  <div class="right">At SHA <strong>{{at_SHA}} </strong></div>
+                </div>
+                <div class="col-12 card-data">
+                  <div class="right">At ISA <strong>{{at_ISA}} </strong></div>
+                </div>
+              </div>
+              <div class="row cardbox-one">
+                <div class="col-12 card-data">
+                  <span class="info-box-text font-weight-bold">Card Issued per minute * </span>
+                </div>
+                <div class="col-12 card-data">
+                  <div class="right"><strong>{{ACGPM}} </strong></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="custom-col-6">
+              <div class="row">
+
+                <div class="col-12">
+                  <div class="custom-col-4 purple midheight">
+                    <div class="row cardbox-one">
+                      <div class="col-12 card-data">
+                        <span class="info-box-text font-weight-bold">Preauths Requested </span>
+                      </div>
+                      <div class="col-12 card-data">
+                        <span>Today <b>{{PAToday}}</b> </span>
+                        <div class="right"><strong>{{PAOverall}}</strong></div>
+                      </div>
+                    </div>
+                    <div class="row cardbox-one">
+                      <div class="col-12 card-data">
+                        <span class="info-box-text font-weight-bold">&#8377; Preauths Requested </span>
+                      </div>
+                      <div class="col-12 card-data">
+                        <span>Today <b>&#8377; {{PAAToday}}</b> </span>
+                        <div class="right"><strong>&#8377; {{PAAOverall}} </strong></div>
+                      </div>
+                    </div>
+                    <div class="row cardbox-one black">
+                      <div class="col-12 card-data">
+                        <span class="info-box-text font-weight-bold">Preauths Types (By Count) </span>
+                      </div>
+                      <div class="col-12 card-data">
+                        <canvas #PreAuthTypeChart style="min-height: 10px; height: 10px; max-height: 37px;  max-width: 100%;"></canvas> 
+                      </div>
+                     
+                      <div class="col-12 card-data">
+                        <canvas #PreAuthType2Chart style="min-height: 10px; height: 10px; max-height: 38px;  max-width: 100%;"></canvas> 
+                      </div>
+                     
+                    </div>
+                    <div class="row cardbox-one">
+                      <div class="col-12 card-data">
+                        <span class="info-box-text font-weight-bold">Preauths Requested per Minute * </span>
+                      </div>
+                      <div class="col-12 card-data">
+                        <div class="right"><strong>{{PAPM}} </strong></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="custom-col-4 purple midheight">
+                    <div class="row cardbox-one">
+                      <div class="col-12 card-data">
+                        <span class="info-box-text font-weight-bold">Claims Submitted </span>
+                      </div>
+                      <div class="col-12 card-data">
+                        <span>Today <b>{{CSCToday}}</b> </span>
+                        <div class="right"><strong>{{CSCOverall}} </strong></div>
+                      </div>
+                    </div>
+                    <div class="row cardbox-one">
+                      <div class="col-12 card-data">
+                        <span class="info-box-text font-weight-bold">&#8377; Claims Submitted </span>
+                      </div>
+                      <div class="col-12 card-data">
+                        <span>Today <b>&#8377; {{CSAToday}}</b> </span>
+                        <div class="right"><strong>&#8377; {{CSAOverall}} </strong></div>
+                      </div>
+                    </div>
+                    <div class="row cardbox-one black">
+                      <div class="col-12 card-data">
+                        <span class="info-box-text font-weight-bold">Claims Status (By Count) </span>
+                      </div>
+                      <div class="col-12 card-data">
+                        <div style="text-align: center;">
+                        <!-- <img class="img-fluid" src="../../assets/dist/img/bar05.jpg" alt="">-->
+                        <canvas #CSChart  style="min-height: 120px; height: 120px; max-height: 120px; max-width: 100%;"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="custom-col-4 purple midheight">
+                    <div class="row cardbox-one black">
+                      <div class="col-12 card-data">
+                        <span class="info-box-text font-weight-bold">Overdue Claims Status (By Count) </span>
+                      </div>
+                      <div class="col-12 card-data">
+                        <span>No. of Days Overdue By: </span>
+                        <div style="text-align: center;">
+                         <!-- <img class="img-fluid" src="../../assets/dist/img/bar06.jpg" alt="">-->
+                         <canvas #OCSChart  style="min-height: 120px; height: 120px; max-height: 120px; max-width: 100%;"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row cardbox-one">
+                      <div class="col-12 card-data">
+                        <span class="info-box-text font-weight-bold">Portability Cases </span>
+                      </div>
+                      <div class="col-12 card-data">
+                        <div class="right">Outgoing <strong>{{Outgoing}} </strong></div>
+                      </div>
+                      <div class="col-12 card-data">
+                        <div class="right">Incoming <strong>{{Incoming}}</strong></div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+            <div class="custom-col-3 green">
+              <div class="row cardbox-one">
+                <div class="col-12 card-data">
+                  <span class="info-box-text font-weight-bold">Hospitals Empanelled </span>
+                </div>
+                <div class="col-12 card-data">
+                  <div class="right"><strong>{{em_Total}}</strong></div>
+                </div>
+              </div>
+              <div class="row cardbox-one black">
+                <div class="col-12 card-data">
+                  <span class="info-box-text font-weight-bold">Hospitals Type </span>
+                </div>
+                <div class="col-12 card-data">
+                  <canvas #HospitalTypeChart style="min-height: 10px; height: 10px; max-height: 38px;  max-width: 100%;"></canvas> 
+                  
+                </div>
+                
+              </div>
+              <div class="row cardbox-one">
+                <div class="col-12 card-data">
+                  <span class="info-box-text font-weight-bold">% Active </span>
+                </div>
+                <div class="col-12 card-data">
+                  <div class="right">5+ Preauths Since Launch <strong>{{emp_Greater5}}</strong></div>
+                </div>
+                <div class="col-12 card-data">
+                  <div class="right">1+ Preauths Since Launch <strong>{{emp_Greater1}}</strong></div>
+                </div>
+              </div>
+              <div class="row cardbox-one">
+                <div class="col-12 card-data">
+                  <span class="info-box-text font-weight-bold">Hospitals Empanelled per Day * </span>
+                </div>
+                <div class="col-12 card-data">
+                  <div class="right"><strong>{{EMPM}}</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" style="margin-top: 1rem;">
+          <div class="col-12">
+            <div class="black" style="padding: 0.5rem;">
+              <h5>State-Wise Performance Metrics</h5>
+              <div class="black">
+                <div class="pt-1">
+                  <ul class="nav nav-tabs statewise-tabs" id="custom-tabs-one-tab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="one-tab" data-toggle="pill"
+                        href="#one" role="tab" aria-controls="one"
+                        aria-selected="true">Ayushman Cards Issued</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="two-tab" data-toggle="pill"
+                        href="#two" role="tab" aria-controls="two"
+                        aria-selected="false">Preauth Requested Count</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="three-tab" data-toggle="pill"
+                        href="#three" role="tab" aria-controls="three"
+                        aria-selected="false">Preauth Requested Amount</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="four-tab" data-toggle="pill"
+                        href="#four" role="tab" aria-controls="four"
+                        aria-selected="false">Claims Submitted Count</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="five-tab" data-toggle="pill"
+                        href="#five" role="tab" aria-controls="five"
+                        aria-selected="false">Claims Submitted Amount</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="six-tab" data-toggle="pill"
+                        href="#six" role="tab" aria-controls="six"
+                        aria-selected="false">Claims Paid Count</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="seven-tab" data-toggle="pill"
+                        href="#seven" role="tab" aria-controls="seven"
+                        aria-selected="false">Claims Paid Amount</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="eight-tab" data-toggle="pill"
+                        href="#eight" role="tab" aria-controls="eight"
+                        aria-selected="false">Claims Overdue Count</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="nine-tab" data-toggle="pill"
+                        href="#nine" role="tab" aria-controls="nine"
+                        aria-selected="false">Claims Overdue Amount</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="ten-tab" data-toggle="pill"
+                        href="#ten" role="tab" aria-controls="ten"
+                        aria-selected="false">Outgoing Portability Cases</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="eleven-tab" data-toggle="pill"
+                        href="#eleven" role="tab" aria-controls="eleven"
+                        aria-selected="false">Incoming Portability Cases</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="card-body">
+                  <div class="tab-content" id="custom-tabs-one-tabContent">
+                    <div class="tab-pane fade active show" id="one" role="tabpanel"
+                      aria-labelledby="one-tab"> 
+                      
+                        <div class="chart">
+                      <canvas #ACIStateChart style="min-height: 200px; height: 200px; max-height: 200px;  max-width: 100%;"></canvas> 
+                     <!-- <img class="img-fluid" src="../../assets/dist/img/graph.jpg" alt="">-->
+                    
+                  </div>
+                    </div>
+                    <div class="tab-pane fade" id="two" role="tabpanel"
+                      aria-labelledby="two-tab">
+                        <div class="chart">
+                      <canvas #PAStateChart style="min-height: 200px; height: 200px; max-height: 200px;  max-width: 100%;"></canvas> 
+                     <!-- <img class="img-fluid" src="../../assets/dist/img/graph.jpg" alt="">-->
+                    
+                  </div>
+                    </div>
+                    <div class="tab-pane fade" id="three" role="tabpanel"
+                      aria-labelledby="three-tab"><div class="chart">
+                        <canvas #PAAStateChart style="min-height: 200px; height: 200px; max-height: 200px;  max-width: 100%;"></canvas> 
+                       <!-- <img class="img-fluid" src="../../assets/dist/img/graph.jpg" alt="">-->
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="four" role="tabpanel"
+                      aria-labelledby="four-tab"><div class="chart">
+                        <canvas #CSCStateChart style="min-height: 200px; height: 200px; max-height: 200px;  max-width: 100%;"></canvas> 
+                       <!-- <img class="img-fluid" src="../../assets/dist/img/graph.jpg" alt="">-->
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="five" role="tabpanel"
+                      aria-labelledby="five-tab"><div class="chart">
+                        <canvas #CSAStateChart style="min-height: 200px; height: 200px; max-height: 200px;  max-width: 100%;"></canvas> 
+                       <!-- <img class="img-fluid" src="../../assets/dist/img/graph.jpg" alt="">-->
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="six" role="tabpanel"
+                      aria-labelledby="six-tab"><div class="chart">
+                        <canvas #CPCStateChart style="min-height: 200px; height: 200px; max-height: 200px;  max-width: 100%;"></canvas> 
+                       <!-- <img class="img-fluid" src="../../assets/dist/img/graph.jpg" alt="">-->
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="seven" role="tabpanel"
+                      aria-labelledby="seven-tab"><div class="chart">
+                        <canvas #CPAStateChart style="min-height: 200px; height: 200px; max-height: 200px;  max-width: 100%;"></canvas> 
+                       <!-- <img class="img-fluid" src="../../assets/dist/img/graph.jpg" alt="">-->
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="eight" role="tabpanel"
+                      aria-labelledby="eight-tab"><div class="chart">
+                        <canvas #COCStateChart style="min-height: 200px; height: 200px; max-height: 200px;  max-width: 100%;"></canvas> 
+                       <!-- <img class="img-fluid" src="../../assets/dist/img/graph.jpg" alt="">-->
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="nine" role="tabpanel"
+                      aria-labelledby="nine-tab"><div class="chart">
+                        <canvas #COAStateChart style="min-height: 200px; height: 200px; max-height: 200px;  max-width: 100%;"></canvas> 
+                       <!-- <img class="img-fluid" src="../../assets/dist/img/graph.jpg" alt="">-->
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="ten" role="tabpanel"
+                      aria-labelledby="ten-tab"><canvas #IPCStateChart style="min-height: 200px; height: 200px; max-height: 200px;  max-width: 100%;"></canvas> 
+                    </div>
+                    <div class="tab-pane fade" id="eleven" role="tabpanel"
+                      aria-labelledby="eleven-tab"><canvas #OPCStateChart style="min-height: 200px; height: 200px; max-height: 200px;  max-width: 100%;"></canvas> 
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+      </div>
+    </section>
+
+
+
+
+  </div>

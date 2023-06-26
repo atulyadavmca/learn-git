@@ -1,0 +1,208 @@
+<header>
+    <div class="logo-header">
+      <img src="assets/dist/img/national-health-authority-logo.png" alt="">
+    </div>
+    <div class="logo-header">
+      <h2>Scheme Monitoring Dashboard </h2>
+    </div>
+    <div class="logo-header">
+      <img src="assets/dist/img/PMJAY-logo.png" alt="">
+    </div>
+  </header>
+  <div class="wrapper">
+
+    <!-- Navbar -->
+    <div class="container-fluid mb-1 px-0">
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left: 0 !important;">
+      <!-- Left navbar links -->
+      <div class="navbar-nav" style="flex-direction: column;">
+        <p class="mb-0 d-block">Last refreshed at:</p>
+        <p class="mb-0 d-block"><b>07-12-2022</b> <b>05:36:11</b></p>
+        
+      </div>
+
+      <!-- Right navbar links -->
+      <div class="navbar-nav ml-auto top-headerright-wrap">
+        <div class="form-group my-1">            
+          <a href="sub-assigner.html" class="btn btn-primary">Login</a>
+        </div>
+      </div>
+    </nav>
+    </div>
+    <!-- /.navbar -->
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper" style="margin-left: 0 !important;">
+      <!-- Content Header (Page header) -->
+      <div class="content-header">
+
+        <div class="container-fluid mb-1 px-0">
+
+          <div class="row">
+            <div class="col-sm-12 col-md-8">
+              <div class="container-fluid card card-primary card-outline graph-wrapper px-2">
+                <div class="card-body table-responsive p-0" style="min-height: 223px;">
+                  <table class="table table-hover text-nowrap">
+                    <thead>
+                      <tr>
+                        <th>Organisation Name</th>
+                        <th>Initiated</th>
+                        <th>Created </th>
+                        <th>Redeemed</th>
+                        <th>Revoked</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let group of pageData.org_name_List;let i =index">
+                        <td><b>{{group.org_name}}</b></td>
+                        <td style="text-align: right;">{{group.initiated_count}}</td>
+                        <td style="text-align: right;">{{group.created_count}}</td>
+                        <td style="text-align: right;">{{group.redeemed_count}}</td>
+                        <td style="text-align: right;">{{group.revoked_count}}</td>
+                      </tr>
+                      
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">                
+                    <div class="container-fluid card card-primary card-outline graph-wrapper px-2">
+                      <h4>List of issuer bank </h4>
+                      <div class="users-bar-chart" style="min-height: auto;">
+                        <div class="card-body table-responsive p-0">
+                          <table class="table table-hover text-nowrap">
+                            <thead>
+                              <tr>
+                                <th>Name of issuer bank </th>
+                                <th>No. of voucher created </th>
+                                <th>Percentage</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr *ngFor="let group of pageData.bank_issuer_List;let i =index">
+                                  <td ><b>{{group.bank_name}}</b></td>
+                                  <td style="text-align: right;">{{group.total_count}}</td>
+                                  <td style="text-align: right;">{{group.total_per}}</td>
+                                  
+                              </tr>
+                                                     
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.content-header -->
+
+      <!-- Content Wrapper. Contains page content -->
+
+      <canvas id="areaChart"
+        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: none;"></canvas>
+      <canvas id="pieChart"
+        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: none;"></canvas>
+
+      <!-- Main content -->
+      <div class="content-header">
+        <div class="container-fluid mb-1 px-0">
+          <div class="row">
+
+            <div class="col-md-6">
+              <div class="container-fluid card card-primary card-outline graph-wrapper px-2">
+                <div class="rightSpeciality">
+                  <button type="button" id="created" data-toggle="button" aria-pressed="false" autocomplete="off" class="btn btn-lg btn-toggle my-0" (click)="onToggle('created')"><div _ngcontent-srv-c38="" class="handle"></div></button>
+                </div>
+                <h4>Voucher Created </h4>
+                <div class="performance-bar-chart">
+                  <div class="time-wrap" style="text-align: right;">
+                    <a href="javascript:void(0);" id="ERUPICTDW" (click)="ERUPICTDclickme('W')">Week</a> | <a href="javascript:void(0);" class="active" id="ERUPICTDT" (click)="ERUPICTDclickme('T')">Last 30 Days</a>
+                  </div>
+                  <div class="chart stackedBarChart" style="min-height: 10px;">
+                    <canvas #ERUPICreatedChart style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="container-fluid card card-primary card-outline graph-wrapper px-2">
+                <div class="rightSpeciality">
+                  <button type="button" id="redeemed" data-toggle="button" aria-pressed="false" autocomplete="off" class="btn btn-lg btn-toggle my-0" (click)="onToggle('redeemed')"> <div class="handle"></div></button>
+                </div>
+                <h4>Voucher Redeemed </h4>
+                <div class="performance-bar-chart">
+                  <div class="time-wrap" style="text-align: right;">
+                    <a href="javascript:void(0);" id="ERUPIRTDW" (click)="ERUPIRTDclickme('W')">Week</a> | <a href="javascript:void(0);" class="active" id="ERUPIRTDT" (click)="ERUPIRTDclickme('T')">Last 30 Days</a>
+                  </div>
+                  <div class="chart stackedBarChart" style="min-height: 10px;">
+                    <canvas #ERUPIRedeemedChart style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-6">
+              <div class="container-fluid card card-primary card-outline graph-wrapper px-2">
+                
+                <h4>Top 5 vouchers </h4>
+                <div class="performance-bar-chart">
+                  <div class="time-wrap" style="text-align: right;">
+                    <a href="javascript:void(0);" id="ERUPIRTDW" (click)="ERUPIRTDclickme('W')">Week</a> | <a href="javascript:void(0);" class="active" id="ERUPIRTDW" (click)="ERUPIRTDclickme('T')">Last 30 Days</a>
+                  </div>
+                  <div class="users-bar-chart">
+                    <div class="chart text-center">
+                        <canvas #ERUPITOPVoucherChart style="min-height: 175px; height: 175px; max-width: 100%;"></canvas> 
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="container-fluid card card-primary card-outline graph-wrapper px-2">
+                
+                <h4>Top 5 place based </h4>
+                <div class="performance-bar-chart">
+                  <div class="time-wrap" style="text-align: right;">
+                    <a href="javascript:void(0);">Week</a> | <a href="javascript:void(0);" class="active">Last 30 Days</a>
+                  </div>
+                  <div class="users-bar-chart">
+                    <div class="chart text-center">
+                        <canvas #ERUPITOPPlacedChart style="min-height: 175px; height: 175px; max-width: 100%;"></canvas> 
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>          
+
+        
+
+          
+        </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+
+
+    <!-- Main Footer -->
+    <footer class="main-footer text-center">
+      <strong>Copyright &copy; 2022 <a href="javascript:void(0);">AdminLTE.io</a>.</strong> All rights reserved.
+    </footer>
+  </div>

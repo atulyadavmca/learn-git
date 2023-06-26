@@ -1,0 +1,983 @@
+<app-headerinsights></app-headerinsights>
+<!--<div style="background:#0e9199;">
+<nav class="main-header navbar navbar-expand container mx-auto">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a href="#" class="nav-link py-0">
+                <img style="max-width: 100px;" class="img-fluid"
+                    src="assets/dist/img/national-health-authority-logo.png" alt="">
+            </a>
+        </li>
+    </ul>
+    <div class="collapse navbar-collapse order-3 justify-content-end">
+        <ul class="navbar-nav">
+            <li class="nav-item" id="insight">
+                <a class="nav-link" routerLink="" role="button" (click)="pmjayinsight();">
+                    <i ></i> Pmjay Insights
+                  </a> 
+            </li> 
+           
+            <li class="nav-item" id="bisdashboard">
+              <a class="nav-link" routerLink="" role="button" (click)="bisReport();">
+                <i></i> BIS Report
+              </a>
+            
+            </li>
+            
+            <li class="nav-item">
+                
+                <a class="nav-link" routerLink="" role="button">
+                    <i class="fas fa-user-circle"></i> Logout
+                  </a>     
+              </li>
+        </ul>
+    </div>
+</nav>
+</div>-->
+
+<div class="content-wrapper"  style="min-height: 404px;">
+    <section class="content-header">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12">
+                    <div class="info-box-text font-weight-bold mb-2">PMJAY Reports</div>
+                </div>
+
+                <div class="col-12">
+                    <div class="card card-primary card-tabs">
+                        <div class="card-header p-0">
+                          <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist" style="background: #F4FDF2;">
+                            <!--<li class="nav-item" id="bisreport">
+                                <a class="nav-link active" id="tabs-BIS-tab" data-toggle="pill"
+                                  href="#tabs-BIS" role="tab" aria-controls="tabs-BIS"
+                                  aria-selected="false" (click)="getReport('BIS');">BIS Report</a>
+                              </li> 
+                              <li class="nav-item" id="bcdreport">
+                                <a class="nav-link " id="tabs-ben-tab" data-toggle="pill"
+                                  href="#tabs-ben" role="tab" aria-controls="tabs-ben"
+                                  aria-selected="true" (click)="getReport('BCD');">Beneficiary Card Details</a>
+                              </li>-->
+                            <li class="nav-item" id="ccsreport">
+                              <a class="nav-link active" id="tabs-create-tab" data-toggle="pill"
+                                href="#tabs-create" role="tab" aria-controls="tabs-create"
+                                aria-selected="true" (click)="getReport('C');">Create Card Status Report</a>
+                            </li>
+
+                            <!--<li class="nav-item">
+                              <a class="nav-link" id="tabs-download-tab" data-toggle="pill"
+                                href="#tabs-download" role="tab" aria-controls="tabs-download"
+                                aria-selected="false" (click)="getReport('D');">Download Report</a>
+                            </li>   
+                            <li class="nav-item">
+                              <a class="nav-link" id="tabs-delivery-tab" data-toggle="pill"
+                                href="#tabs-delivery" role="tab" aria-controls="tabs-delivery"
+                                aria-selected="false" (click)="getReport('DE');">Delivery Report</a>
+                            </li>-->
+                           
+                            <li class="nav-item" >
+                                <a class="nav-link" id="tabs-Login-tab" data-toggle="pill"
+                                    href="#tabs-Login" role="tab" aria-controls="tabs-Login"
+                                aria-selected="false" (click)="getReport('LH');">Live Operator Report</a>
+                            </li>
+                            <!-- <li class="nav-item">
+                                <a class="nav-link" id="tabs-summary-tab" data-toggle="pill"
+                                    href="#tabs-summary" role="tab" aria-controls="tabs-summary"
+                                aria-selected="false" >eKyc Summary</a>
+                            </li> -->
+                                              
+                          </ul>
+                        </div>
+                        <div class="card-body px-1">
+                          <div class="tab-content" id="custom-tabs-one-tabContent">
+                            <div class="tab-pane fade" id="tabs-BIS" role="tabpanel"
+                            aria-labelledby="tabs-BIS-tab">
+                           
+                          <section class="content">
+                            <div class="container">
+                          <div class="row ">
+                            
+                            <div class="col-12 mb-2">                             
+                                <select id="ddlstate_summary"  class="form-control select2" style="width: 20%; float: right;" (change)="bindChart($event)">
+                                    <option value="" selected="selected">Select State</option>  
+                                    <option *ngFor="let st of stateList"  value={{st.value}}>
+                                        {{st.text}}
+                                        </option>                                  
+                                </select> 
+                          
+                </div>
+                            <div class="clearfix hidden-md-up"></div>
+                            <div class="col-12 col-sm-6 col-md-6">
+                                <div class="info-box info-box-one">
+                                    <div class="info-box-content p-0">
+                                        <div class="info-box-head">
+                                            <img src="assets/dist/img/ayushman-card-icon.png" alt="">
+                                            <span class="info-box-text font-weight-bold">PMJAY Card Created</span>
+                                        </div>
+            
+                                        <div class="info-box-number-wrap">
+                                            <div class="info-box-number">Overall
+                                                <b>{{PMJOverall}}</b>
+                                            </div>                                
+                                            <div class="info-box-number">Last 30 Days
+                                                <b>{{PMJLast30Days}}</b> 
+                                            </div>
+                                            <div class="info-box-number">Today
+                                                <b>{{PMJToday}}</b> 
+                                            </div>                                
+                                        </div>
+                                    </div>
+                                    <!--
+                                    <div class="leftchart"><img class="img-fluid" src="assets/dist/img/livegraph.gif" alt=""></div>-->
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-6">
+                                <div class="info-box info-box-two">
+                                    <div class="info-box-content p-0">
+                                        <div class="info-box-head">
+                                            <img src="assets/dist/img/ayushman-card-icon.png" alt="">
+                                            <span class="info-box-text font-weight-bold">NON PMJAY Card Created</span>
+                                        </div>
+            
+                                        <div class="info-box-number-wrap">
+                                            <div class="info-box-number">Overall
+                                                <b>{{NONPMJOverall}}</b>
+                                            </div>                                
+                                            <div class="info-box-number">Last 30 Days
+                                                <b>{{NONPMJLast30Days}}</b> 
+                                            </div>
+                                            <div class="info-box-number">Today
+                                                <b>{{NONPMJToday}}</b> 
+                                            </div>                                
+                                        </div>
+                                    </div>
+                                    <!--
+                                    <div class="leftchart"><img class="img-fluid" src="assets/dist/img/livegraph.gif" alt=""></div>-->
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                          </section>
+                                <section class="content">
+                                    <div class="container">
+                                        <div class="row">              
+                                            
+                                                <div class="col-12">
+                                                    <div class="info-box-text font-weight-bold mb-2">{{stateDist}} State - wise</div>
+                                                  </div>
+                                                  <div class="col-12 col-md-6">
+                                                    <div class="state-card card mb-4">
+                                                      <div class="card-header pb-0">
+                                                        <div class="leftSpeciality" style="float: none;">
+                                                            <h3 class="card-title">PMJAY Cards</h3> <span>(in Lakhs)</span>
+                                                            <div class="dropdown" style="display: inline-block; float: right; margin: 0;">
+                                                                <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <img src="assets/dist/img/download.png" alt=""> <span>Download</span>                                                                          
+                                                                </a>
+                                                                <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                                                  <a class="dropdown-item" href="javascript:void(0);" >Excel</a>
+                                                                  <a class="dropdown-item" href="javascript:void(0);" >PDF</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                      </div>
+                                
+                                                      <div class="card-body pt-0" style="overflow-y: scroll; height: 300px;">                        
+                                                        <div class="chart">
+                                                          <canvas #PMJChart style="min-height: 300px; max-width: 100%;"></canvas>
+                                                        </div>
+                                                      </div>
+                                                    </div>                    
+                                                  </div>
+                                                  <div class="col-12 col-md-6">
+                                                    <div class="state-card card mb-4">
+                                                      <div class="card-header pb-0">
+                                                        <div class="leftSpeciality" style="float:none;">
+                                                            <h3 class="card-title">NON PMJAY Cards</h3> <span>(in Lakhs)</span>
+                                                            <div class="dropdown" style="display: inline-block; float: right; margin: 0;">
+                                                                <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <img src="assets/dist/img/download.png" alt=""> <span>Download</span>                                                                          
+                                                                </a>
+                                                                <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                                                    <a class="dropdown-item" href="javascript:void(0);" >Excel</a>
+                                                                    <a class="dropdown-item" href="javascript:void(0);" >PDF</a>
+                                                                  </div>
+                                                            </div>
+                                                        </div>
+                                
+                                                       
+                                                      </div>
+                                
+                                                      <div class="card-body pt-0" style="overflow-y: scroll; height: 300px;">                        
+                                                        <div class="chart">
+                                                            <canvas #NONPMJChart style="min-height: 300px; max-width: 100%;"></canvas>
+                                                        </div>
+                                                      </div>
+                                                    </div>                    
+                                                  </div>
+
+                                                  <div class="col-12">
+                                                    <div class="info-box-text font-weight-bold mb-2">Cards Created Trends</div>
+                                                </div>
+                                
+                                                <div class="col-md-12">
+                                                    <div class="state-card card mb-4">                     
+                                                      <div class="card-body">
+                                                        <div class="text-right right-tabs">
+                                                            <div class="time-wrap" style="display: inline-block;">                                                       
+                                                                <a href="javascript:void(0);" id="BICCTDT" class="active" (click)="clickme('T')">Last 30 Days</a> |
+                                                                <a href="javascript:void(0);" id="BICCTDA" (click)="clickme('A')">All</a>
+                                                            </div>
+                                                            <div class="dropdown" style="display: inline-block; float: right; margin: 0;">
+                                                                <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <img src="assets/dist/img/download.png" alt=""> <span>Download</span>                                                                          
+                                                                </a>
+                                                                <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                                                  <a class="dropdown-item m-0" href="javascript:void(0);" >Excel</a>
+                                                                  <a class="dropdown-item m-0" href="javascript:void(0);" >PDF</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="chart">
+                                                          <canvas #PMJTDChart style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                  <div class="col-6">
+                                                    <div class="info-box-text font-weight-bold mb-2">Tagged Data</div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="info-box-text font-weight-bold mb-2">Family Card Status</div>
+                                                </div>
+                                                  <div class="col-md-6">
+                                                    <div class="state-card card mb-4">                     
+                                                      <div class="card-body" style="overflow-y: scroll; height: 400px;">
+                                                        <div class="text-right right-tabs">
+                                                            
+                                                            <div class="dropdown" style="display: inline-block; float: right; margin: 0;">
+                                                                <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <!--<img src="assets/dist/img/download.png" alt=""> <span>Download</span> -->                                                                         
+                                                                </a>
+                                                                <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                                                  <a class="dropdown-item m-0" href="javascript:void(0);" >Excel</a>
+                                                                  <a class="dropdown-item m-0" href="javascript:void(0);" >PDF</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="chart" >
+                                                            <canvas #TAGChart
+                                                            style="min-height: 580px; height: 580px; max-height: 900px;  max-width: 100%;"></canvas>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                                  <div class="col-md-6">
+                                                    <div class="state-card card mb-4">                     
+                                                      <div class="card-body" style="overflow-y: scroll; height: 400px;">
+                                                        <div class="text-right right-tabs">
+                                                            
+                                                            <div class="dropdown" style="display: inline-block; float: right; margin: 0;">
+                                                                <a class="dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <!--<img src="assets/dist/img/download.png" alt=""> <span>Download</span> -->                                                                         
+                                                                </a>
+                                                                <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                                                  <a class="dropdown-item m-0" href="javascript:void(0);" >Excel</a>
+                                                                  <a class="dropdown-item m-0" href="javascript:void(0);" >PDF</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="chart" >
+                                                            <canvas #FCSChart
+                                                            style="min-height: 580px; height: 580px; max-height: 900px;  max-width: 100%;"></canvas>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+                                        </div>
+                                    </div>
+                                </section>
+                               
+                            
+                            </div>
+
+                            <div class="tab-pane fade " id="tabs-ben" role="tabpanel"
+                              aria-labelledby="tabs-ben-tab">
+                              
+            
+                            <div class="col-md-12">
+                                <div class="card mb-0 treatment-table">                      
+                                  <div class="card-body p-0">                    
+                                    <div class="table-responsive">
+                                        <table id="bencarddetails" class="row-border hover">
+                                            <thead>
+                                                <tr>
+                                                  <th style="text-align: center;">S.No.</th>
+                                                  <th style="text-align: left;">State Name</th>
+                                                  <!--<th style="text-align: center;">District Name</th>-->
+                                                  <th style="text-align: center;">SECC Target Families</th>
+                                                  <th style="text-align: center;">SECC beneficiary families(with atleast 1 Ayushman cards)</th>
+                                                  <th style="text-align: center;">SECC Ayushman cards (individual)</th>
+                                                  <th style="text-align: center;">Non SECC beneficiary families (with Ayushman card)</th>
+                                                  <th style="text-align: center;">Non SECC Ayushman cards (individual)</th>
+                                                  <th style="text-align: center;">Families to be tagged</th>
+                                                 
+                                                </tr>
+                                              </thead>
+
+                                              <tbody> 
+                                                <tr *ngFor="let group of bencarddetails;let i =index">
+                                                    <td style="text-align: center;">
+                                                        {{i+1}} 
+                                                    </td>
+                                                    <td style="text-align: left;">{{group.state_name}}</td>
+                                                    <!--<td style="text-align: center;">{{group.district_name}}</td>-->
+                                                    <td style="text-align: center;">{{this.getCommaValue(group.secc_target_families)}}</td>
+                                                    <td style="text-align: center;">{{this.getCommaValue(group.secc_families_one_card)}}</td>
+                                                  <td style="text-align: center;">{{this.getCommaValue(group.secc_ayush_card_ind)}}</td>
+                                                 
+                                                  <td style="text-align: center;">{{this.getCommaValue(group.non_secc_families_one_card)}}</td>
+                                                  <td style="text-align: center;">{{this.getCommaValue(group.non_secc_ayush_card_ind)}}</td>
+                                                  <td style="text-align: center;">{{this.getCommaValue(group.families_to_be_tagged)}}</td>
+                                                </tr>
+                                          </tbody>
+
+                                        </table>
+                                    </div>                        
+                                  </div>
+                                </div>
+                                
+                              </div>
+                            </div>
+
+                            <div class="tab-pane fade show active" id="tabs-create" role="tabpanel"
+                              aria-labelledby="tabs-create-tab">
+                              <div class="col-12">
+                                <div class="beneficiaries-avail-wrap">
+                                    <div class="beneficiaries-avail-left-wrap">
+                                        <div class="treatment-select">
+                                            <select id="ddlstate_create"  [disabled]="Disabledddlstate_create"  class="form-control select2" style="width: 100%;" (change)="bindDistrict($event,'C')">
+                                                <option value="" selected="selected">Select State</option>  
+                                                <option *ngFor="let st of stateList"  value={{st.value}} [selected]="st.value===ddlstate">
+                                                    {{st.text}}
+                                                    </option>                                  
+                                            </select> 
+                                        </div>
+                                        <div class="treatment-select">
+                                            <select id="ddldistrict_create" [disabled]="Disabledddldistrict_create" class="form-control" style="width: 100%;">
+                                                <option value="" selected="selected">Select District</option>     
+                                                <option *ngFor="let st of DistrictList_Create"  value={{st.value}} [selected]="st.value===ddldistrict">
+                                                    {{st.text}}
+                                                    </option>                               
+                                            </select> 
+                                        </div>
+                                        <div class="treatment-select">
+                                            <select id="ddlagency_create" [disabled]="Disabledddlagency_create" class="form-control" style="width: 100%;">
+                                                <option value="" selected="selected">Select Agency Name</option>
+                                                <option *ngFor="let st of agencyList"  value={{st.value}} [selected]="st.value===ddlagency">
+                                                    {{st.text}}
+                                                    </option>                                         
+                                            </select>                                 
+                                        </div>
+                                        <div class="treatment-select" style="display:none ;">
+                                            <select id="ddlscheme_create" class="form-control" style="width: 100%;">
+                                                <option value="" selected="selected">Select Scheme Name</option>   
+                                                <option value="1">PMJAY</option>                                 
+                                                <option value="2">Non-PMJAY</option>                                 
+                                            </select>                                 
+                                        </div>
+
+                                        <div class="treatment-select"><input type="date" id="txtfromdate_create" class="form-control" style="width: 100%;" placeholder="From Date"></div>
+                                        <div class="treatment-select"><input type="date" id="txttodate_create" class="form-control" style="width: 100%;" placeholder="To Date"></div>
+                                    </div> 
+                                    <div class="beneficiaries-avail-right-wrap">
+                                        <button class="btn btn-primary" (click)="bindReport('C')">Search</button>  
+                                        <button class="btn btn-primary dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false" (click)="exportexcel('CSR','Card_Status_Report')"><img src="assets/dist/img/download-white.png" alt=""> <span>Download</span></button>
+                                       <!-- <button class="btn btn-primary dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/dist/img/download-white.png" alt=""> <span>Download</span></button>
+                                        <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="javascript:void(0);" >Excel</a>
+                                            <a class="dropdown-item" href="javascript:void(0);" >PDF</a>
+                                        </div>  -->                       
+                                    </div>                       
+                                </div>
+                            </div>
+            
+                            <div class="col-md-12">
+                                <div class="card mb-0 treatment-table">                      
+                                  <div class="card-body p-0">  
+                                   
+                                    <div style="text-align: center;">
+                                      <input type="checkbox" id="chkagency" name="agency" value="1" style="position: relative; top: 2px;"  (change)="checkCheckBoxvalue($event)">
+                                      <span id="agencytext" style="font-size: .8rem; margin-left: 4px;">Agency Wise</span>
+                                  </div>
+                                    <div class="table-responsive">
+                                      
+                                     
+                                        <table id="datatablecreated1"  class="row-border hover">
+                                            <thead>
+                                                <tr>
+                                                  <th style="text-align: center;" >S.No.</th>
+                                                  <th style="text-align: left;"   id="rowstate">State Name</th> 
+                                                  <th style="text-align: left;"   id="rowstate">District Name</th>                                                  
+                                                  <th  style="text-align: left;"  id="rowagency">Agency</th>                                                 
+                                                 <!-- <th  style="text-align: center;"  id="rowcreateddate">Created Date</th>-->
+                                                  <th  style="text-align: center;"  id="rowtotal">Total</th>
+                                                  <th  style="text-align: center;"  id="rowtotalaaproved">Total Approved</th>
+                                                  <th  style="text-align: center;"  id="rowtotalreject">Total Reject</th>
+                                                </tr>
+                                              </thead>
+
+                                              <tbody> 
+                                                <tr *ngFor="let group of datatablecreated;let i =index">
+                                                    <td style="text-align: center;" >
+                                                        {{i+1}} 
+                                                    </td>
+                                                    <td  style="text-align: left;"  id="rowstate">{{group.state_name}}</td>                                                   
+                                                    <td  style="text-align: left;"  id="rowstate">{{group.district_name}}</td>                                                   
+                                                    <td style="text-align: left;"  id="rowagency">{{group.agency_name}}</td>                                                   
+                                                    <!--<td  id="rowcreateddate">{{group.date}}</td>-->
+                                                    <td  style="text-align: right;"  id="rowtotal">{{group.total}}</td>
+                                                    <td  style="text-align: right;"  id="rowtotalaaproved">{{group.total_aaproved}}</td>
+                                                    <td  style="text-align: right;"  id="rowtotalreject">{{group.total_reject}}</td>
+                                                </tr>
+                                               
+                                          </tbody>
+                                          <tr id="trNotAgency" style="font-weight: bold;font-size: 15px;background-color: #89aeb0;"><td [attr.colspan]="colspan" id="tdColspan" style="text-align: center;">Total</td><td style="text-align: right;">{{total}}</td><td style="text-align: right;">{{total_approved}}</td><td style="text-align: right;">{{total_reject}}</td></tr>
+                                          
+                                        </table>
+
+                                        <table id="datatablecreated2"  class="row-border hover ">
+                                            <thead>
+                                                <tr>
+                                                  <th style="text-align: left;" >S.No.</th>
+                                                 
+                                                  <th style="text-align: left;"  id="rowdistrict">District Name</th>
+                                                  <th  id="rowagency" style="text-align: left;">Agency</th>
+                                                 
+                                                  <!-- <th  style="text-align: center;"  id="rowcreateddate">Created Date</th>-->
+                                                  <th style="text-align: center;"  id="rowtotal">Total</th>
+                                                  <th style="text-align: center;"  id="rowtotalaaproved">Total Approved</th>
+                                                  <th style="text-align: center;"  id="rowtotalreject">Total Reject</th>
+                                                </tr>
+                                              </thead>
+
+                                              <tbody> 
+                                                <tr *ngFor="let group of datatablecreated;let i =index">
+                                                    <td style="text-align: center;" >
+                                                        {{i+1}} 
+                                                    </td>
+                                                    
+                                                    <td style="text-align: left;"  id="rowdistrict">{{group.district_name}}</td>
+                                                    <td style="text-align: left;"  id="rowagency">{{group.agency_name}}</td>
+                                                   
+                                                    <!--<td style="text-align: center;"  id="rowcreateddate">{{group.date}}</td>-->
+                                                    <td  style="text-align: right;"  id="rowtotal">{{group.total}}</td>
+                                                    <td  style="text-align: right;"  id="rowtotalaaproved">{{group.total_aaproved}}</td>
+                                                    <td  style="text-align: right;"  id="rowtotalreject">{{group.total_reject}}</td>
+                                                </tr>
+                                          </tbody>
+                                          <tr style="font-weight: bold;font-size: 15px;background-color: #89aeb0;"><td [attr.colspan]="colspan" id="tdColspan" style="text-align: center;">Total</td><td style="text-align: right;">{{total}}</td><td style="text-align: right;">{{total_approved}}</td><td style="text-align: right;">{{total_reject}}</td></tr>
+                                        </table>
+
+                                        <table id="datatablecreated3"  class="row-border hover">
+                                            <thead>
+                                                <tr>
+                                                  <th style="text-align: left;" >S.No.</th>                                                 
+                                                  <th style="text-align: left;"  id="rowagency">Agency</th>                                                 
+                                                 <!-- <th  style="text-align: center;"  id="rowcreateddate">Created Date</th>-->
+                                                  <th style="text-align: center;"  id="rowtotal">Total</th>
+                                                  <th style="text-align: center;"  id="rowtotalaaproved">Total Approved</th>
+                                                  <th style="text-align: center;"  id="rowtotalreject">Total Reject</th>
+                                                </tr>
+                                              </thead>
+
+                                              <tbody> 
+                                                <tr *ngFor="let group of datatablecreated;let i =index">
+                                                    <td style="text-align: center;"  >
+                                                        {{i+1}} 
+                                                    </td>                                                    
+                                                    <td style="text-align: left;"  id="rowagency">{{group.agency_name}}</td>                                                   
+                                                    <!--<td style="text-align: center;"  id="rowcreateddate">{{group.date}}</td>-->
+                                                    <td style="text-align: right;"  id="rowtotal">{{group.total}}</td>
+                                                    <td  style="text-align: right;"  id="rowtotalaaproved">{{group.total_aaproved}}</td>
+                                                    <td  style="text-align: right;"  id="rowtotalreject">{{group.total_reject}}</td>
+                                                </tr>
+                                          </tbody>
+                                          <tr id="trNotAgency" style="font-weight: bold;font-size: 15px;background-color: #89aeb0;"><td [attr.colspan]="colspan" id="tdColspan" style="text-align: center;">Total</td><td style="text-align: right;">{{total}}</td><td style="text-align: right;">{{total_approved}}</td><td style="text-align: right;">{{total_reject}}</td></tr>
+                                        </table>
+
+                                        <table id="datatablecreated4"  class="row-border hover">
+                                            <thead>
+                                                <tr>
+                                                  <th style="text-align: left;" >S.No.</th>
+                                                  <th style="text-align: left;"  id="rowstate">State Name</th>
+                                                  <th style="text-align: left;"  id="rowcreatedby">Created By</th>
+                                                  <th style="text-align: left;"  id="rowname">Name</th>
+                                                  <!-- <th  style="text-align: center;"  id="rowcreateddate">Created Date</th>-->
+                                                  <th style="text-align: center;"  id="rowtotal">Total</th>
+                                                  <th style="text-align: center;"  id="rowtotalaaproved">Total Approved</th>
+                                                  <th style="text-align: center;"  id="rowtotalreject">Total Reject</th>
+                                                </tr>
+                                              </thead>
+
+                                              <tbody> 
+                                                <tr *ngFor="let group of datatablecreated;let i =index">
+                                                    <td style="text-align: center;" >
+                                                        {{i+1}} 
+                                                    </td>
+                                                    <td style="text-align: left;"  id="rowstate">{{group.state_name}}</td>
+                                                    <td style="text-align: left;"  id="rowcreatedby">{{group.created_by}}</td>
+                                                    <td style="text-align: left;"  id="rowname">{{group.name}}</td>
+                                                    <!--<td style="text-align: center;"  id="rowcreateddate">{{group.date}}</td>-->
+                                                    <td style="text-align: center;"  style="text-align: right;"  id="rowtotal">{{group.total}}</td>
+                                                    <td style="text-align: center;"  style="text-align: right;"  id="rowtotalaaproved">{{group.total_aaproved}}</td>
+                                                    <td style="text-align: center;"  style="text-align: right;"  id="rowtotalreject">{{group.total_reject}}</td>
+                                                </tr>
+                                          </tbody>
+                                          <tr id="trNotAgency" style="font-weight: bold;font-size: 15px;background-color: #89aeb0;"><td [attr.colspan]="colspan" id="tdColspan" style="text-align: center;">Total</td><td style="text-align: right;">{{total}}</td><td style="text-align: right;">{{total_approved}}</td><td style="text-align: right;">{{total_reject}}</td></tr>
+                                        </table>
+
+                                    </div>                        
+                                  </div>
+                                </div>
+                                
+                              </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="tabs-download" role="tabpanel"
+                              aria-labelledby="tabs-download-tab">
+                              <div class="col-12">
+                                <div class="beneficiaries-avail-wrap">
+                                    <div class="beneficiaries-avail-left-wrap">
+                                        <div class="treatment-select">
+                                            <select id="ddlstate_download"  [disabled]="Disabledddlstate_create"  class="form-control select2" style="width: 100%;" (change)="bindDistrict($event,'D')">
+                                                <option value="" selected="selected">Select State</option>  
+                                                <option *ngFor="let st of stateList"  value={{st.value}}>
+                                                    {{st.text}}
+                                                    </option>                                  
+                                            </select> 
+                                        </div>
+                                        <div class="treatment-select">
+                                            <select id="ddldistrict_download"  [disabled]="Disabledddldistrict_create"  class="form-control" style="width: 100%;">
+                                                <option value="" selected="selected">Select District</option> 
+                                                <option *ngFor="let st of DistrictList_Download"  value={{st.value}}>
+                                                    {{st.text}}
+                                                    </option>                                     
+                                            </select> 
+                                        </div>
+                                        <div class="treatment-select">
+                                            <select id="ddlagency_download"  [disabled]="Disabledddlagency_create"  class="form-control" style="width: 100%;">
+                                                <option value="" selected="selected">Select Agency Name</option>
+                                                <option *ngFor="let st of agencyList"  value={{st.value}}>
+                                                    {{st.text}}
+                                                    </option>                                         
+                                            </select>                                 
+                                        </div>
+                                        <div class="treatment-select">
+                                            <select id="ddlscheme_download" class="form-control" style="width: 100%;">
+                                                <option value="" selected="selected">Select Scheme Name</option>   
+                                                <option value="1">PMJAY</option>                                 
+                                                <option value="2">Non-PMJAY</option>                                 
+                                            </select>                                 
+                                        </div>
+                                        <div class="treatment-select"><input type="date" id="txtfromdate_download" class="form-control" style="width: 100%;" placeholder="From Date"></div>
+                                        <div class="treatment-select"><input type="date" id="txttodate_download" class="form-control" style="width: 100%;" placeholder="To Date"></div>
+                                    </div> 
+                                    <div class="beneficiaries-avail-right-wrap">
+                                        <button class="btn btn-primary" (click)="bindReport('D')">Search</button>
+                                        <button class="btn btn-primary dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/dist/img/download-white.png" alt=""> <span>Download</span></button>
+                                        <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="javascript:void(0);" >Excel</a>
+                                            <a class="dropdown-item" href="javascript:void(0);" >PDF</a>
+                                        </div>                                                     
+                                    </div>                       
+                                </div>
+                            </div>
+            
+                            <div class="col-md-12">
+                                <div class="card mb-0 treatment-table">                      
+                                    <div class="card-body p-0">                    
+                                        <div class="table-responsive">
+                                        <table id="datatabledownload" class="row-border hover">
+                                            <thead>
+                                                <tr>
+                                                  <th style="text-align: center;">S.No.</th>
+                                                  <th style="text-align: center;">Total</th>
+                                                  <th style="text-align: center;">Download By</th>
+                                                  <th style="text-align: center;">Schemes</th>
+                                                  <th style="text-align: center;">Download Date</th>
+                                                  <th style="text-align: center;">Agency</th>
+                                                  <th style="text-align: center;">Name</th>
+                                                  <th style="text-align: center;">State Code</th>
+                                                  <th style="text-align: center;">District</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody> 
+                                                  <!--
+                                                <tr *ngFor="let group of datatabledownload;let i =index">
+                                                    <td style="text-align: center;">
+                                                        {{i+1}} 
+                                                    </td>
+                                                    <td style="text-align: center;">{{group.total}}</td>
+                                                    <td style="text-align: center;">{{group.created_by}}</td>
+                                                    <td style="text-align: center;">{{group.scheme_name}}</td>
+                                                  <td style="text-align: center;">{{group.date}}</td>
+                                                  <td style="text-align: center;">{{group.agency_name}}</td>
+                                                  <td style="text-align: center;">{{group.name}}</td>
+                                                  <td style="text-align: center;">{{group.state_name}}</td>
+                                                  <td style="text-align: center;">{{group.district_name}}</td>
+                                                </tr>-->
+                                          </tbody>
+                                        </table>
+                                    </div>                        
+                                  </div>
+                                </div>
+                                
+                              </div>
+                            </div>  
+                            
+                            <div class="tab-pane fade" id="tabs-delivery" role="tabpanel"
+                              aria-labelledby="tabs-delivery-tab">
+                              <div class="col-12">
+                                <div class="beneficiaries-avail-wrap">
+                                    <div class="beneficiaries-avail-left-wrap">
+                                        <div class="treatment-select">
+                                            <select id="ddlstate_delivery"  [disabled]="Disabledddlstate_create"  class="form-control select2" style="width: 100%;" (change)="bindDistrict($event,'DE')">
+                                                <option value="" selected="selected">Select State</option>  
+                                                <option *ngFor="let st of stateList"  value={{st.value}}>
+                                                    {{st.text}}
+                                                    </option>                                  
+                                            </select> 
+                                        </div>
+                                        <div class="treatment-select">
+                                            <select id="ddldistrict_delivery"  [disabled]="Disabledddldistrict_create"  class="form-control" style="width: 100%;">
+                                                <option value="" selected="selected">Select District</option> 
+                                                <option *ngFor="let st of DistrictList_Delivery"  value={{st.value}}>
+                                                    {{st.text}}
+                                                    </option>                                     
+                                            </select> 
+                                        </div>
+                                        <div class="treatment-select">
+                                            <select id="ddlagency_delivery"  [disabled]="Disabledddlagency_create"  class="form-control" style="width: 100%;">
+                                                <option value="" selected="selected">Select Agency Name</option>
+                                                <option *ngFor="let st of agencyList"  value={{st.value}}>
+                                                    {{st.text}}
+                                                    </option>                                        
+                                            </select>                                 
+                                        </div>
+                                        <div class="treatment-select">
+                                            <select id="ddlscheme_delivery" class="form-control" style="width: 100%;">
+                                                <option value="" selected="selected">Select Scheme Name</option>   
+                                                <option value="1">PMJAY</option>                                 
+                                                <option value="2">Non-PMJAY</option>                                 
+                                            </select>                                 
+                                        </div>
+                                        <div class="treatment-select"><input type="date" id="txtfromdate_delivery" class="form-control" style="width: 100%;" placeholder="From Date"></div>
+                                        <div class="treatment-select"><input type="date" id="txttodate_delivery" class="form-control" style="width: 100%;" placeholder="To Date"></div>
+                                    </div> 
+                                    <div class="beneficiaries-avail-right-wrap">
+                                        <button class="btn btn-primary" (click)="bindReport('DE')">Search</button> 
+                                        <button class="btn btn-primary dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/dist/img/download-white.png" alt=""> <span>Download</span></button>
+                                        <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="javascript:void(0);" >Excel</a>
+                                            <a class="dropdown-item" href="javascript:void(0);" >PDF</a>
+                                        </div>                                                    
+                                    </div>                       
+                                </div>
+                            </div>
+            
+                            <div class="col-md-12">
+                                <div class="card mb-0 treatment-table">                      
+                                    <div class="card-body p-0">                    
+                                        <div class="table-responsive">
+                                        <table id="datatabledeliver" class="row-border hover">
+                                            <thead>
+                                                <tr>
+                                                  <th style="text-align: center;">S.No.</th>
+                                                  <th style="text-align: center;">Total</th>
+                                                  <th style="text-align: center;">Delivery By</th>
+                                                  <th style="text-align: center;">Schemes</th>
+                                                  <th style="text-align: center;">Delivery Date</th>
+                                                  <th style="text-align: center;">Agency</th>
+                                                  <th style="text-align: center;">Name</th>
+                                                  <th style="text-align: center;">State Code</th>
+                                                  <th style="text-align: center;">District</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody> 
+                                                <!--<tr *ngFor="let group of datatabledeliver;let i =index">
+                                                    <td style="text-align: center;">
+                                                        {{i+1}} 
+                                                    </td>
+                                                    <td style="text-align: center;">{{group.total}}</td>
+                                                    <td style="text-align: center;">{{group.created_by}}</td>
+                                                    <td style="text-align: center;">{{group.scheme_name}}</td>
+                                                  <td style="text-align: center;">{{group.date}}</td>
+                                                  <td style="text-align: center;">{{group.agency_name}}</td>
+                                                  <td style="text-align: center;">{{group.name}}</td>
+                                                  <td style="text-align: center;">{{group.state_name}}</td>
+                                                  <td style="text-align: center;">{{group.district_name}}</td>
+                                                </tr>-->
+                                          </tbody>
+                                        </table>
+                                    </div>                        
+                                  </div>
+                                </div>
+                                
+                              </div>
+                            </div> 
+
+                            <div class="tab-pane fade" id="tabs-Login" role="tabpanel"
+                              aria-labelledby="tabs-Login-tab">
+                              <div class="col-12">
+                                <div class="beneficiaries-avail-wrap">
+                                    <div class="beneficiaries-avail-left-wrap">
+                                        <div class="treatment-select">
+                                            <select id="ddlstate_login" [disabled]="Disabledddlstate_create" class="form-control select2" style="width: 100%;" (change)="bindDistrict($event,'Download')">
+                                                <option value="" selected="selected">Select State</option>  
+                                                <option *ngFor="let st of stateList"  value={{st.value}} [selected]="st.value===ddlstatelogin">
+                                                    {{st.text}}
+                                                    </option>                                  
+                                            </select> 
+                                        </div>
+                                       <!-- <div class="treatment-select">
+                                            <select id="ddldistrict_login" [disabled]="Disabledddldistrict_create" class="form-control" style="width: 100%;">
+                                                <option value="" selected="selected">Select District</option> 
+                                                <option *ngFor="let st of DistrictList_Download"  value={{st.value}} [selected]="st.value===ddldistrict">
+                                                    {{st.text}}
+                                                    </option>                                     
+                                            </select> 
+                                        </div>-->
+                                        <div class="treatment-select">
+                                            <select id="ddlagency_login" class="form-control" [disabled]="Disabledddlagency_create" style="width: 100%;">
+                                                <option value="" selected="selected">Select Agency Name</option>
+                                                <option *ngFor="let st of agencyList"  value={{st.value}} [selected]="st.value===ddllagency">
+                                                    {{st.text}}
+                                                    </option>                                         
+                                            </select>                                 
+                                        </div>
+                                       <!-- <div class="treatment-select">
+                                            <select id="ddlscheme_details" class="form-control" style="width: 100%;">
+                                                <option value="" selected="selected">Select Scheme Name</option>   
+                                                <option value="">PMJAY</option>                                 
+                                                <option value="">Non-PMJAY</option>                                 
+                                            </select>                                 
+                                        </div>-->
+                                        <div class="treatment-select"><input type="date" id="txtfromdate_login" class="form-control" style="width: 100%;" placeholder="From Date"></div>
+                                        <!--<div class="treatment-select"><input type="date" id="txttodate_details" class="form-control" style="width: 100%;" placeholder="To Date"></div>-->
+                                    </div> 
+                                    <div class="beneficiaries-avail-right-wrap">
+                                        <button class="btn btn-primary" (click)="bindReport('LH')">Search</button>
+                                        <button class="btn btn-primary dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false" (click)="exportexcel('LH','Login_History')"><img src="assets/dist/img/download-white.png" alt=""> <span>Download</span></button>
+                                        <!--<button class="btn btn-primary dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/dist/img/download-white.png" alt=""> <span>Download</span></button>
+                                        <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="javascript:void(0);" >Excel</a>
+                                            <a class="dropdown-item" href="javascript:void(0);" >PDF</a>
+                                        </div>-->                                                     
+                                    </div>                       
+                                </div>
+                            </div>
+            
+                            <div class="col-md-12">
+                                <div class="card mb-0 treatment-table">                      
+                                    <div class="card-body p-0">                    
+                                        <div class="table-responsive">
+                                        <table id="loginhistory" class="row-border hover">
+                                            <thead>
+                                                <tr>
+                                                  <th style="text-align: center;">S.No.</th>
+                                                  <th style="text-align: center;">State Name</th>
+                                                  
+                                                  <th style="text-align: center;">Agency Name</th>
+                                                  <th style="text-align: center;">User ID</th>
+                                                  <th style="text-align: center;">Name</th>
+                                                  <th style="text-align: center;">Login Date </th>
+                                                  
+                                                </tr>
+                                              </thead>
+                                              <tbody> 
+                                                <tr *ngFor="let group of loginhistory;let i =index">
+                                                    <td style="text-align: center;">
+                                                        {{i+1}} 
+                                                    </td>
+                                                    <td style="text-align: left;">{{group.state_name}}</td>
+                                                    
+                                                    <td style="text-align: left;">{{group.agency_name}}</td>
+                                                  <td style="text-align: left;">{{group.userid}}</td>
+                                                  <td style="text-align: left;">{{group.name}}</td>
+                                                  <td style="text-align: left;">{{group.logindate}}</td>
+                                                 
+                                                </tr>
+                                          </tbody>
+                                        </table>
+                                    </div>                        
+                                  </div>
+                                </div>
+                                
+                              </div>
+                            </div>  
+
+
+                            <div class="tab-pane fade" id="tabs-summary" role="tabpanel"
+                              aria-labelledby="tabs-summary-tab">
+                              <div class="col-12">
+                                <div class="beneficiaries-avail-wrap">
+                                    <div class="beneficiaries-avail-left-wrap">
+                                        <div class="treatment-select">
+                                            <select id="ddlstate_summary" class="form-control select2" style="width: 100%;" (change)="bindDistrict($event,'Download')">
+                                                <option value="" selected="selected">Select State</option>  
+                                                <option *ngFor="let st of stateList"  value={{st.value}}>
+                                                    {{st.text}}
+                                                    </option>                                  
+                                            </select> 
+                                        </div>
+                                        <div class="treatment-select">
+                                            <select id="ddldistrict_summary" class="form-control" style="width: 100%;">
+                                                <option value="" selected="selected">Select District</option> 
+                                                <option *ngFor="let st of DistrictList_Download"  value={{st.value}}>
+                                                    {{st.text}}
+                                                    </option>                                     
+                                            </select> 
+                                        </div>
+                                        <div class="treatment-select">
+                                            <select id="ddlagency_summary" class="form-control" style="width: 100%;">
+                                                <option value="" selected="selected">Select Agency Name</option>
+                                                <option *ngFor="let st of agencyList"  value={{st.value}}>
+                                                    {{st.text}}
+                                                    </option>                                         
+                                            </select>                                 
+                                        </div>
+                                        <div class="treatment-select">
+                                            <select id="ddlscheme_summary" class="form-control" style="width: 100%;">
+                                                <option value="" selected="selected">Select Scheme Name</option>   
+                                                <option value="1">PMJAY</option>                                 
+                                                <option value="2">Non-PMJAY</option>                                 
+                                            </select>
+                                            <div class="treatment-select"><input type="date" id="txtfromdate_summary" class="form-control" style="width: 100%;" placeholder="From Date"></div>
+                                        <div class="treatment-select"><input type="date" id="txttodate_create_summary" class="form-control" style="width: 100%;" placeholder="To Date"></div>                                 
+                                        </div>
+                                    </div> 
+                                    <div class="beneficiaries-avail-right-wrap">
+                                        <button class="btn btn-primary">Search</button>
+                                        <button class="btn btn-primary dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/dist/img/download-white.png" alt=""> <span>Download</span></button>
+                                        <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" href="javascript:void(0);" >Excel</a>
+                                            <a class="dropdown-item" href="javascript:void(0);" >PDF</a>
+                                        </div>                                                     
+                                    </div>                       
+                                </div>
+                            </div>
+            
+                            <div class="col-md-12">
+                                <div class="card mb-0 treatment-table">                      
+                                    <div class="card-body p-0">                    
+                                        <div class="table-responsive">
+                                        <table class="row-border hover">
+                                            <thead>
+                                                <tr>
+                                                  <th style="text-align: center;">S.No.</th>
+                                                  <th style="text-align: center;">State</th>
+                                                  <th style="text-align: center;">District</th>
+                                                  <th style="text-align: center;">Mobile No. of Operator</th>
+                                                  <th style="text-align: center;">Name of Operator</th>
+                                                  <th style="text-align: center;">Aadhaar Number of Operator </th>
+                                                  <th style="text-align: center;">Date</th>
+                                                  <th style="text-align: center;">Number of eKYC Done</th>
+                                                  <th style="text-align: center;">Number of eKYC Approve</th>
+                                                  <th style="text-align: center;">Number of eKYC Reject</th>
+                                                  <th style="text-align: center;">Number of eCard Downloaded</th>
+                                                  <th style="text-align: center;">Number of e-Card Distributed to the Beneficiary via Biometric</th>
+                                                </tr>
+                                              </thead>
+                                              <tbody> 
+                                                <tr>                                        
+                                                    <td style="text-align: center;">1</td>
+                                                    <td style="text-align: center;">Delhi</td>
+                                                    <td style="text-align: center;">Delhi</td>
+                                                    <td style="text-align: center;">9988779879</td>
+                                                    <td style="text-align: center;">Amit</td>
+                                                    <td style="text-align: center;">852174589632</td>
+                                                    <td style="text-align: center;">02/08/2021</td>
+                                                    <td style="text-align: center;">99</td>
+                                                    <td style="text-align: center;">50</td>
+                                                    <td style="text-align: center;">0</td>
+                                                    <td style="text-align: center;">100</td>
+                                                    <td style="text-align: center;">5</td>
+                                                </tr>
+                                                <tr>                                        
+                                                    <td style="text-align: center;">2</td>
+                                                    <td style="text-align: center;">Delhi</td>
+                                                    <td style="text-align: center;">Delhi</td>
+                                                    <td style="text-align: center;">9988779879</td>
+                                                    <td style="text-align: center;">Amit</td>
+                                                    <td style="text-align: center;">852174589632</td>
+                                                    <td style="text-align: center;">02/08/2021</td>
+                                                    <td style="text-align: center;">99</td>
+                                                    <td style="text-align: center;">50</td>
+                                                    <td style="text-align: center;">0</td>
+                                                    <td style="text-align: center;">100</td>
+                                                    <td style="text-align: center;">5</td>
+                                                </tr>
+                                                <tr>                                        
+                                                    <td style="text-align: center;">3</td>
+                                                    <td style="text-align: center;">Delhi</td>
+                                                    <td style="text-align: center;">Delhi</td>
+                                                    <td style="text-align: center;">9988779879</td>
+                                                    <td style="text-align: center;">Amit</td>
+                                                    <td style="text-align: center;">852174589632</td>
+                                                    <td style="text-align: center;">02/08/2021</td>
+                                                    <td style="text-align: center;">99</td>
+                                                    <td style="text-align: center;">50</td>
+                                                    <td style="text-align: center;">0</td>
+                                                    <td style="text-align: center;">100</td>
+                                                    <td style="text-align: center;">5</td>
+                                                </tr>
+                                                <tr>                                        
+                                                    <td style="text-align: center;">4</td>
+                                                    <td style="text-align: center;">Delhi</td>
+                                                    <td style="text-align: center;">Delhi</td>
+                                                    <td style="text-align: center;">9988779879</td>
+                                                    <td style="text-align: center;">Amit</td>
+                                                    <td style="text-align: center;">852174589632</td>
+                                                    <td style="text-align: center;">02/08/2021</td>
+                                                    <td style="text-align: center;">99</td>
+                                                    <td style="text-align: center;">50</td>
+                                                    <td style="text-align: center;">0</td>
+                                                    <td style="text-align: center;">100</td>
+                                                    <td style="text-align: center;">5</td>
+                                                </tr>
+                                              </tbody>
+                                        </table>
+                                    </div>                        
+                                  </div>
+                                </div>
+                                
+                              </div>
+
+
+                              
+                            </div>
+                            
+
+                            
+                          
+
+
+
+
+                          </div>
+                        </div>
+    
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+    
+
+
+

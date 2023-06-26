@@ -1,0 +1,8 @@
+.right-content-wrap.right-content-capf-wrap {
+    max-width: initial;
+    flex-direction: row;
+    display: flex;
+}
+.right-content-wrap.right-content-capf-wrap .form-group {
+    margin: 0 0 0 5px;
+}

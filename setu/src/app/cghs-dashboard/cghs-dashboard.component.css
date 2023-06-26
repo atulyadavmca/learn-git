@@ -1,0 +1,116 @@
+h3 { 
+    text-align:center; 
+    line-height:33px;
+}
+
+div.box {
+    height:100px;
+    width:200px;
+    background-color:#eee;
+    border:1px solid #aaa;
+    position:relative;              
+    top:50px;
+    left:50px;
+    border-radius:7px;
+}
+
+.box:before {
+    position:absolute;              
+    right:-20px; 
+    top:5px;
+    content:'';                     
+    height:0;
+    width:0;
+    border:10px solid transparent;
+    z-index:1;                      
+}
+
+.box:after{
+    position:absolute;          
+    right:-17px;    
+    top:25px;
+    content:'';                         
+    height:0;
+    width:0;
+    border-top: 8px solid transparent;
+    border-left: 8px solid #aaa;
+    border-right: 8px solid transparent;        
+    border-bottom: 8px solid transparent;
+    z-index:1;                  
+}
+
+.stwise-ekyc-radio {
+    float: left;
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+.stwise-ekyc-radio label {
+    margin-left: 5px;
+}
+
+.authorizehsop-togg {
+    float: right;
+    padding-right: 60px;
+    padding-left: 135px;
+    max-height: 25px;
+    margin-top: -22px;
+    }
+    
+    .authorizehsop-togg .btn-toggle.btn-lg{
+    height: 20px;
+    width: 2.5rem;
+    background: #c6e2e3; margin-left: 2.8rem;
+    }
+    
+    .authorizehsop-togg .btn-toggle.btn-lg > .handle{
+    top: -1px;
+    left: 0;
+    width: 22px;
+    height: 22px;
+    background: #149198;
+    }
+    
+    .authorizehsop-togg .btn-toggle.btn-lg.active > .handle {
+    left: 1.3rem;
+    transition: left 0.25s;
+    }
+    
+    .authorizehsop-togg .btn-toggle.btn-lg:before, .authorizehsop-togg .btn-toggle.btn-lg:after{
+    line-height: 1.20rem;
+    width: 3.55rem;
+    font-size: .75rem;
+    }
+    
+    .authorizehsop-togg .btn-toggle.btn-lg:before {
+    content: "Paid";
+    left: -3.2rem;
+    }
+    
+    .authorizehsop-togg .btn-toggle:before, .authorizehsop-togg .btn-toggle:after {
+    color: #E17474;
+    }
+    .authorizehsop-togg .btn-toggle:before, .authorizehsop-togg .btn-toggle:focus {
+      box-shadow: none;
+      }
+    
+    .authorizehsop-togg .btn-toggle.btn-lg.active:after {
+    opacity: 1;
+    }
+    
+    .authorizehsop-togg .btn-toggle.btn-lg:after {
+    content: "TDA";
+    right: -3.2rem;
+    opacity: 0.5;
+    }
+
+    .paidamount-togg{
+        margin: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+
+     .tooltip-wrapper.tooltippaid-wrapper::after{
+        left: 17%;
+     }

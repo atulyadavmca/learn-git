@@ -1,0 +1,988 @@
+
+<div class="content-wrapper bis-card-report-wrap">
+    <section class="content-header">
+        <div class="container">
+            <div class="head-content-wrap">
+                <div class="left-content-wrap">
+                    <div class="custom-title">PM-JAY Card Creation Drive </div>
+                </div>
+                <div class="text-right subtitle mb-0 text-white">Last Updated : {{uploadDate}}</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="cghs-wrapper pb-3">
+    <section class="custom-tabs-wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-3 col-lg-3">
+                    <div id="vert-tabs-tab" role="tablist" aria-orientation="vertical" class="nav flex-column nav-tabs h-100 left-tabs mb-2">
+                        <!--<a id="vert-tabs-home-tab" data-toggle="pill" href="#vert-tabs-home" role="tab" aria-controls="vert-tabs-home" aria-selected="true" class="nav-link" >Authentication Report</a>-->
+                        <a id="vert-tabs-profile-tab" data-toggle="pill" href="#vert-tabs-profile" role="tab" aria-controls="vert-tabs-profile" aria-selected="false" class="nav-link active" >eKYC Received Report - State Wise</a>
+                        <a id="vert-tabs-messages-tab" data-toggle="pill" href="#vert-tabs-messages" role="tab" aria-controls="vert-tabs-messages" aria-selected="false" class="nav-link" >eKYC Active User List</a>
+                        <a id="vert-tabs-card-tab" data-toggle="pill" href="#vert-tabs-card" role="tab" aria-controls="vert-tabs-card" aria-selected="false" class="nav-link" >Card Delivery - Agency Wise</a>
+                        
+                        <!--<a id="vert-tabs-face-tab" data-toggle="pill" href="#vert-tabs-face" role="tab" aria-controls="vert-tabs-face" aria-selected="false" class="nav-link" >eKYC Received Report - Face Auth</a>-->
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-12 col-md-9 col-lg-9">
+                    <div class="tab-content" >
+                        <div id="vert-tabs-home" role="tabpanel" aria-labelledby="vert-tabs-home-tab" class="tab-pane text-left fade ">
+                            <div class="container-fluid px-0">
+                                <div class="accordion-body-wrap">
+                                   <!-- <div class="d-flex justify-content-end">
+                                        <div class="right-content-wrap mr-2">
+                                            <div class="form-group mb-1">
+                                                <select class="form-control" style="width: 100%;" id="ddlstatename" [disabled]="Disabledddlstate_ARR" [(ngModel)]="selectedState_ARR"  (change)="onStateChange('ARR')">
+                                                  <option value="" selected="selected">Select State</option>
+                                                  <option *ngFor="let st of stateList"  value={{st.value}}>
+                                                  {{st.text}}
+                                                  </option>
+                                              </select>                                  
+                                            </div>
+                                        </div>
+                                        <div class="right-content-wrap">
+                                            <div class="form-group mb-1">                                    
+                                              <div class="treatment-select"><input type="date" id="txtfromdate_create" class="form-control" style="width: 100%;" placeholder="From Date" [(ngModel)]="fromDate_ARR" (change)="onFromDateChange('ARR')"></div>
+                                            </div>
+                                        </div>
+                                    </div>-->
+                                    <div class="card mb-0 treatment-table my-3">
+                                        <div class="card-body p-0">
+                                            <div class="table-responsive">
+                                                <table id="tblARR" class="row-border hover">
+                                                    <thead>
+                                                        <tr style="text-align: center;">
+                                                            <th style="text-align: center;">S.No.</th>
+                                                            <th style="text-align: left;width: 150px;">State Name</th>
+                                                            <th>Total Auth</th>
+                                                            <th>Face Auth</th>
+                                                            <th>Failed Face Auth</th>
+                                                            <th>Face Auth Average Time</th>                                                            
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let rec of pageData.authRequestReceived;let i =index">
+                                                            <td style="text-align: center;">
+                                                                {{i+1}} 
+                                                            </td>
+                                                            <td>{{rec.text}}</td>
+                                                            <td style="text-align: right;">{{this.getCommaValue(rec.total_auth)}}</td>
+                                                            <td style="text-align: right;">{{this.getCommaValue(rec.total_face_auth)}}</td>
+                                                            <td style="text-align: right;">{{this.getCommaValue(rec.total_face_auth_fail)}}</td>
+                                                            <td style="text-align: right;">{{this.getCommaValue(rec.face_auth_average_time)}}</td>                                                            
+                                                        </tr>
+                                                    </tbody>
+                                                    <tr *ngFor="let rec of totalData.authRequestReceived" style="font-weight: bold ;">
+                                                        <td colspan="2" style="text-align: center;"><b>Total</b></td>
+                                                        <td style="text-align: right;">{{this.getCommaValue(rec.total_auth)}}</td>
+                                                            <td style="text-align: right;">{{this.getCommaValue(rec.total_face_auth)}}</td>
+                                                            <td style="text-align: right;">{{this.getCommaValue(rec.total_face_auth_fail)}}</td>
+                                                            <td style="text-align: right;">{{this.getCommaValue(rec.face_auth_average_time)}}</td>  
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="vert-tabs-profile" role="tabpanel" aria-labelledby="vert-tabs-profile-tab" class="tab-pane fade active show">
+                            
+                            <div class="stwise-ekyc-wrap justify-content-start">                            
+                            
+                                <!--<div class="stwise-toggle">
+                                    <button type="button" id="rural_urban" data-toggle="button" aria-pressed="false" autocomplete="off" class="btn btn-lg btn-toggle my-0" (click)="onToggle('rural_urban')">
+                                        <div class="handle"></div>
+                                    </button>
+                                </div>-->
+                            
+                                <div class="stwise-ekyc-option">
+                                    <div class="stwise-ekyc-radio">
+                                        <input type="radio" id="html" name="fav_language" value="HTML" checked (click)="getOption('T')">
+                                        <label for="html">Today</label>
+                                    </div>
+                                    <div class="stwise-ekyc-radio">
+                                        <input type="radio" id="html" name="fav_language" value="HTML"  (click)="getOption('Y')">
+                                        <label for="html">Yesterday</label>
+                                    </div>
+                                    <div class="stwise-ekyc-radio">
+                                        <input type="radio" id="javascript" name="fav_language" value="JavaScript" (click)="getOption('W')">
+                                        <label for="javascript">Last 7 Days</label>
+                                    </div>
+                                
+                                    <div class="stwise-ekyc-radio">
+                                        <input type="radio" id="js" name="fav_language" value="js" (click)="getOption('M')">
+                                        <label for="js">Last 30 Days</label>
+                                    </div>
+                                    <div class="stwise-ekyc-radio">
+                                        <input type="radio" id="js" name="fav_language" value="js" (click)="getOption('D')">
+                                        <label for="js">Date Wise</label>
+                                    </div>
+                                </div>
+
+
+                               
+
+                                <div class="card-tools m-0">
+                                    <div class="dropdown m-0">
+                                        <a href="javascript:void(0);" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle" (click)="expexcel('eKYC_Received_Report')">
+                                            <img src="assets/dist/img/download.png" alt="">
+                                        </a>                                        
+                                    </div>
+                                </div>
+                                <div class="card-tools m-0 " id="divDate" style="width: 200px;">
+                                    <div class="treatment-select" style="float: left;"><input type="date" id="txtfromdate_create" [(ngModel)]="txtfromdate_create" class="form-control" style="width: 100%;" name="txtfromdate_create" placeholder="dd-mm-yyyy" (change)="getReport_date()"></div>
+                                    <div class="treatment-select"><input type="date" id="txttodate_create" [(ngModel)]="txttodate_create" class="form-control" style="width: 100%;" placeholder="dd-MM-yyyy" name="txttodate_create" (change)="getReport_date()"></div>
+                                </div>
+
+                            </div>
+                            
+                            <div class="container-fluid px-0">
+                                <div class="accordion-body-wrap">                                    
+                                    <div class="card mb-0 treatment-table my-3">
+                                        <div class="card-body p-0">
+                                            <div class="table-responsive">
+
+                                                <table id="tblekycdata" class="row-border hover">
+                                                   <thead>
+                                                    <tr style="color: #267a9f;font-weight:bold;font-size: 15px;"><a href="javascript:void(0);" style="text-decoration: none;color:#267CA2; margin-left: 5px;" (click)="getCurrentReport('A')">All India - </a><a href="javascript:void(0);" style="text-decoration: none;color:#267CA2;" (click)="getCurrentReport('S')">{{rptStateHeader}}</a><a href="javascript:void(0);" style="text-decoration: none;color:#267CA2;" (click)="getCurrentReport('D')">{{rptDistrictHeader}}</a><a href="javascript:void(0);" style="text-decoration: none;color:#267CA2;" (click)="getCurrentReport('B')">{{rptBlockHeader}}</a></tr>
+                                                    <tr> 
+                                                        <div class="drive-block-row"> 
+                                                            <div class="drive-subrow">
+                                                            </div>
+                                                            <div class="subhead-drive-wrap">
+                                                                <div class="subhead-drive">eKYC</div>
+                                                                <div class="subhead-drive2">Auth Mode</div>
+                                                            </div>
+                                                            <div class="drive-subrow">
+                                                                <div class="drive-col-1">
+                                                                    <div class="drive-vac-title">Requested </div>
+                                                                </div>                                                                
+                                                                <div class="drive-col-2">
+                                                                    <div class="drive-vac-title"> Approved </div>                                                                    
+                                                                </div>                                                                
+                                                                <div class="drive-col-3">
+                                                                    <div class="drive-vac-title"> Rejected </div>                                                                    
+                                                                </div>                                                                
+                                                                <div class="drive-col-4">
+                                                                    <div class="drive-vac-title"> Pending </div>                                                                    
+                                                                </div>                                                                
+                                                                <!--<div class="drive-col-5">
+                                                                    <div class="drive-vac-title"> Delivered </div>                                                                    
+                                                                </div>-->
+                                                                <div class="drive-col-6">
+                                                                    <div class="drive-vac-title"> OTP </div>                                                                    
+                                                                </div>
+                                                                <div class="drive-col-6">
+                                                                    <div class="drive-vac-title"> Finger </div>                                                                    
+                                                                </div>
+                                                                <div class="drive-col-6">
+                                                                    <div class="drive-vac-title"> Iris </div>                                                                    
+                                                                </div>
+                                                                <div class="drive-col-6">
+                                                                    <div class="drive-vac-title"> Face </div>                                                                    
+                                                                </div>  
+                                                                <!--<div class="drive-col-6">
+                                                                    <div class="drive-vac-title"> Demo </div>                                                                    
+                                                                </div>-->
+                                                                <!--<div class="drive-col-6">
+                                                                    <div class="drive-vac-title"> Others </div>                                                                    
+                                                                </div>-->                                                         
+                                                            </div>                                                        
+                                                        </div>                                                    
+                                                    </tr> 
+                                                    <tr *ngFor="let rec of totalData.ekyclist;let i =index" style="background: #ebedeb; border-bottom: 2px solid #e7e5e5;">                                                           
+                                                        <div class="drive-block-row total-tr">
+                                                            <div class="drive-subrow">
+                                                                <span class="drive-state-title drive-heading">Total</span>
+                                                            </div>                                                               
+                                                            <div class="drive-subrow">                                                                     
+                                                                <div class="drive-col-1">                                                                       
+                                                                    <div class="drive-vac-data"> {{this.getCommaValue(rec.ekyc_count)}} </div>
+                                                                </div>                                                                     
+                                                                <div class="drive-col-2">                                                                        
+                                                                    <div class="drive-vac-data drive-d-txt-5"> {{this.getCommaValue(rec.approved_count)}} </div>
+                                                                </div>                                                                    
+                                                                <div class="drive-col-3">                                                                        
+                                                                    <div class="drive-vac-data drive-d-txt-1"> {{this.getCommaValue(rec.rejected_count)}} </div>
+                                                                </div>                                                                    
+                                                                <div class="drive-col-4">                                                                        
+                                                                    <div class="drive-vac-data drive-d-txt-2"> {{this.getCommaValue(rec.pending_count)}} </div>
+                                                                </div>                                                                    
+                                                                <!--<div class="drive-col-5">                                                                        
+                                                                    <div class="drive-vac-data drive-d-txt-3"> {{this.getCommaValue(rec.delivered_count)}} </div>
+                                                                </div>-->
+                                                                <div class="drive-col-6">                                                                        
+                                                                    <div class="drive-vac-data drive-d-txt-4"> {{this.getCommaValue(rec.otp_auth_count)}} </div>
+                                                                </div>
+                                                                <div class="drive-col-6">                                                                        
+                                                                    <div class="drive-vac-data drive-d-txt-4"> {{this.getCommaValue(rec.bio_auth_count)}} </div>
+                                                                </div>
+                                                                <div class="drive-col-6">                                                                        
+                                                                    <div class="drive-vac-data drive-d-txt-4"> {{this.getCommaValue(rec.iris_auth_count)}} </div>
+                                                                </div>
+                                                                <div class="drive-col-6">                                                                        
+                                                                    <div class="drive-vac-data drive-d-txt-4"> {{this.getCommaValue(rec.face_auth)}} </div>
+                                                                </div>
+                                                                <!--<div class="drive-col-6">                                                                        
+                                                                    <div class="drive-vac-data drive-d-txt-4"> {{this.getCommaValue(rec.demo_auth_count)}} </div>
+                                                                </div>-->
+                                                                <!--<div class="drive-col-6">                                                                        
+                                                                    <div class="drive-vac-data drive-d-txt-4"> {{this.getCommaValue(rec.other_auth_count)}} </div>
+                                                                </div>-->
+                                                            </div>
+                                                        </div>                                                        
+                                                    </tr>  
+                                                </thead>
+                                                    <tbody> 
+                                                                                                               
+                                                        <tr *ngFor="let rec of pageData.ekyclist;let i =index">                                                           
+                                                            <div class="drive-block-row">                                                                
+                                                                <a href="javascript:void(0);" style="text-decoration: none;" (click)="BindReport(rec.text,rec.state_code,rec.district_code,rec.block_code,rec.type)">
+                                                                <div class="drive-subrow">
+                                                                    <span class="drive-state-title drive-heading">{{rec.text}}</span>
+                                                                </div>                                                                
+                                                                <div class="drive-subrow">
+                                                                    <div class="drive-col-1">                                                                        
+                                                                        <div class="drive-vac-data"> {{this.getCommaValue(rec.ekyc_count)}} </div>
+                                                                    </div>                                                                    
+                                                                    <div class="drive-col-2">                                                                       
+                                                                        <div class="drive-vac-data drive-d-txt-5"> {{this.getCommaValue(rec.approved_count)}} </div>
+                                                                    </div>                                                                    
+                                                                    <div class="drive-col-3">                                                                        
+                                                                        <div class="drive-vac-data drive-d-txt-1"> {{this.getCommaValue(rec.rejected_count)}} </div>
+                                                                    </div>                                                                    
+                                                                    <div class="drive-col-4">                                                                        
+                                                                        <div class="drive-vac-data drive-d-txt-2"> {{this.getCommaValue(rec.pending_count)}} </div>
+                                                                    </div>                                                                    
+                                                                    <!--<div class="drive-col-5">                                                                        
+                                                                        <div class="drive-vac-data drive-d-txt-3"> {{this.getCommaValue(rec.delivered_count)}} </div>
+                                                                    </div>-->
+                                                                    <div class="drive-col-6">                                                                       
+                                                                        <div class="drive-vac-data drive-d-txt-4"> {{this.getCommaValue(rec.otp_auth_count)}} </div>
+                                                                    </div>
+                                                                    <div class="drive-col-6">                                                                        
+                                                                        <div class="drive-vac-data drive-d-txt-4"> {{this.getCommaValue(rec.bio_auth_count)}} </div>
+                                                                    </div>
+                                                                    <div class="drive-col-6">                                                                        
+                                                                        <div class="drive-vac-data drive-d-txt-4"> {{this.getCommaValue(rec.iris_auth_count)}} </div>
+                                                                    </div>
+                                                                    <div class="drive-col-6">                                                                        
+                                                                        <div class="drive-vac-data drive-d-txt-4"> {{this.getCommaValue(rec.face_auth)}} </div>
+                                                                    </div> 
+                                                                    <!--<div class="drive-col-6">                                                                        
+                                                                        <div class="drive-vac-data drive-d-txt-4"> {{this.getCommaValue(rec.demo_auth_count)}} </div>
+                                                                    </div>-->
+                                                                    <!--<div class="drive-col-6">                                                                        
+                                                                        <div class="drive-vac-data drive-d-txt-4"> {{this.getCommaValue(rec.other_auth_count)}} </div>
+                                                                    </div>-->
+                                                                </div>
+                                                            </a>
+                                                            </div>                                                        
+                                                        </tr>
+                                                        
+                                                  </tbody>                                                  
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+            
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="info-box-text font-weight-bold mb-2">eKYC Received/Approved - Trends : 
+                                   <span style="font-size: 12px;color: darkslategray;"> All India - {{rptStateHeader_Chart}} {{rptDistrictHeader_Chart}}</span>
+                                </div>
+                                <!--<div class="authorizehsop-togg">
+                                    <button type="button" id="hospauthamount" data-toggle="button" aria-pressed="false" autocomplete="off" class="btn btn-lg btn-toggle my-0" (click)="onToggle('hospauthamount')"><div class="handle"></div></button>
+                                </div>-->
+                            </div>
+            
+                            <div class="col-md-12">
+                                <div class="state-card card mb-4">                     
+                                  <div class="card-body">
+                                   
+                                    <div class="chart">
+                                      <canvas #eKYCTDChart style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                    </div>
+                                  </div>
+                                  
+                                </div>
+                              </div>
+
+                        </div>
+
+                        <div id="vert-tabs-messages" role="tabpanel" aria-labelledby="vert-tabs-messages-tab" class="tab-pane fade">
+                            <div class="container-fluid px-0">
+                                <div class="accordion-body-wrap">
+                                    <div class="card mb-0 treatment-table my-3">
+                                        <div class="card-body p-0">
+                                            <div class="table-responsive">
+
+                                                <table id="tblARSS" class="row-border hover">
+                                                    <thead>
+                                                        <tr style="color: #267a9f;font-weight:bold;font-size: 15px; margin-left: 5px;"><td colspan="4"> &nbsp;<a href="javascript:void(0);" style="text-decoration: none;color:#267CA2; margin-left: 5px;" (click)="getCurrentUserReport()">All India  </a>  {{User_State_Name}}</td></tr>
+                                                          <!--<tr >
+                                                           
+                                                            <div class="drive-block-row">                                                                
+                                                                
+                                                                <div class="drive-subrow">
+                                                                    
+                                                                </div>
+                                                                
+                                                              <div class="subhead-drive-wrap">
+                                                                    <div class="subhead-drive">Registered Users</div>
+                                                                    <div class="subhead-drive2">Logged-In Users (Today)</div>
+                                                                    <div class="subhead-drive2">Active Users (Today)</div>
+                                                                </div>
+    
+                                                                <div class="drive-subrow">
+                                                                    <div class="drive-col-1">
+                                                                        <div class="drive-vac-title">Total </div>
+                                                                       
+                                                                    </div>
+                                                                    
+                                                                    <div class="drive-col-2">
+                                                                        <div class="drive-vac-title"> ASHA </div>
+                                                                        
+                                                                    </div>
+                                                                    
+                                                                    <div class="drive-col-3">
+                                                                        <div class="drive-vac-title"> Mobile </div>
+                                                                        
+                                                                    </div>
+
+                                                                    <div class="drive-col-4">
+                                                                        <div class="drive-vac-title"> Web </div>
+                                                                        
+                                                                    </div>
+                                                                    
+                                                                    <div class="drive-col-5">
+                                                                        <div class="drive-vac-title"> ASHA </div>
+                                                                        
+                                                                    </div>
+    
+                                                                    <div class="drive-col-6">
+                                                                        <div class="drive-vac-title"> Mobile </div>
+                                                                        
+                                                                    </div>
+                                                                    
+                                                                    <div class="drive-col-4">
+                                                                        <div class="drive-vac-title"> Web </div>
+                                                                        
+                                                                    </div>
+                                                                    
+                                                                    <div class="drive-col-5">
+                                                                        <div class="drive-vac-title"> ASHA </div>
+                                                                        
+                                                                    </div>
+    
+                                                                    <div class="drive-col-6">
+                                                                        <div class="drive-vac-title"> Mobile </div>
+                                                                        
+                                                                    </div>
+    
+                                                                   
+                                                               
+                                                                </div>
+                                                            
+                                                            </div>
+                                                        
+                                                        </tr>-->
+                                                        <tr><th style="text-align: left;width: 100px;">S.No.</th>
+                                                            <th style="text-align: left;width: 150px;">Name</th>
+                                                            <th style="text-align: right;width: 150px;">Registered Users</th>
+                                                            <th style="text-align: right;width: 150px;">Today Active Users</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        
+                                                        <tr *ngFor="let rec of pageData.userlist;let i =index">
+                                                           
+                                                            <!--<div class="drive-block-row">                                                                
+                                                                <a href="javascript:void(0);" style="text-decoration: none;" (click)="BindUserListReport(rec.text,rec.state_code,rec.district_code)">
+                                                                <div class="drive-subrow">
+                                                                    <span class="drive-state-title drive-heading">{{rec.text}}</span>
+                                                                </div>
+                                                                </a>                                                               
+                                                               
+                                                            </div>
+                                                            <div class="drive-subrow">
+                                                                <a href="javascript:void(0);" style="text-decoration: none;" (click)="GetUserList(rec.state_code,rec.district_code,'A',rec.active_user_count)"><span class="drive-state-title drive-heading">{{rec.active_user_count}}</span></a>
+                                                            </div>-->
+
+                                                            <td style="text-align: left;">
+                                                                {{i+1}} 
+                                                            </td>
+                                                            <td style="text-align: left;"><a href="javascript:void(0);" style="text-decoration: none;" (click)="BindUserListReport(rec.text,rec.state_code,rec.district_code)">                                                                
+                                                                    <span class="drive-state-title drive-heading">{{rec.text}}</span>                                                             
+                                                                </a>    
+                                                            </td>                                
+                                                            <td style="text-align: right;">{{this.getCommaValue(rec.total_count)}}</td>
+                                                            <td style="text-align: right;"> <a href="javascript:void(0);" style="text-decoration: none;" (click)="GetUserList(rec.state_code,rec.district_code,'A',rec.active_user_count)"><span class="drive-state-title drive-heading">{{this.getCommaValue(rec.active_user_count)}}</span></a></td>
+                                                        
+                                                        </tr>
+
+                                                        <!--<tr *ngFor="let rec of totalData.userlist;let i =index">
+                                                            <div class="drive-block-row">
+                                                                <div class="drive-subrow">
+                                                                    <span class="drive-state-title drive-heading">Total</span>
+                                                                </div>
+                                                                <div class="drive-subrow">
+                                                                    <span class="drive-state-title drive-heading">{{this.getCommaValue(rec.active_user_count)}}</span>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </tr>-->
+
+                                                  </tbody>
+                                                </table>
+                                                <!--<table id="tblARSS" class="row-border hover">
+                                                    <thead>
+                                                        <tr style="color: #267a9f;font-weight:bold;font-size: 15px; margin-left: 5px;"> &nbsp;<a href="javascript:void(0);" style="text-decoration: none;color:#267CA2; margin-left: 5px;" (click)="getCurrentUserReport()">All India  </a>  {{User_State_Name}}</tr>
+                                                        <tr >
+                                                           
+                                                            <div class="drive-block-row">                                                                
+                                                                
+                                                                <div class="drive-subrow">
+                                                                    
+                                                                </div>
+                                                                
+                                                                <div class="subhead-drive-wrap">
+                                                                    <div class="subhead-drive">Registered Users</div>
+                                                                    <div class="subhead-drive2">Logged-In Users (Today)</div>
+                                                                    <div class="subhead-drive2">Active Users (Today)</div>
+                                                                </div>
+    
+                                                                <div class="drive-subrow">
+                                                                    <div class="drive-col-1">
+                                                                        <div class="drive-vac-title">Total </div>
+                                                                       
+                                                                    </div>
+                                                                    
+                                                                    <div class="drive-col-2">
+                                                                        <div class="drive-vac-title"> ASHA </div>
+                                                                        
+                                                                    </div>
+                                                                    
+                                                                    <div class="drive-col-3">
+                                                                        <div class="drive-vac-title"> Mobile </div>
+                                                                        
+                                                                    </div>
+
+                                                                    <div class="drive-col-4">
+                                                                        <div class="drive-vac-title"> Web </div>
+                                                                        
+                                                                    </div>
+                                                                    
+                                                                    <div class="drive-col-5">
+                                                                        <div class="drive-vac-title"> ASHA </div>
+                                                                        
+                                                                    </div>
+    
+                                                                    <div class="drive-col-6">
+                                                                        <div class="drive-vac-title"> Mobile </div>
+                                                                        
+                                                                    </div>
+                                                                    
+                                                                    <div class="drive-col-4">
+                                                                        <div class="drive-vac-title"> Web </div>
+                                                                        
+                                                                    </div>
+                                                                    
+                                                                    <div class="drive-col-5">
+                                                                        <div class="drive-vac-title"> ASHA </div>
+                                                                        
+                                                                    </div>
+    
+                                                                    <div class="drive-col-6">
+                                                                        <div class="drive-vac-title"> Mobile </div>
+                                                                        
+                                                                    </div>
+    
+                                                                   
+                                                               
+                                                                </div>
+                                                            
+                                                            </div>
+                                                        
+                                                        </tr>  
+                                                    </thead>
+                                                    <tbody>
+                                                        
+                                                        <tr *ngFor="let rec of pageData.userlist;let i =index">
+                                                           
+                                                            <div class="drive-block-row">                                                                
+                                                                <a href="javascript:void(0);" style="text-decoration: none;" (click)="BindUserListReport(rec.text,rec.state_code,rec.district_code)">
+                                                                <div class="drive-subrow">
+                                                                    <span class="drive-state-title drive-heading">{{rec.text}}</span>
+                                                                </div>
+                                                                </a>
+                                                                <div class="drive-subrow">
+                                                                    <div class="drive-col-1">
+                                                                        <div class="drive-vac-data text-orange"> {{this.getCommaValue(rec.total_count)}} </div>
+                                                                    </div> 
+                                                                    <div class="drive-col-3">
+                                                                        <div class="drive-vac-data text-orange"> {{this.getCommaValue(rec.asha_user_count)}} </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="drive-col-4">
+                                                                        <div class="drive-vac-data text-orange"> {{this.getCommaValue(rec.mobile_registered_count)}} </div>
+                                                                    </div>
+
+                                                                    <div class="drive-col-3">
+                                                                        <div class="drive-vac-data text-blue"> {{this.getCommaValue(rec.login_user)}} </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="drive-col-4">
+                                                                        <div class="drive-vac-data text-blue"> {{this.getCommaValue(rec.asha_loggedin)}} </div>
+                                                                    </div>
+                                                                    <div class="drive-col-4">
+                                                                        <div class="drive-vac-data text-blue"> {{this.getCommaValue(rec.mobile_loggedin)}} </div>
+                                                                    </div>
+
+
+                                                                    <div class="drive-col-4">
+                                                                        <div class="drive-vac-data text-green"> {{this.getCommaValue(this.getWebActiveUser(rec.active_user_count,rec.mob_active_user))}} </div>
+                                                                    </div>
+                                                                   
+                                                                    <div class="drive-col-4">
+                                                                        <a href="javascript:void(0);" style="text-decoration: none;" (click)="GetUserList(rec.state_code,rec.district_code,'A',rec.asha_active_user)"><div class="drive-vac-data text-green"> {{this.getCommaValue(rec.asha_active_user)}} </div></a>
+                                                                    </div>
+                                                                    <div class="drive-col-4">
+                                                                        <a href="javascript:void(0);" style="text-decoration: none;" (click)="GetUserList(rec.state_code,rec.district_code,'M',rec.mob_active_user)"><div class="drive-vac-data text-green"> {{this.getCommaValue(rec.mob_active_user)}} </div></a>
+                                                                    </div>
+                                                                </div>
+                                                            
+                                                            </div>
+                                                        </tr>
+
+                                                        <tr *ngFor="let rec of totalData.userlist;let i =index">
+                                                            <div class="drive-block-row">
+                                                                <div class="drive-subrow">
+                                                                    <span class="drive-state-title drive-heading">Total</span>
+                                                                </div>
+                                                                
+                                                                <div class="drive-subrow"> 
+                                                                    <div class="drive-col-1">
+                                                                        <div class="drive-vac-data text-orange"> {{this.getCommaValue(rec.total_count)}} </div>
+                                                                    </div>
+                                                                    <div class="drive-col-3"><div class="drive-vac-data text-orange"> {{this.getCommaValue(rec.asha_user_count)}} </div>
+                                                                    </div>
+                                                                     <div class="drive-col-4">
+                                                                        <div class="drive-vac-data text-orange"> {{this.getCommaValue(rec.mobile_registered_count)}} </div>
+                                                                    </div>
+
+                                                                    <div class="drive-col-3">
+                                                                        <div class="drive-vac-data text-blue"> {{this.getCommaValue(rec.login_user)}} </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="drive-col-4">
+                                                                        <div class="drive-vac-data text-blue"> {{this.getCommaValue(rec.asha_loggedin)}} </div>
+                                                                    </div>
+                                                                    <div class="drive-col-4">
+                                                                        <div class="drive-vac-data text-blue"> {{this.getCommaValue(rec.mobile_loggedin)}} </div>
+                                                                    </div>
+
+                                                                    <div class="drive-col-4">
+                                                                        <div class="drive-vac-data text-green">{{this.getCommaValue(this.getWebActiveUser(rec.active_user_count,rec.mob_active_user))}} </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="drive-col-4">
+                                                                        <div class="drive-vac-data text-green"> {{this.getCommaValue(rec.asha_active_user)}} </div>
+                                                                    </div>
+                                                                    <div class="drive-col-4">
+                                                                        <div class="drive-vac-data text-green"> {{this.getCommaValue(rec.mob_active_user)}} </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </tr>
+
+                                                  </tbody>
+                                                </table>-->
+
+                                            </div>
+                                        </div>
+                                    </div>
+            
+                                   
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div id="vert-tabs-card" role="tabpanel" aria-labelledby="vert-tabs-card-tab" class="tab-pane fade">
+                            <div class="stwise-ekyc-wrap justify-content-start">                            
+                            
+                                <!--<div class="stwise-toggle">
+                                    <button type="button" id="rural_urban" data-toggle="button" aria-pressed="false" autocomplete="off" class="btn btn-lg btn-toggle my-0" (click)="onToggle('rural_urban')">
+                                        <div class="handle"></div>
+                                    </button>
+                                </div>-->
+                            
+                                <div class="stwise-ekyc-option">
+                                    <div class="stwise-ekyc-radio">
+                                        <input type="radio" id="html" name="fav_card" value="HTML" checked (click)="getCardOption('T')">
+                                        <label for="html">Today</label>
+                                    </div>
+                                    <div class="stwise-ekyc-radio">
+                                        <input type="radio" id="html" name="fav_card" value="HTML"  (click)="getCardOption('Y')">
+                                        <label for="html">Yesterday</label>
+                                    </div>
+                                    <div class="stwise-ekyc-radio">
+                                        <input type="radio" id="javascript" name="fav_card" value="JavaScript" (click)="getCardOption('W')">
+                                        <label for="javascript">Last 7 Days</label>
+                                    </div>
+                                
+                                    <div class="stwise-ekyc-radio">
+                                        <input type="radio" id="js" name="fav_card" value="js" (click)="getCardOption('M')">
+                                        <label for="js">Last 30 Days</label>
+                                    </div>
+                                    <div class="stwise-ekyc-radio">
+                                        <input type="radio" id="js" name="fav_card" value="js" (click)="getCardOption('D')">
+                                        <label for="js">Date Wise</label>
+                                    </div>
+                                </div>
+
+
+                               
+
+                                
+                                <div class="card-tools m-0 " id="divDate_Card" style="width: 200px;">
+                                    <div class="treatment-select" style="float: left;"><input type="date" id="txtfromdate_card" [(ngModel)]="txtfromdate_card" class="form-control" style="width: 100%;" name="txtfromdate_card" placeholder="dd-mm-yyyy" (change)="getReport_Card_date()"></div>
+                                    <div class="treatment-select"><input type="date" id="txttodate_card" [(ngModel)]="txttodate_card" class="form-control" style="width: 100%;" placeholder="dd-MM-yyyy" name="txttodate_card" (change)="getReport_Card_date()"></div>
+                                </div>
+
+                            </div>
+                            <div class="container-fluid px-0">
+                                <div class="accordion-body-wrap">
+                                    <div class="card mb-0 treatment-table my-3">
+                                        <div class="card-body p-0">
+                                            <div class="table-responsive">
+
+                                                <table id="tblARSS" class="row-border hover">
+                                                    <thead>
+                                                        <tr style="color: #267a9f;font-weight:bold;font-size: 15px; margin-left: 5px;"><td colspan="4"> &nbsp;<a href="javascript:void(0);" style="text-decoration: none;color:#267CA2; margin-left: 5px;" (click)="getCardReport()">All India  </a>  {{Card_State_Name}}</td></tr>
+                                                        
+                                                        <tr><th style="text-align: left;width: 100px;">S.No.</th>
+                                                            <th style="text-align: left;width: 150px;">Name</th>
+                                                            <th style="text-align: left;width: 150px;">Agency Name</th>
+                                                            <th style="text-align: right;width: 150px;">Total Delivered</th>
+                                                    </thead>
+                                                    <tbody>
+                                                        
+                                                        <tr *ngFor="let rec of pageData.carddeliverylist;let i =index">
+                                                           
+                                                          
+                                                            <td style="text-align: left;">
+                                                                {{i+1}} 
+                                                            </td>
+                                                            <td style="text-align: left;"><a href="javascript:void(0);" style="text-decoration: none;" (click)="BindCardReport(rec.text,rec.code,rec.type,rec.agencyid)">                                                                
+                                                                    <span class="drive-state-title drive-heading">{{rec.text}}</span>                                                             
+                                                                </a>    
+                                                            </td>                                
+                                                            <td style="text-align: left;">{{rec.agencyname}}</td>
+                                                            <td style="text-align: right;"> <span class="drive-state-title drive-heading">{{this.getCommaValue(rec.total)}}</span></td>
+                                                        
+                                                        </tr>
+
+                                                       
+                                                  </tbody>
+                                                </table>
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+            
+                                   
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="vert-tabs-face" role="tabpanel" aria-labelledby="vert-tabs-face-tab" class="tab-pane fade ">
+                            
+                            <div class="stwise-ekyc-wrap justify-content-end">                            
+                            
+                                <!--<div class="stwise-toggle">
+                                    <button type="button" id="rural_urban" data-toggle="button" aria-pressed="false" autocomplete="off" class="btn btn-lg btn-toggle my-0" (click)="onToggle('rural_urban')">
+                                        <div class="handle"></div>
+                                    </button>
+                                </div>-->
+                            
+                                <div class="stwise-ekyc-option">
+                                    <div class="stwise-ekyc-radio">
+                                        <input type="radio" id="html" name="fav_language1" value="HTML" checked (click)="getOption_face('T')">
+                                        <label for="html">Today</label>
+                                    </div>
+                                    <div class="stwise-ekyc-radio">
+                                        <input type="radio" id="html" name="fav_language1" value="HTML"  (click)="getOption_face('Y')">
+                                        <label for="html">Yesterday</label>
+                                    </div>
+                                    <div class="stwise-ekyc-radio">
+                                        <input type="radio" id="javascript" name="fav_language1" value="JavaScript" (click)="getOption_face('W')">
+                                        <label for="javascript">Weekly</label>
+                                    </div>
+                                
+                                    <div class="stwise-ekyc-radio">
+                                        <input type="radio" id="js" name="fav_language1" value="js" (click)="getOption_face('M')">
+                                        <label for="js">Last 30 Days</label>
+                                    </div>
+                                </div>
+
+                                <!--<div class="card-tools m-0">
+                                    <div class="dropdown m-0">
+                                        <a href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle" (click)="expexcel('eKYC_Received_Report')">
+                                            <img src="assets/dist/img/download.png" alt="">
+                                        </a>                                        
+                                    </div>
+                                </div>-->
+
+                            </div>
+                            
+                            <div class="container-fluid px-0">
+                                <div class="accordion-body-wrap">                                    
+                                    <div class="card mb-0 treatment-table my-3">
+                                        <div class="card-body p-0">
+                                            <div class="table-responsive">
+
+                                                <table id="tblCAP1111" class="row-border hover">
+                                                   <thead>
+                                                    <tr style="color: #267a9f;font-weight:bold;font-size: 15px;"><a href="javascript:void(0);" style="text-decoration: none;color:#267CA2; margin-left: 5px;" (click)="getCurrentFaceReport()">All India - </a>{{rptHeaderFace}}</tr>
+                                                    <tr> 
+                                                        <div class="drive-block-row"> 
+                                                            <div class="drive-subrow">
+                                                            </div>
+                                                            
+                                                            <div class="drive-subrow">
+                                                                <div class="drive-col-1">
+                                                                    <div class="drive-vac-title">Requested </div>
+                                                                </div>                                                                
+                                                                <div class="drive-col-2">
+                                                                    <div class="drive-vac-title"> Approved </div>                                                                    
+                                                                </div>                                                                
+                                                                <div class="drive-col-3">
+                                                                    <div class="drive-vac-title"> Rejected </div>                                                                    
+                                                                </div>                                                                
+                                                                <div class="drive-col-4">
+                                                                    <div class="drive-vac-title"> Pending </div>                                                                    
+                                                                </div>                                                                
+                                                                <div class="drive-col-5">
+                                                                    <div class="drive-vac-title"> Delivered </div>                                                                    
+                                                                </div>
+                                                                                                                
+                                                            </div>                                                        
+                                                        </div>                                                    
+                                                    </tr> 
+                                                    <tr *ngFor="let rec of totalData.ekyclistface;let i =index" style="background: #ebedeb; border-bottom: 2px solid #e7e5e5;">                                                           
+                                                        <div class="drive-block-row total-tr">
+                                                            <div class="drive-subrow">
+                                                                <span class="drive-state-title drive-heading">Total</span>
+                                                            </div>                                                               
+                                                            <div class="drive-subrow">                                                                     
+                                                                <div class="drive-col-1">                                                                       
+                                                                    <div class="drive-vac-data"> {{this.getCommaValue(rec.ekyc_count)}} </div>
+                                                                </div>                                                                     
+                                                                <div class="drive-col-2">                                                                        
+                                                                    <div class="drive-vac-data drive-d-txt-5"> {{this.getCommaValue(rec.approved_count)}} </div>
+                                                                </div>                                                                    
+                                                                <div class="drive-col-3">                                                                        
+                                                                    <div class="drive-vac-data drive-d-txt-1"> {{this.getCommaValue(rec.rejected_count)}} </div>
+                                                                </div>                                                                    
+                                                                <div class="drive-col-4">                                                                        
+                                                                    <div class="drive-vac-data drive-d-txt-2"> {{this.getCommaValue(rec.pending_count)}} </div>
+                                                                </div>                                                                    
+                                                                <div class="drive-col-5">                                                                        
+                                                                    <div class="drive-vac-data drive-d-txt-3"> {{this.getCommaValue(rec.delivered_count)}} </div>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </div>                                                        
+                                                    </tr>  
+                                                </thead>
+                                                    <tbody> 
+                                                                                                               
+                                                        <tr *ngFor="let rec of pageData.ekyclistface;let i =index">                                                           
+                                                            <div class="drive-block-row">                                                                
+                                                                <a href="javascript:void(0);" style="text-decoration: none;" (click)="BindReportFace(rec.text,rec.state_code,rec.district_code,rec.block_code,rec.type)">
+                                                                <div class="drive-subrow">
+                                                                    <span class="drive-state-title drive-heading">{{rec.text}}</span>
+                                                                </div>                                                                
+                                                                <div class="drive-subrow">
+                                                                    <div class="drive-col-1">                                                                        
+                                                                        <div class="drive-vac-data"> {{this.getCommaValue(rec.ekyc_count)}} </div>
+                                                                    </div>                                                                    
+                                                                    <div class="drive-col-2">                                                                       
+                                                                        <div class="drive-vac-data drive-d-txt-5"> {{this.getCommaValue(rec.approved_count)}} </div>
+                                                                    </div>                                                                    
+                                                                    <div class="drive-col-3">                                                                        
+                                                                        <div class="drive-vac-data drive-d-txt-1"> {{this.getCommaValue(rec.rejected_count)}} </div>
+                                                                    </div>                                                                    
+                                                                    <div class="drive-col-4">                                                                        
+                                                                        <div class="drive-vac-data drive-d-txt-2"> {{this.getCommaValue(rec.pending_count)}} </div>
+                                                                    </div>                                                                    
+                                                                    <div class="drive-col-5">                                                                        
+                                                                        <div class="drive-vac-data drive-d-txt-3"> {{this.getCommaValue(rec.delivered_count)}} </div>
+                                                                    </div>
+                                                                    
+                                                                </div>
+                                                            </a>
+                                                            </div>                                                        
+                                                        </tr>
+                                                        
+                                                  </tbody>                                                  
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+            
+                                </div>
+                            </div>
+
+                           <!-- <div class="col-12">
+                                <div class="info-box-text font-weight-bold mb-2">eKYC Received - Trends</div>
+                            </div>
+            
+                            <div class="col-md-12">
+                                <div class="state-card card mb-4">                     
+                                  <div class="card-body">
+                                   
+                                    <div class="chart">
+                                      <canvas #eKYCTDChart style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>-->
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</div>
+
+<div class="modal" style="/* display: block; */ background: rgba(0,0,0,.5);" id="divloginmodel">
+    <div class="modal-dialog modal-login-drive modal-md  modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: absolute; z-index: 2; right: 5px; top: 0px;" (click)="closeModel()">
+                <span aria-hidden="true">×</span>
+            </button>
+            <div class="login-wrap">
+                <div class="left-imgg">
+                    <img src="assets/dist/img/pmjay.png" alt="" class="img-fluid">
+                    
+                </div>
+
+                <div class="form-rightt">
+                    <div id="divinvalidpwd"style="font-size:12px;">{{invalidpwd}}</div>
+                    <div class="form-group" style="display: flex; justify-content: center; align-items: center;">
+                        <div class="form-radio">
+                            <input type="radio" id="password" name="logintype" value="Password" [disabled]="Disabled_rdopwd" [checked]="ispassword"  checked  (click)="getLoginOption('P')">
+                            <label for="password">Password</label>
+                        </div>
+                        <div class="form-radio">
+                            <input type="radio" id="otp" name="logintype" value="OTP" [disabled]="Disabled_rdootp" [checked]="isotp" (click)="getLoginOption('O')">
+                            <label for="otp">OTP</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label id="lbluserid">User Id</label>
+                        <i class="fas fa-mobile-alt"></i>
+                        <input type="text" id="userid" #userid   [(ngModel)]="inpuserid" [disabled]="Disabled_userid"  name="userid" class="form-input">
+                        <div class="error">{{userRequired}}</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label id="lblpwd">Password</label>
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="password" #password class="form-input" [disabled]="Disabled_Password"  [(ngModel)]="inppassword">
+                        <div class="error">{{pwdRequired}}</div>
+                    </div>
+                    
+                    <div class="form-group custom-btn-group text-right mt-1">                        
+                        <button type="button" class="btn btn-outline mr-1" (click)="Reset();">Reset</button>
+                        <button type="button" class="btn text-white custom-btn-green" (click)="validate(userid.value,password.value);" id="btnsubmit">Sign In</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+    </div>    
+</div>
+
+
+<div class="modal" style="/* display: block; */ background: rgba(0,0,0,.5);" id="divActiveUser">
+    <div class="modal-dialog modal-login-drive modal-md  modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-body">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: absolute; z-index: 2; right: 5px; top: 0px;" (click)="closeUserModel()">
+                <span aria-hidden="true">×</span>
+            </button>
+            <div class="active-user-wrap">
+                <div class="table-responsive">
+                <table id="tblActiveUser" class="row-border hover">
+                    <thead>
+                        <tr><td colspan="3" style="
+                            color: #267a9f;
+                            font-weight: bold;
+                            font-size: 15px;
+                            margin-left: 5px;
+                        ">{{state_name_user_list}} -> {{district_name_user_list}}</td></tr>
+                        <tr style="text-align: center;">
+                            <th style="text-align: center; width:40px;">S.No.</th>
+                            <!--<th style="text-align: left;width: 150px;">State Name</th>
+                            <th style="text-align: left;width: 150px;">District Name</th>-->
+                            <th style="text-align: center;width: 150px;">Name</th>
+                            <th style="text-align: right;width: 110px;">Total Card Created</th>
+                           </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let rec of pageData.activeuserlist;let i =index">
+                            <td style="text-align: center;">
+                                {{i+1}} 
+                            </td>
+                            
+                            <!--<td style="text-align: right;">{{rec.state_name}}</td>
+                            <td style="text-align: right;">{{rec.district_name}}</td>-->
+                            <td style="text-align: left;">{{rec.name}}</td>
+                            <td style="text-align: right;">{{this.getCommaValue(rec.total_count)}}</td>
+                          
+                        </tr>                      
+                       
+
+
+                    </tbody>
+                    <tr *ngFor="let rec of totalData.activeuserlist;let i =index" style="font-weight: bold;">
+                        <td style="text-align: center;" colspan="2">
+                           Total
+                        </td>
+                        
+                        <td style="text-align: right;">{{this.getCommaValue(rec.total_count)}}</td>
+                      
+                    </tr>
+                    
+                </table>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+    </div>    
+</div>
+
+<div id="overlay_search" class="overlay_full">
+    <div class="fancy-spinner">
+        <div class="ring"></div>
+        <div class="ring"></div>
+        <div class="dot"></div>
+        <span>Searching...</span>
+    </div>
+</div>

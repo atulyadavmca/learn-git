@@ -1,0 +1,363 @@
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container">
+            <div class="head-content-wrap">
+                <div class="left-content-wrap">
+                    <div class="custom-title">PMJAY Claims  </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+
+
+    <div class="cghs-wrapper pb-3">
+    <div class="container">
+        
+        <form action="">
+            <div class="cghs-form-wrap">
+                <div class="cghs-form">
+                    <label>State</label>
+                    <select class="form-control"   id="ddlTMSstatename" name="ddlTMSstatename" [(ngModel)]="ddlTMSstatename" (change)="getTMSDist();">
+                    <option value="" selected="selected">All</option>
+                    <option *ngFor="let st of TMSstateList"  value={{st.value}}>
+                    {{st.text}}
+                    </option>
+                </select>
+                </div>
+                <div class="cghs-form">
+                    <label>District</label>
+                    <select class="form-control"   id="ddlTMSdistrictname" name="ddlTMSdistrictname" [(ngModel)]="ddlTMSdistrictname" (change)="getTMSHosp();">
+                    <option value="" selected="selected">All</option>
+                    <option *ngFor="let st of TMSdistrictList"  value={{st.value}}>
+                    {{st.text}}
+                    </option></select>
+                </div>
+                <div class="cghs-form">
+                    <label>Hospital Name</label>
+                    <select class="form-control"   id="ddlTMShospname" name="ddlTMShospname" [(ngModel)]="ddlTMShospname">
+                    <option value="" selected="selected">All</option>
+                    <option *ngFor="let st of TMShospList"  value={{st.value}}>
+                    {{st.text}}
+                    </option>
+                    </select>
+                
+                </div>
+                <div class="cghs-form-btn">
+                    <button class="btn btn-primary" (click)="getTMSCLAIM();">Search</button>
+                </div>
+            </div>
+            <!--<div class="text-right subtitle mb-0">Last Updated : {{uploadDate}}</div>-->
+            <!--<div class="text-right"><a href="#"></a></div>-->
+        </form>
+    </div>
+
+    <!--<div class="container">
+        <div class="cghs-dashboard-wrap" style="background: none;">
+            
+            <div class="cghs-dashboard cghs-dashboard-three">
+                <label>Claims Submitted</label>
+                <div class="cghs-dashboard-in">
+                <span>Count</span>
+                <strong>{{claims_app_for_tat}}</strong>
+                </div>
+                <div class="cghs-dashboard-in">
+                <span>Amount</span>
+                <strong>&#8377; {{claims_sub_amt}}</strong>
+                </div>
+            </div>
+
+            <div class="cghs-dashboard cghs-dashboard-four">
+                <label>Claims Approved</label>
+                <div class="cghs-dashboard-in">
+                <span>Count</span>
+                <strong>{{claims_app}}</strong>
+                </div>
+                <div class="cghs-dashboard-in">
+                <span>Amount</span>
+                <strong>&#8377; {{claims_app_amt}}</strong>
+                </div>
+            </div>
+
+            <div class="cghs-dashboard cghs-dashboard-two">
+                <label>Claims Pending</label>
+                <div class="cghs-dashboard-in">
+                <span>Count</span>
+                <strong>{{claims_pending}}</strong>
+                </div>
+                <div class="cghs-dashboard-in">
+                <span>Amount</span>
+                <strong>&#8377; {{claims_pending_amt}}</strong>
+                </div>
+                
+            </div>
+
+            <div class="cghs-dashboard cghs-dashboard-five">
+                <label>Claims Rejected</label>
+                <div class="cghs-dashboard-in">
+                <span>Count</span>
+                <strong>{{claims_rej}}</strong>
+                </div>
+                <div class="cghs-dashboard-in">
+                <span>Amount</span>
+                <strong>&#8377; {{claims_rej_amt}}</strong>
+                </div>
+            </div>
+
+            <div class="cghs-dashboard cghs-dashboard-three">
+               
+                <label>Claims Paid</label>
+                <div class="cghs-dashboard-in">
+                <span>Count</span>
+                <strong>{{claims_paid}}</strong>
+                </div>
+                <div class="cghs-dashboard-in">
+                <span>Amount</span>
+                <strong>&#8377; {{claims_paid_amt}}</strong>
+                </div>
+            </div>
+
+            
+
+        </div>
+    </div>-->
+
+    <div class="container">
+        <div class="cghs-dashboard-wrap" style="background: none;">
+            
+            <div class="cghs-dashboard cghs-dashboard-three">
+                <label>Claims Pending at Hospitals</label>
+                <div class="cghs-dashboard-in">
+                <span>Count</span>
+                <strong>{{pending_hosp_c}}</strong>
+                </div>
+                <div class="cghs-dashboard-in">
+                <span>Amount</span>
+                <strong>&#8377; {{pending_hosp_a}}</strong>
+                </div>
+            </div>
+
+            <div class="cghs-dashboard cghs-dashboard-four">
+                <label>Claims Pending at CEX/CPD</label>
+                <div class="cghs-dashboard-in">
+                <span>Count</span>
+                <strong>{{pending_cex_cpd_c}}</strong>
+                </div>
+                <div class="cghs-dashboard-in">
+                <span>Amount</span>
+                <strong>&#8377; {{pending_cex_cpd_a}}</strong>
+                </div>
+            </div>
+
+            <div class="cghs-dashboard cghs-dashboard-two">
+                <label>Claims Pending at ACO</label>
+                <div class="cghs-dashboard-in">
+                <span>Count</span>
+                <strong>{{pending_aco_c}}</strong>
+                </div>
+                <div class="cghs-dashboard-in">
+                <span>Amount</span>
+                <strong>&#8377; {{pending_aco_a}}</strong>
+                </div>
+            </div>
+
+            <div class="cghs-dashboard cghs-dashboard-five">
+                <label>Claims Pending at SHA</label>
+                <div class="cghs-dashboard-in">
+                <span>Count</span>
+                <strong>{{pending_sha_c}}</strong>
+                </div>
+                <div class="cghs-dashboard-in">
+                <span>Amount</span>
+                <strong>&#8377; {{pending_sha_a}}</strong>
+                </div>
+            </div>
+
+            <div class="cghs-dashboard cghs-dashboard-three">
+                <label>Claims Pending at Bank</label>
+                <div class="cghs-dashboard-in">
+                <span>Count</span>
+                <strong>{{pending_bank_c}}</strong>
+                </div>
+                <div class="cghs-dashboard-in">
+                <span>Amount</span>
+                <strong>&#8377; {{pending_bank_a}}</strong>
+                </div>
+            </div>
+
+            
+
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="vert-tabs-content bg-4 mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h3 class="mb-0">{{statedatehospwise}} Wise Trends - Claims<span style="font-size: 12px;" id="STTMSLac"> (in Lac)</span></h3>
+            
+            <div class="text-right right-tabs">                        
+            <div class="rightSpeciality">
+                <button type="button" id="statewise" data-toggle="button" aria-pressed="false" autocomplete="off" class="btn btn-lg btn-toggle my-0" (click)="onToggle1('statewise')"><div class="handle"></div></button>
+            </div>
+        </div>
+        </div>
+        <div class="card-body pt-0" id="chartstatewise" style="background:#fff;margin-top:10px">
+        <div >
+            <canvas #TMSCLAIMSChart
+            style="min-height: 350px; height: 350px; max-height: 350px; width: 100%;"></canvas>
+        </div>
+        </div>
+
+
+        <div class="card mb-0 treatment-table my-2" id="divTMSstatewisecount">   
+        <div class="card-body p-0">                    
+            <div class="table-responsive">
+            <table id="tblTMSstatewisecount" class="row-border hover">
+                <thead>
+                    <tr>
+                        <th style="text-align: center;">S.No.</th>
+                        <th style="text-align: center;">Hospital Name</th>
+                        <th style="text-align: right;">Pending at Hospital</th>                                   
+                        <th style="text-align: right;">Pending at CEX/CPD</th>
+                        <th style="text-align: right;">Pending at ACO</th>
+                        <th style="text-align: right;">Pending at SHA</th>
+                        <th style="text-align: right;">Pending at Bank</th>
+                        
+                        
+                        
+                    </tr>
+                    </thead>
+                    <tbody> 
+                    <tr *ngFor="let group of arr_TMS_Claim_S_D_H_List;let i =index">
+                        <td style="text-align: center;">
+                            {{i+1}} 
+                        </td>
+                        <td style="text-align: left;">{{group.text}}</td>
+                        <td style="text-align: right;">{{this.getCommaValue(group.pending_hospital)}}</td>
+                        <td style="text-align: right;">{{this.getCommaValue(group.pending_cex_cpd)}}</td>
+                    
+                        <td style="text-align: right;">{{this.getCommaValue(group.pending_aco)}}</td>
+                        <td style="text-align: right;">{{this.getCommaValue(group.pending_sha)}}</td>
+                        <td style="text-align: right;">{{this.getCommaValue(group.pending_bank)}}</td>
+                                                
+                                                    
+                    </tr>
+                </tbody>
+            </table>
+        </div>                        
+        </div>
+        </div>
+        <div class="card mb-0 treatment-table my-2" id="divTMSstatewiseamount">   
+            <div class="card-body p-0">                    
+                <div class="table-responsive">
+                <table id="tblTMSstatewiseamount" class="row-border hover">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;">S.No.</th>
+                            <th style="text-align: center;">Hospital Name</th>
+                            <th style="text-align: right;">Pending at Hospital</th>                                   
+                            <th style="text-align: right;">Pending at CEX/CPD</th>
+                            <th style="text-align: right;">Pending at ACO</th>
+                            <th style="text-align: right;">Pending at SHA</th>
+                            <th style="text-align: right;">Pending at Bank</th>
+                        </tr>
+                        </thead>
+                        <tbody> 
+                        <tr *ngFor="let group of arr_TMS_Claim_S_D_H_List;let i =index">
+                            <td style="text-align: center;">
+                                {{i+1}} 
+                            </td>
+                            <td style="text-align: left;">{{group.text}}</td>
+                            <td style="text-align: right;">{{this.getToLac(group.pending_hospital_a)}}</td>
+                            <td style="text-align: right;">{{this.getToLac(group.pending_cex_cpd_a)}}</td>
+                        
+                            <td style="text-align: right;">{{this.getToLac(group.pending_aco_a)}}</td>
+                            <td style="text-align: right;">{{this.getToLac(group.pending_sha_a)}}</td>
+                            <td style="text-align: right;">{{this.getToLac(group.pending_bank_a)}}</td>
+                                                        
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>                        
+            </div>
+            </div>
+
+    </div>
+    
+    </div>
+
+    <div class="col-12">
+        <div class="vert-tabs-content bg-4 mb-4">
+            <div class="claims-wrap">
+                <div class="claims-left-wrap">
+                    <div class="cghs-dashboard cghs-dashboard-three mb-1">
+                        <label>Claims Approved TAT</label>
+                        <div class="cghs-dashboard-in">
+                            <span>Average TAT</span>
+                            <strong>{{claim_app_tat}} Days</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="claims-right-wrap">
+                    <div class="cghs-dashboard cghs-dashboard-four mb-1">
+                        <label>Claim Approval TAT Bucket</label>
+                        <div class="cghs-dashboard-in text-center">
+                            <canvas #TMSAPPTATChart
+                            style="min-height: 62px; height: 62px; max-height: 62px;max-width: 100%;"></canvas>                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="vert-tabs-content bg-4 mb-4">
+            <div class="claims-wrap">
+                <div class="claims-left-wrap">
+                    <div class="cghs-dashboard cghs-dashboard-three mb-1">
+                        <label>Claims Paid TAT</label>
+                        <div class="cghs-dashboard-in">
+                            <span>Average TAT</span>
+                            <strong>{{claim_pay_tat}} Days</strong>
+                        </div>
+                    </div>
+                </div>
+                <div class="claims-right-wrap">
+                    <div class="cghs-dashboard cghs-dashboard-four mb-1">
+                        <label>Claim Payment TAT Bucket</label>
+                        <div class="cghs-dashboard-in text-center">
+                            <canvas #TMSPAYTATChart
+                            style="min-height: 62px; height: 62px; max-height: 62px;max-width: 100%;"></canvas>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12">
+        <h3 class="mb-0" style="font-size: 15px;text-align:left">Statewise Claim Approval TAT Bucket</h3>
+        <div class="vert-tabs-content bg-4 mb-4">
+           
+            <div class="claims-wrap">
+                <canvas #TMSAPPSTATChart
+                            style="min-height: 350px; height: 350px; max-height: 350px;max-width: 100%;"></canvas>  
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-12">
+        <h3 class="mb-0" style="font-size: 15px;text-align:left">Statewise Claim Payment TAT Bucket</h3>
+        <div class="vert-tabs-content bg-4 mb-4">
+            <div class="claims-wrap">
+                <canvas #TMSPAYSTATChart
+                            style="min-height: 350px; height: 350px; max-height: 350px;max-width: 100%;"></canvas>  
+            </div>
+        </div>
+    </div>
+    
+    </div>
+
+</div>

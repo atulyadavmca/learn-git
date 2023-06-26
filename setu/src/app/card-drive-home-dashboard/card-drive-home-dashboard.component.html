@@ -1,0 +1,44 @@
+<app-dashboard></app-dashboard>
+<div class="container mx-auto multi-dashbaord-wrap">
+    <div class="card card-primary card-tabs dashboard-card-wrap">
+        <div class="card-header">
+            <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link pmjay-tabs " id="custom-tabs-three-pmjay-tab" data-toggle="pill" href="#custom-tabs-three-pmjay" role="tab" aria-controls="custom-tabs-three-pmjay" aria-selected="true" (click)="getReport('pmjayhome')">PMJAY</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link cghs-tabs pmjay-claims-wrap " id="custom-tabs-three-pmjay-claims-tab" data-toggle="pill" href="#custom-tabs-three-pmjay-claims" role="tab" aria-controls="custom-tabs-three-pmjay-claims" aria-selected="false" (click)="getReport('pmjayclaims')">PMJAY CLAIMS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link cghs-tabs " id="custom-tabs-three-cghs-tab" data-toggle="pill" href="#custom-tabs-three-cghs" role="tab" aria-controls="custom-tabs-three-cghs" aria-selected="false" (click)="getReport('cghs')">CGHS CLAIMS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link capf-tabs " id="custom-tabs-three-capf-tab" data-toggle="pill" href="#custom-tabs-three-capf" role="tab" aria-controls="custom-tabs-three-capf" aria-selected="false" (click)="getReport('capf')">CAPF CLAIMS</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link carddrive-tabs active" id="custom-tabs-three-card-drive-tab" data-toggle="pill" href="#custom-tabs-three-card-drive" role="tab" aria-controls="custom-tabs-three-card-drive" aria-selected="false" (click)="getReport('carddrive')">CARD-DRIVE</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body p-0 mt-0">
+            <div class="tab-content" id="custom-tabs-three-tabContent">
+                <div class="tab-pane fade " id="custom-tabs-three-pmjay" role="tabpanel" aria-labelledby="custom-tabs-three-pmjay-tab">
+                  <!-- <div class="pmajy-dashboard-wrap"> <app-home-dashboard id="pmjay"></app-home-dashboard> </div>-->
+                </div>
+                <div class="tab-pane fade " id="custom-tabs-three-pmjay-claims" role="tabpanel" aria-labelledby="custom-tabs-three-cghs-tab">
+                    <!--<div class="cghs-dashboard-wrap pmjay-claims-wrap"> <app-pmjay-claims id="pmjayclaims" style="width: 100%;"></app-pmjay-claims> </div>-->
+                </div>
+                <div class="tab-pane fade " id="custom-tabs-three-cghs" role="tabpanel" aria-labelledby="custom-tabs-three-cghs-tab">
+                    <!--<div class="cghs-dashboard-wrap"> <app-cghs-dashboard id="cghs" style="width: 100%;"></app-cghs-dashboard> </div>-->
+                </div>
+                <div class="tab-pane fade " id="custom-tabs-three-capf" role="tabpanel" aria-labelledby="custom-tabs-three-capf-tab">
+                    <!--<div class="capf-dashboard-wrap"> <app-capf-dashboard id="capf" ></app-capf-dashboard> </div>-->
+                </div>
+                <div class="tab-pane fade active show" id="custom-tabs-three-card-drive" role="tabpanel" aria-labelledby="custom-tabs-three-card-drive-tab">
+                    <div class="card-drive-dashboard-wrap"> <app-card-drive-report id="carddrive" ></app-card-drive-report> </div>
+                </div>
+            </div>
+        </div>
+        
+        </div>
+</div>

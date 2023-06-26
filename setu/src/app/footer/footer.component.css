@@ -1,0 +1,84 @@
+footer.main-footer{
+    color: #fff;  
+    }
+    footer.main-footer .footer-in h4{
+    font-size: calc(14px + 1 * ((100vw - 320px) / 768)); margin-bottom: 1rem;
+    }
+    footer.main-footer .footer-in p{
+    font-size: calc(11px + 1 * ((100vw - 320px) / 768)); margin-bottom: .15rem;
+    }
+    footer.main-footer .footer-in ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;  
+    }
+    footer.main-footer .footer-in ul li{
+    margin-bottom: .15rem;
+    }
+    footer.main-footer .footer-in ul li a{
+      text-decoration: none; font-size: calc(12px + 1 * ((100vw - 320px) / 768)); color: #fff; position: relative; padding-left: 15px; 
+    }
+    
+    footer.main-footer .footer-in ul li a i {
+    position: absolute;
+    left: 0;
+    top: 6px;
+    font-size: .4rem;
+    }
+    
+    .footer-card-in {
+    display: flex;
+    }
+    
+    .footer-card-in > div {
+    flex: 1;
+    }
+    
+    .footer-qr a {
+    display: block;
+    margin-bottom: 1rem;
+    }
+    
+    .footer-qr-text {
+    padding-left: 20px;
+    }
+    
+    .footer-text{
+    font-size: calc(12px + 1 * ((100vw - 320px) / 768));
+    }
+    
+    .footer-text > div {
+    display: inline-block;
+    margin: 1rem;
+    }
+    
+    @media screen and (max-width:767px) {
+    button.navbar-toggler{
+      display: block; border-color: rgb(253 254 255) !important;
+    }
+    
+    .navbar-light .navbar-toggler-icon{
+      background-image:url("/assets/dist/img/humberger.png") !important;
+    }
+    
+    .footer-in {
+      margin-bottom: 2rem;
+    }
+    
+    footer.main-footer .footer-in h4{
+      margin-bottom: .5rem;
+    }
+    
+    .footer-card-in {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .footer-qr-text {
+      padding-left: 0px;
+    }
+    
+    .footer-text > div{
+      margin: .25rem;
+    }
+}

@@ -1,0 +1,269 @@
+.drive-block-row {
+    margin: 0 0 10px;
+}
+
+tr:last-child .drive-block-row {
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.drive-subrow{
+    padding: 2px 5px 0;
+    display: flex;
+    flex-basis: 100%;
+}
+
+.total-tr .drive-state-title{
+    font-size: calc(12px + 2 * ((100vw - 320px) / 768));
+}
+
+.drive-state-title{
+    color: #0b0f22;
+    font-size: calc(10px + 2 * ((100vw - 320px) / 768));
+    display: block;
+    padding: 3px 2px 0;
+    font-weight: 500;
+    width: 100%;
+    line-height: 1.2;    
+    min-height: 21px;
+}
+
+
+
+.drive-subrow > div{
+    flex:1;
+}
+
+.drive-vac-title{
+    color: #5a5959;
+    font-size: calc(11px + 2 * ((100vw - 320px) / 768)); 
+    font-weight: 500; text-align: right;
+    padding-right: 5px;
+}
+
+.total-tr .drive-vac-data{
+    font-size: calc(11px + 2 * ((100vw - 320px) / 768));
+}
+
+.drive-vac-data{
+    color: #15124a;
+    font-size: calc(10px + 2 * ((100vw - 320px) / 768)); 
+    font-weight: 500;
+    text-align: right;
+    padding-right: 5px;
+}
+
+tbody tr:nth-child(odd) {
+    background: #fafbfa;
+}
+
+.drive-col-4:last-child > a > div, .drive-col-6:last-child > div {
+    border: none;
+}
+
+.drive-d-txt-1{
+    color: #ff4700;
+}
+
+.drive-d-txt-2{
+    color: #dadd1e;
+} 
+
+.drive-d-txt-3{
+    color: #0ea503;
+}
+
+.drive-d-txt-4{
+    color: #a1a1a0;
+}
+.drive-d-txt-5{
+    color: #008000;
+}
+
+
+@media (min-width: 576px){
+    .modal-login-drive{
+        max-width: 400px;
+    }
+}
+
+.modal-login-drive .modal-body{ 
+    padding: 0;
+}
+
+.modal-login-drive .modal-body button.close{
+    position: absolute;
+    z-index: 2;
+    right: 5px;
+    top: 0px;
+}
+
+.modal-login-drive .login-wrap{
+    text-align: center;
+    padding: 0.5rem;
+    align-items: center;
+    position: relative;
+    display: flex;
+    border-radius: 10px;
+    justify-content: space-around;
+    background: #fff;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+}
+
+.modal-login-drive .active-user-wrap{
+    text-align: center;
+    padding: 0.5rem;
+    align-items: center;
+    position: relative;
+    display: flex;
+    border-radius: 10px;
+    justify-content: space-around;
+    background: #fff;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+}
+
+.modal-login-drive .login-wrap img{
+    margin: 0;
+}
+
+.modal-login-drive .form-rightt{
+    max-width:240px;
+}
+
+.modal-login-drive .login-wrap .form-group {
+    position: relative;
+    max-width: 300px;
+    margin: 0 auto 0rem;
+    text-align: left;
+}
+
+.modal-login-drive .active-user-wrap .form-group {
+    position: relative;
+    max-width: 500px;
+    margin: 0 auto 0rem;
+    text-align: left;
+}
+
+.modal-login-drive .login-wrap .form-group label{
+    font-size: calc(10px + 2 * ((100vw - 320px) / 768));
+    margin-bottom: 0;
+}
+
+.modal-login-drive .login-wrap .form-group i{
+    margin-bottom: 0;
+    font-size: calc(10px + 2 * ((100vw - 320px) / 768));
+    left: 0.8rem;
+    top: 1.8rem;
+}
+
+.modal-login-drive .login-wrap .form-group input{
+    padding: 1px 10px 1px 30px;
+    font-size: calc(11px + 2 * ((100vw - 320px) / 768));
+}
+
+.modal-login-drive .login-wrap .form-group .custom-btn-dark{ 
+    padding: 0;
+}
+
+.custom-btn-green{
+    background: green;
+    padding: 2px 5px;
+    font-size: calc(12px + 2 * ((100vw - 320px) / 768));
+}
+
+.stwise-ekyc-option {
+    display: flex;
+}
+
+.stwise-ekyc-radio {
+    margin: 0 5px;
+    display: flex;
+    font-size: calc(11px + 2 * ((100vw - 320px) / 768)); align-items: center;
+}
+
+.stwise-ekyc-radio label {
+    margin: 0 5px !important;
+    font-weight: 500 !important;
+    color: #267a9f;
+}
+
+.stwise-ekyc-wrap{
+    display: flex;
+    justify-content: space-between;
+}
+
+.stwise-toggle {
+    margin-left: 3.25rem;
+}
+
+.stwise-toggle .btn-toggle.btn-lg:before {
+    content: "Rural";
+    left: -4.8rem;
+}
+
+.stwise-toggle .btn-toggle.btn-lg:after {
+    content: "Urban";
+    right: -4.8rem;
+    opacity: 0.5;
+}
+
+.stwise-toggle .btn-toggle.btn-lg > .handle{
+    top: 0.14rem;
+}
+
+.subhead-drive-wrap{
+    display: flex;
+    padding: 0 5px;
+}
+
+.subhead-drive-wrap .subhead-drive{
+    flex: 5;
+    text-align: center;
+    border-bottom: 1px dashed #cbcbcb;
+    color: #267a9f;
+    font-weight: 600;
+    font-size: .8rem;
+}
+
+.subhead-drive-wrap .subhead-drive2{
+    flex: 5;
+    text-align: center;
+    border-bottom: 1px dashed #cbcbcb;
+    color: #267a9f;
+    font-weight: 600;
+    border-left: 1px dashed #cbcbcb;
+    font-size: .8rem;
+}
+
+.form-radio {
+    display: flex;
+    margin-right: 20px;
+}
+
+.form-radio input, .form-radio label {
+    display: flex;
+    width: auto !important;
+    margin: 0 0 0 5px !important;
+}
+
+.form-radio label{
+    color: #2c2d6e;
+    font-weight: 500 !important;
+}
+
+.btn-outline {
+    border: 1px solid #757576;
+    color: #757576;
+    padding: 2px 5px;
+    font-size: calc(12px + 2 * ((100vw - 320px) / 768));
+}
+.card-tools .treatment-select input {
+    width: 90px !important;
+    font-size: 12px;
+    height: calc(2rem + 2px);
+    margin: 0 2px;
+    padding: 5px 3px;
+}

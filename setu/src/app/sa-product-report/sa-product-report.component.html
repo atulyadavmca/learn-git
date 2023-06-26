@@ -1,0 +1,560 @@
+<app-headerinsights></app-headerinsights>
+<!--<div style="background:#0e9199;">
+    <nav class="main-header navbar navbar-expand container mx-auto">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="#" class="nav-link py-0">
+                    <img style="max-width: 100px;" class="img-fluid"
+                        src="assets/dist/img/national-health-authority-logo.png" alt="">
+                </a>
+            </li>
+        </ul>
+        <div class="collapse navbar-collapse order-3 justify-content-end">
+            <ul class="navbar-nav">
+                
+                
+                <li class="nav-item">
+                    
+                    <a class="nav-link" (click)="logout();" role="button">
+                        <i class="fas fa-user-circle"></i> Logout
+                      </a>     
+                  </li>
+            </ul>
+        </div>
+    </nav>
+    </div>-->
+    
+    <div class="content-wrapper"  style="min-height: 404px;">
+        <section class="content-header">
+            <div class="container" >
+                <div class="row">
+    
+                    <div class="col-12">
+                        <div class="info-box-text font-weight-bold mb-2">CGHS Insights</div>
+                    </div>
+    
+                    <div class="col-12">
+                        <div class="card card-primary card-tabs">
+                            <div class="card-header p-0">
+                              <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist" style="background: #F4FDF2;">
+                                
+                                <li class="nav-item" id="ccsreport">
+                                  <a class="nav-link active" id="tabs-create-tab" data-toggle="pill"
+                                    href="#tabs-create" role="tab" aria-controls="tabs-create"
+                                    aria-selected="true" (click)="getReport('SA');">Claim Processed by Sanctioning Authority</a>
+                                </li>
+    
+                                <li class="nav-item" >
+                                    <a class="nav-link" id="tabs-Login-tab" data-toggle="pill"
+                                        href="#tabs-Login" role="tab" aria-controls="tabs-Login"
+                                    aria-selected="false" (click)="getReport('SC');">Summary of Claims</a>
+                                </li>
+
+                                <li class="nav-item" >
+                                  <a class="nav-link" id="tabs-case-tab" data-toggle="pill"
+                                      href="#tabs-case" role="tab" aria-controls="tabs-case"
+                                  aria-selected="false" (click)="getReport('CN');">Search By Case No</a>
+                              </li>
+
+                              <li class="nav-item" >
+                                <a class="nav-link" id="tabs-entity-tab" data-toggle="pill"
+                                    href="#tabs-entity" role="tab" aria-controls="tabs-entity"
+                                aria-selected="false" (click)="getReport('EN');">Entity Wise</a>
+                            </li>
+                                         
+                              </ul>
+                            </div>
+
+                            <div class="card-body px-1" style="background-color: #f3d4d4;">
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="tabs-create" role="tabpanel"
+                                  aria-labelledby="tabs-create-tab">
+                                  <div class="col-12">
+                                    <div class="beneficiaries-avail-wrap">
+                                        <div class="beneficiaries-avail-left-wrap">
+                                            
+                                            <div class="treatment-select"><input type="date" id="txtfromdate_create" class="form-control" [(ngModel)]="txtfromdate_create" style="width: 100%;" placeholder="From Date"></div>
+                                            <div class="treatment-select"><input type="date" id="txttodate_create" class="form-control" [(ngModel)]="txttodate_create" style="width: 100%;" placeholder="To Date"></div>
+                                            <select id="ddldoc" class="form-control" [(ngModel)]="ddldoc" >
+                                              <option value="">Select Doctor</option>
+                                              <option *ngFor="let st of doclist"  value={{st.value}} >
+                                                  {{st.text}}
+                                                  </option> 
+                                          </select>
+                                        </div> 
+                                        <div class="beneficiaries-avail-right-wrap">
+                                            <button class="btn btn-primary" (click)="bindReport()">Search</button>  
+                                            <button class="btn btn-primary dropdown-toggle"  role="button" aria-haspopup="true" aria-expanded="false" (click)="exportexcel('Sanctioning_Authority')"><img src="assets/dist/img/download-white.png" alt=""> <span>Download</span></button>
+                                           <!-- <button class="btn btn-primary dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/dist/img/download-white.png" alt=""> <span>Download</span></button>
+                                            <div class="dropdown-menu dropdown-menu-right" style="min-width: 6rem;" aria-labelledby="navbarDropdown">
+                                                <a class="dropdown-item" href="javascript:void(0);" >Excel</a>
+                                                <a class="dropdown-item" href="javascript:void(0);" >PDF</a>
+                                            </div>  -->                       
+                                        </div>                       
+                                    </div>
+                                </div>
+                
+                                <div class="col-md-12">
+                                    <div class="card mb-0 treatment-table" >  
+                                      <div class="stwise-ekyc-option">
+                                        <div class="stwise-ekyc-radio">
+                                            <input type="radio" id="html1" name="fav_language1" value="HTML1" checked (click)="getRDOption('D')">
+                                            <label for="html">Details</label>
+                                        </div>
+                                        <div class="stwise-ekyc-radio">
+                                            <input type="radio" id="html1" name="fav_language1" value="HTML1"  (click)="getRDOption('S')">
+                                            <label for="html">Summary</label>
+                                        </div>
+                                       
+                                    </div>                   
+                                      <div class="card-body p-0">  
+                                       
+                                        
+                                        <div class="table-responsive">
+                                          
+                                         
+                                            <table id="datatablesa"  class="row-border hover table-bordered">
+                                                <thead>
+                                                    <tr style="background-color: #149198;font-weight: bold;font-size: 16px;color: white;text-align: center;"><td colspan="16">Summary of Claims by Sanctioning Authority {{saproductivityheader}}</td></tr>
+                                                    <tr style="background-color: #B4C5E6;font-size: 14;font-weight: bold;text-align: center;"><td colspan="2"></td><td colspan="6" style="width: 400px;">Auto Approved <span style="font-size: 10px;">(Amount in INR)</span></td><td colspan="8" class="manual-card" style="width: 400px;">Manual Approved <span style="font-size: 10px;">(Amount in INR)</span></td></tr>
+                                                    <tr style="background-color: #B4C5E6;font-size: 14;font-weight: bold;text-align: center;"><td colspan="2"></td><td colspan="2">500 and Below</td><td colspan="2">501 - 10,000</td><!--<td colspan="2">10,001 and Above</td>--><td colspan="2">Total</td><td colspan="2" class="manual-card">500 and Below</td><td colspan="2" class="manual-card">501 - 10,000</td><td colspan="2" class="manual-card">10,001 and Above</td><td colspan="2" class="manual-card">Total</td></tr>
+                                                    
+                                                    <tr>
+                                                      <th style="text-align: left;" >Sanctioning Authority</th>
+                                                      <!--<th style="text-align: left;"  >Login ID</th>-->
+                                                      <th style="text-align: left;width: 100px;"   >Date</th>                                                  
+                                                      <th  style="text-align: center;"  >Count</th>
+                                                      <th  style="text-align: center;"  >Amount</th>
+                                                      <th  style="text-align: center;"  >Count</th>
+                                                      <th  style="text-align: center;"  >Amount</th>
+                                                      <!--<th  style="text-align: center;"  >Count</th>
+                                                      <th  style="text-align: center;"  >Amount</th>-->
+                                                      <th  style="text-align: center;"  >Count</th>
+                                                      <th  style="text-align: center;"  >Amount</th>
+                                                      <th  style="text-align: center;" class="manual-card" >Count</th>
+                                                      <th  style="text-align: center;" class="manual-card" >Amount</th>
+                                                      <th  style="text-align: center;" class="manual-card" >Count</th>
+                                                      <th  style="text-align: center;" class="manual-card" >Amount</th>
+                                                      <th  style="text-align: center;" class="manual-card" >Count</th>
+                                                      <th  style="text-align: center;" class="manual-card" >Amount</th>
+                                                      <th  style="text-align: center;" class="manual-card" >Count</th>
+                                                      <th  style="text-align: center;" class="manual-card" >Amount</th>
+                                                    </tr>
+                                                  </thead>
+                                                  <tr *ngFor="let group of totalData.datatablesa;let i =index" style="font-weight: bold;color: blueviolet;">
+                                                    <td style="text-align: left;" colspan="2">
+                                                        Total
+                                                    </td>
+                                                                                               
+                                                    
+                                                    <td  style="text-align: right;"  >{{this.getCommaValue(group.a_count_0_5)}}</td>
+                                                    <td  style="text-align: right;" >{{this.getCommaValue(group.a_amount_0_5)}}</td>
+                                                    <td  style="text-align: right;"  >{{this.getCommaValue(group.a_count_5_10)}}</td>
+                                                    <td  style="text-align: right;"  >{{this.getCommaValue(group.a_amount_5_10)}}</td>
+                                                    <!--<td  style="text-align: right;"  >{{this.getCommaValue(group.a_count_g_10)}}</td>
+                                                    <td  style="text-align: right;"  >{{this.getCommaValue(group.a_amount_g_10)}}</td>-->
+                                                    <td  style="text-align: right;" >{{this.getCommaValue(group.a_tt)}}</td>
+                                                    <td  style="text-align: right;">{{this.getCommaValue(group.a_amount_tt)}}</td>
+    
+                                                    <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_count_0_5)}}</td>
+                                                    <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_amount_0_5)}}</td>
+                                                    <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_count_5_10)}}</td>
+                                                    <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_amount_5_10)}}</td>
+                                                    <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_count_g_10)}}</td>
+                                                    <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_amount_g_10)}}</td>
+                                                    <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_tt)}}</td>
+                                                    <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_amount_tt)}}</td>
+                                                    
+                                                </tr>
+                                                  <tbody> 
+                                                    <tr *ngFor="let group of pageData.datatablesa;let i =index">
+                                                        <td style="text-align: left;" >
+                                                            {{group.first_name}}
+                                                        </td>
+                                                        <!--<td  style="text-align: left;"  >{{group.login_name}}</td>-->
+                                                       
+                                                        <td style="text-align: left;"  >{{this.getdateFormat(group.date)}}</td>                                                  
+                                                        
+                                                        <td  style="text-align: right;"  >{{this.getCommaValue(group.a_count_0_5)}}</td>
+                                                    <td  style="text-align: right;" >{{this.getCommaValue(group.a_amount_0_5)}}</td>
+                                                    <td  style="text-align: right;"  >{{this.getCommaValue(group.a_count_5_10)}}</td>
+                                                    <td  style="text-align: right;"  >{{this.getCommaValue(group.a_amount_5_10)}}</td>
+                                                    <!--<td  style="text-align: right;"  >{{this.getCommaValue(group.a_count_g_10)}}</td>
+                                                    <td  style="text-align: right;"  >{{this.getCommaValue(group.a_amount_g_10)}}</td>-->
+                                                    <td  style="text-align: right;" >{{this.getCommaValue(group.a_tt)}}</td>
+                                                    <td  style="text-align: right;"  >{{this.getCommaValue(group.a_amount_tt)}}</td>
+    
+                                                    <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_count_0_5)}}</td>
+                                                    <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_amount_0_5)}}</td>
+                                                    <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_count_5_10)}}</td>
+                                                    <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_amount_5_10)}}</td>
+                                                    <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_count_g_10)}}</td>
+                                                    <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_amount_g_10)}}</td>
+                                                    <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_tt)}}</td>
+                                                    <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_amount_tt)}}</td>
+                                                        
+                                                    </tr>
+                                                   
+                                              </tbody>
+                                              
+                                              
+                                            </table>
+                                            <table id="datatablesasum"  class="row-border hover table-bordered">
+                                              <thead>
+                                                  <tr style="background-color: #149198;font-weight: bold;font-size: 16px;color: white;text-align: center;"><td colspan="16">Summary of Claims by Sanctioning Authority {{saproductivityheader}}</td></tr>
+                                                  <tr style="background-color: #B4C5E6;font-size: 14;font-weight: bold;text-align: center;"><td colspan="2"></td><td colspan="6" style="width: 400px;">Auto Approved</td><td colspan="8" class="manual-card" style="width: 400px;">Manual Approved</td></tr>
+                                                  <tr style="background-color: #B4C5E6;font-size: 14;font-weight: bold;text-align: center;"><td colspan="2"></td><td colspan="2">500 and Below</td><td colspan="2">501 - 10,000</td><!--<td colspan="2">10,001 and Above</td>--><td colspan="2">Total</td><td colspan="2" class="manual-card">500 and Below</td><td colspan="2" class="manual-card">501 - 10,000</td><td colspan="2" class="manual-card">10,001 and Above</td><td colspan="2" class="manual-card">Total</td></tr>
+                                                  
+                                                  <tr>
+                                                    <th style="text-align: left;width: 200px;" >Sanctioning Authority</th>
+                                                    <!--<th style="text-align: left;"  >Login ID</th>-->
+                                                    <th style="text-align: left;width: 100px;"   >Working Days</th> 
+                                                    <th  style="text-align: center;"  >Count</th>
+                                                    <th  style="text-align: center;"  >Amount</th>
+                                                    <th  style="text-align: center;"  >Count</th>
+                                                    <th  style="text-align: center;"  >Amount</th>
+                                                    <!--<th  style="text-align: center;"  >Count</th>
+                                                    <th  style="text-align: center;"  >Amount</th>-->
+                                                    <th  style="text-align: center;"  >Count</th>
+                                                    <th  style="text-align: center;"  >Amount</th>
+                                                    <th  style="text-align: center;" class="manual-card" >Count</th>
+                                                    <th  style="text-align: center;" class="manual-card" >Amount</th>
+                                                    <th  style="text-align: center;" class="manual-card" >Count</th>
+                                                    <th  style="text-align: center;" class="manual-card" >Amount</th>
+                                                    <th  style="text-align: center;" class="manual-card" >Count</th>
+                                                    <th  style="text-align: center;" class="manual-card" >Amount</th>
+                                                    <th  style="text-align: center;" class="manual-card" >Count</th>
+                                                    <th  style="text-align: center;" class="manual-card" >Amount</th>
+                                                  </tr>
+                                                </thead>
+                                                <tr *ngFor="let group of totalData.datatablesa;let i =index" style="font-weight: bold;color: blueviolet;">
+                                                  <td style="text-align: left;" colspan="2">
+                                                      Total
+                                                  </td>
+                                                                                             
+                                                  
+                                                  <td  style="text-align: right;"  >{{this.getCommaValue(group.a_count_0_5)}}</td>
+                                                  <td  style="text-align: right;" >{{this.getCommaValue(group.a_amount_0_5)}}</td>
+                                                  <td  style="text-align: right;"  >{{this.getCommaValue(group.a_count_5_10)}}</td>
+                                                  <td  style="text-align: right;"  >{{this.getCommaValue(group.a_amount_5_10)}}</td>
+                                                  <!--<td  style="text-align: right;"  >{{this.getCommaValue(group.a_count_g_10)}}</td>
+                                                  <td  style="text-align: right;"  >{{this.getCommaValue(group.a_amount_g_10)}}</td>-->
+                                                  <td  style="text-align: right;" >{{this.getCommaValue(group.a_tt)}}</td>
+                                                  <td  style="text-align: right;">{{this.getCommaValue(group.a_amount_tt)}}</td>
+  
+                                                  <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_count_0_5)}}</td>
+                                                  <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_amount_0_5)}}</td>
+                                                  <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_count_5_10)}}</td>
+                                                  <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_amount_5_10)}}</td>
+                                                  <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_count_g_10)}}</td>
+                                                  <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_amount_g_10)}}</td>
+                                                  <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_tt)}}</td>
+                                                  <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_amount_tt)}}</td>
+                                                  
+                                              </tr>
+                                                <tbody> 
+                                                  <tr *ngFor="let group of pageData.datatablesa;let i =index">
+                                                      <td style="text-align: left;" >
+                                                          {{group.first_name}}
+                                                      </td>
+                                                      <!--<td  style="text-align: left;"  >{{group.login_name}}</td>-->
+                                                     
+                                                      <td style="text-align: left;"  >{{group.working_days}}</td>    
+                                                      
+                                                      <td  style="text-align: right;"  >{{this.getCommaValue(group.a_count_0_5)}}</td>
+                                                  <td  style="text-align: right;" >{{this.getCommaValue(group.a_amount_0_5)}}</td>
+                                                  <td  style="text-align: right;"  >{{this.getCommaValue(group.a_count_5_10)}}</td>
+                                                  <td  style="text-align: right;"  >{{this.getCommaValue(group.a_amount_5_10)}}</td>
+                                                  <!--<td  style="text-align: right;"  >{{this.getCommaValue(group.a_count_g_10)}}</td>
+                                                  <td  style="text-align: right;"  >{{this.getCommaValue(group.a_amount_g_10)}}</td>-->
+                                                  <td  style="text-align: right;" >{{this.getCommaValue(group.a_tt)}}</td>
+                                                  <td  style="text-align: right;"  >{{this.getCommaValue(group.a_amount_tt)}}</td>
+  
+                                                  <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_count_0_5)}}</td>
+                                                  <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_amount_0_5)}}</td>
+                                                  <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_count_5_10)}}</td>
+                                                  <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_amount_5_10)}}</td>
+                                                  <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_count_g_10)}}</td>
+                                                  <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_amount_g_10)}}</td>
+                                                  <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_tt)}}</td>
+                                                  <td  style="text-align: right;" class="manual-card" >{{this.getCommaValue(group.m_amount_tt)}}</td>
+                                                      
+                                                  </tr>
+                                                 
+                                            </tbody>
+                                            
+                                            
+                                          </table>
+    
+                                        </div>                        
+                                      </div>
+                                    </div>
+                                    
+                                  </div>
+                                </div>
+    
+                                
+                                <div class="tab-pane fade" id="tabs-Login" role="tabpanel"
+                                  aria-labelledby="tabs-Login-tab">
+                                                  
+                                                
+                                        <div class="card-body p-0">                    
+                                            <div class="leftSpeciality">
+                                                <h3 class="card-title">Summary of Claims at Various Levels<span style="font-size: 12px;" id="CLSummaryCR_CAPF"> (in Cr)</span></h3>
+                                            </div>
+                                            <div class="text-right right-tabs">
+                                                <div class="time-wrap" style="display: inline-block;">
+                                                    <!--<a href="javascript:void(0);" id="HETDW">Week</a> | <a href="javascript:void(0);" id="HETDT" class="active">Last 30 Days</a> | <a href="javascript:void(0);" id="HETDA">All</a>-->
+                                                </div>
+                                                <div class="rightSpeciality">
+                                                    <button type="button" id="CAPF_togguserdata" data-toggle="button" aria-pressed="false" autocomplete="off" class="btn btn-lg btn-toggle my-0" (click)="onToggle('CAPF_togguserdata')"><div class="handle"></div></button>
+                                                </div>
+                                            </div>
+                              
+                                            <div class="card mb-0 treatment-table my-3" id="capfuserdatacount">
+                                            <div class="card-body p-0">
+                                                <div class="table-responsive">
+                                                <table id="capfuserdata" class="row-border hover">
+                                                    <thead>
+                                                        <tr>
+                                                          <th style="text-align: center;">Level</th>
+                                                          <th style="text-align: right;">Received</th>
+                              
+                                                          <th style="text-align: right;">Approved</th>
+                                                          <th style="text-align: right;">Rejected</th>
+                                                          <th style="text-align: center;">Queried</th>
+                                                          <th style="text-align: right;">Pending</th>
+                                                          <!--<th style="text-align: center;">Returned Pending</th>-->
+                              
+                                                        </tr>
+                                                      </thead>
+                                                      <tbody>
+                                                        <tr *ngFor="let group of capfuserdata;let i =index">
+                              
+                                                            <td style="text-align: center;">{{group.user_name}}</td>
+                              
+                                                            <td style="text-align: right;">{{this.getCommaValue(group.received_count)}}</td>
+                                                          <td style="text-align: right;">{{this.getCommaValue(group.approved_count)}}</td>
+                                                          <td style="text-align: right;">{{this.getCommaValue(group.rejected_count)}}</td>
+                                                          <td style="text-align: right;">{{this.getCommaValue(group.queried_count)}}</td>
+                                                          <td style="text-align: right;">{{this.getCommaValue(group.pending_count)}}</td>
+                                                          <!--<td style="text-align: right;">{{this.getCommaValue(group.returned_pending_count)}}</td>-->
+                                                        </tr>
+                                                  </tbody>
+                                                </table>
+                                            </div>
+                                          </div>
+                                            </div>
+                                            <div class="card mb-0 treatment-table my-3" id="capfuserdataamount">
+                                                <div class="card-body p-0">
+                                                    <div class="table-responsive">
+                                                    <table id="capfuserdata" class="row-border hover">
+                                                       <thead>
+                                                            <tr>
+                                                              <th style="text-align: center;">Level</th>
+                                                              <th style="text-align: right;">Received</th>
+                                  
+                                                              <th style="text-align: right;">Approved</th>
+                                                              <th style="text-align: right;">Rejected</th>
+                                                              <th style="text-align: center;">Queried</th>
+                                                              <th style="text-align: right;">Pending</th>
+                              
+                              
+                                                            </tr>
+                                                          </thead>
+                                                          <tbody>
+                                                            <tr *ngFor="let group of capfuserdata;let i =index">
+                              
+                                                                <td style="text-align: center;">{{group.user_name}}</td>
+                                                                <td style="text-align: right;">{{this.getCR(group.received_amount)}}</td>
+                                                              <td style="text-align: right;">{{this.getCR(group.approved_amount)}}</td>
+                                                              <td style="text-align: right;">{{this.getCR(group.rejected_amount)}}</td>
+                                                              <td style="text-align: right;">{{this.getCR(group.queried_amount)}}</td>
+                                                              <td style="text-align: right;">{{this.getCR(group.pending_amount)}}</td>
+                              
+                                                            </tr>
+                                                      </tbody>
+                                                    </table>
+                                                </div>
+                                              
+                                      </div>
+                                    </div>
+                                    
+                                  </div>
+                                </div>  
+
+                                <div class="tab-pane fade " id="tabs-case" role="tabpanel"
+                                  aria-labelledby="tabs-case-tab">
+                                  <div class="col-12 col-md-8 mx-auto case-no-wrap">
+                                    <div class="beneficiaries-avail-wrap">
+                                      <div class="case-wrap-in">
+                                        <div class="beneficiaries-avail-left-wrap">
+                                            
+                                            <div class="treatment-select"><input type="input" id="txtcase" class="form-control" style="width: 100%;" [(ngModel)]="case_no" placeholder="Case number"></div>
+                                            
+                                        </div> 
+                                        <div class="error">{{Error}}</div> 
+                                      </div>
+                                        <div class="beneficiaries-avail-right-wrap">
+                                            <button class="btn btn-primary" (click)="GetCGHSPatientData()">Search</button>  
+                                                             
+                                        </div>                       
+                                    </div>
+                                </div>
+                
+                                <div class="col-md-12" >
+                                    <div class="card mb-0 treatment-table">                      
+                                      <div class="card-body p-0">
+                                        <div class="table-responsive" id="divdttables">
+                                          <table id="capfuserdata" class="row-border hover table-bordered">
+                                            <thead>
+                                                 <tr>
+                                                   <th style="text-align: left;">Name</th>
+                                                   <th style="text-align: left;">Gender</th>                       
+                                                   <th style="text-align: left;">Age</th>
+                                                   <th style="text-align: left;">Submit Date</th>
+                                                   <th style="text-align: center;">Submit Amount</th>
+                                                   <th style="text-align: left;">Hospital Name</th> 
+                                                   <th style="text-align: left;">Hospital State Name</th> 
+                                                   <th style="text-align: left;">Hospital District Name</th> 
+                                                   <th style="text-align: left;">Current Status</th> 
+                                                 </tr>
+                                               </thead>
+                                               <tbody>
+                                                 <tr *ngFor="let group of cghspatinetdata;let i =index">                   
+                                                   <td style="text-align: left;">{{group.name}}</td>
+                                                   <td style="text-align: left;">{{group.patient_gender}}</td>
+                                                   <td style="text-align: left;">{{group.patient_age}}</td>                                                   
+                                                   <td style="text-align: left;">{{group.submission_date}}</td>
+                                                   <td style="text-align: right;">{{group.amount}}</td>
+                                                   <td style="text-align: left;">{{group.hosp_name}}</td>                   
+                                                   <td style="text-align: left;">{{group.hosp_state_name}}</td>   
+                                                   <td style="text-align: left;">{{group.hosp_district_name}}</td>   
+                                                   <td style="text-align: left;">{{group.current_status}}</td>   
+                                                 </tr>
+                                           </tbody>
+                                         </table>
+                                        </div>    
+                                        <div><div class="error-box error" id="divError">{{notfound}}</div> </div>                    
+                                      </div>
+                                    </div>
+                                    
+                                  </div>
+                                </div>
+
+                                <div class="tab-pane fade " id="tabs-entity" role="tabpanel"
+                                  aria-labelledby="tabs-entity-tab">
+                                  <div class="col-12 col-md-8 mx-auto entity-no-wrap">
+                                    <div class="stwise-ekyc-wrap justify-content-center">  
+                                    <div class="stwise-ekyc-option">
+                                      <div class="stwise-ekyc-radio">
+                                          <input type="radio" id="html" name="fav_language" value="HTML" checked (click)="getOption('CEX')">
+                                          <label for="html">CEX</label>
+                                      </div>
+                                      <div class="stwise-ekyc-radio">
+                                          <input type="radio" id="html" name="fav_language" value="HTML"  (click)="getOption('CPD')">
+                                          <label for="html">CPD</label>
+                                          </div>
+                                  </div>
+                                    </div>
+                                </div>
+                
+                                <div class="col-md-12" >
+                                    <div class="card mb-0 treatment-table">                      
+                                      <div class="card-body p-0">
+                                        <div class="table-responsive" id="divcghscexdata">
+                                          <table id="cghscexdata" class="row-border hover">
+                                            <thead>
+                                                 <tr>
+                                                   <th style="text-align: left;">Entity</th>
+                                                   <th style="text-align: right;">0-500</th>                              
+                                                    <th style="text-align: right;">501-1000</th>                              
+                                                    <th style="text-align: right;">1001-10000</th>
+                                                    <th style="text-align: right;">10001-50000</th>
+                                                    <th style="text-align: right;">50001-100000</th>                      
+                                                    <th style="text-align: right;">100001+</th> 
+                                                    <th style="text-align: right;">Total</th> 
+                                                 </tr>
+                                               </thead>
+                                               <tbody>
+                                                 <tr *ngFor="let group of pageData.cghsentityagedata;let i =index">                   
+                                                   <td style="text-align: left;">{{this.getEntityName(group.entity_id)}}</td>
+                                                   <td style="text-align: right;">{{this.getCommaValue(group.cex_0_5000)}}</td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(group.cex_501_1000)}}</td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(group.cex_1001_10000)}}</td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(group.cex_10001_50000)}}</td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(group.cex_50001_100000)}}</td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(group.cex_more_100000)}}</td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(group.cex_count)}}</td>  
+                                                 </tr>
+                                           </tbody>
+                                           <tr *ngFor="let group of totalData.cghsentityagedata;let i =index" style="font-weight: bold;background-color: #B4C5E6;">                   
+                                            <td style="text-align: left;">Total</td>
+                                            <td style="text-align: right;">{{this.getCommaValue(group.cex_0_5000)}}</td>
+                                             <td style="text-align: right;">{{this.getCommaValue(group.cex_501_1000)}}</td>
+                                             <td style="text-align: right;">{{this.getCommaValue(group.cex_1001_10000)}}</td>
+                                             <td style="text-align: right;">{{this.getCommaValue(group.cex_10001_50000)}}</td>
+                                             <td style="text-align: right;">{{this.getCommaValue(group.cex_50001_100000)}}</td>
+                                             <td style="text-align: right;">{{this.getCommaValue(group.cex_more_100000)}}</td>
+                                             <td style="text-align: right;">{{this.getCommaValue(group.cex_count)}}</td>  
+                                          </tr>
+                                         </table>
+                                        </div>    
+                                        <div class="table-responsive" id="divcghscpddata">
+                                          <table id="cghscpddata" class="row-border hover ">
+                                            <thead>
+                                                 <tr>
+                                                   <th style="text-align: left;">Entity</th>
+                                                   <th style="text-align: right;">0-500</th>                              
+                                                    <th style="text-align: right;">501-1000</th>                              
+                                                    <th style="text-align: right;">1001-10000</th>
+                                                    <th style="text-align: right;">10001-50000</th>
+                                                    <th style="text-align: right;">50001-100000</th>                      
+                                                    <th style="text-align: right;">100001+</th> 
+                                                    <th style="text-align: right;">Total</th> 
+                                                 </tr>
+                                               </thead>
+                                               <tbody>
+                                                 <tr *ngFor="let group of pageData.cghsentityagedata;let i =index">                   
+                                                   <td style="text-align: left;">{{this.getEntityName(group.entity_id)}}</td>
+                                                   <td style="text-align: right;">{{this.getCommaValue(group.cpd_0_5000)}}</td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(group.cpd_501_1000)}}</td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(group.cpd_1001_10000)}}</td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(group.cpd_10001_50000)}}</td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(group.cpd_50001_100000)}}</td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(group.cpd_more_100000)}}</td>
+                                                    <td style="text-align: right;">{{this.getCommaValue(group.cpd_count)}}</td>  
+                                                 </tr>
+                                           </tbody>
+                                           <tr *ngFor="let group of totalData.cghsentityagedata;let i =index" style="font-weight: bold;background-color: #B4C5E6;">                   
+                                            <td style="text-align: left;">Total</td>
+                                            <td style="text-align: right;">{{this.getCommaValue(group.cpd_0_5000)}}</td>
+                                             <td style="text-align: right;">{{this.getCommaValue(group.cpd_501_1000)}}</td>
+                                             <td style="text-align: right;">{{this.getCommaValue(group.cpd_1001_10000)}}</td>
+                                             <td style="text-align: right;">{{this.getCommaValue(group.cpd_10001_50000)}}</td>
+                                             <td style="text-align: right;">{{this.getCommaValue(group.cpd_50001_100000)}}</td>
+                                             <td style="text-align: right;">{{this.getCommaValue(group.cpd_more_100000)}}</td>
+                                             <td style="text-align: right;">{{this.getCommaValue(group.cpd_count)}}</td>  
+                                          </tr>
+                                         </table>
+                                        </div>                     
+                                      </div>
+                                    </div>
+                                    
+                                  </div>
+                                </div>
+
+                                </div>
+                            </div>
+                           </div>
+                         </div>
+                       </div>
+                   </div>
+        </section>
+                        
+    </div>
+        
+    
+    
+    
+    
